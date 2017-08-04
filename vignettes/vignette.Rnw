@@ -1,0 +1,34 @@
+\documentclass[a4paper]{article}
+
+\usepackage{url}
+%\VignetteIndexEntry{The microseq package vignette}
+
+\title{The microseq package vignette}
+\author{Lars Snipen}
+\date{}
+
+
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+
+\section{Introduction}
+This small package contains some basic functions for handling biological sequence data. We have some other packages that make use of these functions, and thus depend on this package.
+
+
+\section{External software}
+The functions \texttt{msalign()}, \texttt{muscle()} and \texttt{cmalign()} use external softwares to compute multiple sequence alignments.
+
+To use \texttt{msalign()} and \texttt{muscle()} you need the software MUSCLE installed, see \url{http://www.drive5.com/muscle}. NOTE: The executable must be named \texttt{muscle}, no more and no less (no version numbers etc.).
+
+To use \texttt{cmalign()} you need the software Infernal installed, see \url{http://rfam.xfam.org/}.
+
+These external programs must be available to R, i.e. the PATH environment variable must specify their location on the system. If you use RStudio you may also need to include an \texttt{.Renviron} file in you home-directory, but this will depend on the system (we have found it necessary for linux but not for windows).
+
+
+
+
+\end{document}
