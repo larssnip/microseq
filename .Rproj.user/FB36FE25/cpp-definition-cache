@@ -1,0 +1,101 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 15,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+                "kind" : 6,
+                "line" : 7,
+                "name" : "safeGetline(std::istream &, std::string &)",
+                "parent_name" : "",
+                "usr" : "c:@F@safeGetline#&$@N@std@C@basic_istream>#C#$@N@std@S@char_traits>#C#&$@N@std@C@basic_string>#C#S2_#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 12,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+                "kind" : 6,
+                "line" : 42,
+                "name" : "read_fastq(std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@read_fastq#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 12,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+                "kind" : 6,
+                "line" : 62,
+                "name" : "read_fastq_Sanger(std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@read_fastq_Sanger#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 6,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+                "kind" : 6,
+                "line" : 116,
+                "name" : "write_fastq(std::vector<std::string>, std::vector<std::string>, std::vector<std::string>, std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@write_fastq#$@N@std@C@vector>#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@std@C@allocator>#S1_#S0_#S0_#S1_#"
+            },
+            {
+                "column" : 12,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+                "kind" : 6,
+                "line" : 130,
+                "name" : "read_fasta(std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@read_fasta#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 6,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+                "kind" : 6,
+                "line" : 156,
+                "name" : "write_fasta(std::vector<std::string>, std::vector<std::string>, std::string, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@write_fasta#$@N@std@C@vector>#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@std@C@allocator>#S1_#S0_#S1_#I#"
+            }
+        ],
+        "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/read_file.cpp",
+        "file_last_write" : 1501867419
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 5,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/revComp.cpp",
+                "kind" : 6,
+                "line" : 4,
+                "name" : "switchNUC(int)",
+                "parent_name" : "",
+                "usr" : "c:@F@switchNUC#I#"
+            },
+            {
+                "column" : 17,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/revComp.cpp",
+                "kind" : 6,
+                "line" : 41,
+                "name" : "revComp(CharacterVector, bool)",
+                "parent_name" : "",
+                "usr" : "c:@F@revComp#$@N@Rcpp@C@Vector>#VI16#@N@Rcpp@CT>1#T@PreserveStorage#b#"
+            }
+        ],
+        "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/revComp.cpp",
+        "file_last_write" : 1501867419
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 17,
+                "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/translate.cpp",
+                "kind" : 6,
+                "line" : 47,
+                "name" : "transl(CharacterVector)",
+                "parent_name" : "",
+                "usr" : "c:@F@transl#$@N@Rcpp@C@Vector>#VI16#@N@Rcpp@CT>1#T@PreserveStorage#"
+            }
+        ],
+        "file" : "//ad.local/dfs/AAS-Users/kristian.liland/Documents/GitHub/microseq/src/translate.cpp",
+        "file_last_write" : 1501867419
+    }
+]
