@@ -14,6 +14,6 @@ LaTeX: pdfLaTeX
 
 BuildType: Package
 PackageUseDevtools: Yes
-PackagePath: H:/Documents/GitHub/microseq
+PackagePath: Z:/Documents/GitHub/microseq
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageCheckArgs: --as-cran -l C:/R/Library

@@ -48,7 +48,7 @@
 #' 
 #' @keywords sequence FASTQ Fastq
 #' 
-#' @useDynLib microseq
+#' @useDynLib microseq, .registration = TRUE
 #' @importFrom Rcpp evalCpp
 #' 
 #' @export readFastq
