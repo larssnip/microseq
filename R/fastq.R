@@ -69,7 +69,6 @@ readFastq <- function( in.file, Sanger = FALSE ){
     stop( "Cannot find ", in.file, ", please correct path and/or file name" )
   }
 }
-
 writeFastq <- function( fdta, out.file ){
   cn <- colnames( fdta )
   if( !("Header" %in% cn) || !("Sequence" %in% cn) || !("Quality" %in% cn) ){

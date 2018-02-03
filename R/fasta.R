@@ -34,11 +34,15 @@
 #' 
 #' @seealso \code{\link{plot.Fasta}}, \code{\link{summary.Fasta}}, \code{\link{readFastq}}.
 #' 
-#' @examples 
+#' @examples
+#' \dontrun{
+#' # We need a FASTA-file to read, here is one example file:
 #' ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
+#' # Reading a file with name in ex.file
 #' fdta <- readFasta(ex.file)
 #' summary(fdta)
 #' plot(fdta)
+#' }
 #' 
 #' @keywords sequence FASTA Fasta
 #' 

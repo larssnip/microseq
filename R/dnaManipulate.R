@@ -68,8 +68,8 @@ reverseComplement <- function( nuc.sequences, reverse = TRUE ){
 #' 
 #' @details The DNA alphabet may contain ambiguity symbols, e.g. a W means either A or T.
 #' When using a regular expression search, these letters must be replaced by the proper
-#' regular expression, e.g. W is replaced by [AT] in the string. These function makes this
-#' translations
+#' regular expression, e.g. W is replaced by [AT] in the string. The \code{iupac2regex} makes this
+#' translation, while \code{regex2iupac} cobverts the other way again (replace [AT] with W).
 #' 
 #' @return A string where the ambiguity symbol has been replaced by a regular expression
 #' (\code{iupac2regex}) or a regular expression has been replaced by an ambiguity symbol
