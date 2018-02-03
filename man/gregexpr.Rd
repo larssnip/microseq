@@ -36,11 +36,11 @@ of substrings matching the pattern (\code{extract=TRUE}). There is one \samp{lis
 entry of \samp{text}.
 }
 \description{
-An extension of the base function \code{\link{gregexpr}} enabling retrieval of the 
+An extension of the function \code{base::gregexpr} enabling retrieval of the 
 matching substrings.
 }
 \details{
-Extended version of \code{\link{gregexpr}} that enables the return of the substrings matching
+Extended version of \code{base:gregexpr} that enables the return of the substrings matching
 the pattern. The last argument \samp{extract} is the only difference to \code{base::gregexpr}. The default
 behaviour is identical to \code{base::gregexpr}, but setting \code{extract=TRUE} means the matching substrings
 are returned.

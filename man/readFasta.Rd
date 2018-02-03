@@ -42,10 +42,14 @@ straightforward to manipulate all headers or all sequences, or to extract or del
 several data sets using \code{\link{rbind}}.
 }
 \examples{
+\dontrun{
+# We need a FASTA-file to read, here is one example file:
 ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
+# Reading a file with name in ex.file
 fdta <- readFasta(ex.file)
 summary(fdta)
 plot(fdta)
+}
 
 }
 \seealso{

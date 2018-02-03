@@ -64,7 +64,7 @@ reverseComplement <- function( nuc.sequences, reverse = TRUE ){
 #' @usage iupac2regex( sequence )
 #' regex2iupac( sequence )
 #' 
-#' @param seq Character string containing a DNA sequence.
+#' @param sequence Character string containing a DNA sequence.
 #' 
 #' @details The DNA alphabet may contain ambiguity symbols, e.g. a W means either A or T.
 #' When using a regular expression search, these letters must be replaced by the proper
@@ -102,7 +102,7 @@ iupac2regex <- function( sequence ){
   }
   return( s )
 }
-regex2iupac <- function( s ){
+regex2iupac <- function( sequence ){
   IUPAC <- matrix( c( "W","[AT]",
                       "S","[CG]",
                       "M","[AC]",
@@ -114,7 +114,7 @@ regex2iupac <- function( s ){
                       "H","[ACT]",
                       "V","[ACG]",
                       "N","[ACGT]" ), ncol=2, byrow=T )
-  s <- toupper( s )
+  s <- toupper( sequence )
   for( i in 1:nrow(IUPAC) ){
     s <- gsub( IUPAC[i,2], IUPAC[i,1], s, fixed=T )
   }

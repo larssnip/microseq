@@ -1,7 +1,7 @@
 #' @name gregexpr
 #' @title Extended \code{\link{gregexpr}} with substring retrieval
 #' 
-#' @description An extension of the base function \code{\link{gregexpr}} enabling retrieval of the 
+#' @description An extension of the function \code{base::gregexpr} enabling retrieval of the 
 #' matching substrings.
 #' 
 #' @param pattern Character string containing a \link{regular expression} (or character string for 
@@ -19,7 +19,7 @@
 #' See \code{base::gregexpr} for details.
 #' @param extract Logical indicating if matching substrings should be extracted and returned.
 #' 
-#' @details Extended version of \code{\link{gregexpr}} that enables the return of the substrings matching
+#' @details Extended version of \code{base:gregexpr} that enables the return of the substrings matching
 #' the pattern. The last argument \samp{extract} is the only difference to \code{base::gregexpr}. The default
 #' behaviour is identical to \code{base::gregexpr}, but setting \code{extract=TRUE} means the matching substrings
 #' are returned.
@@ -47,5 +47,3 @@ gregexpr <- function( pattern, text, ignore.case = FALSE, perl = FALSE, fixed = 
   }
   return( lst )
 }
-
-
