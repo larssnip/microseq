@@ -53,3 +53,71 @@ reverseComplement <- function( nuc.sequences, reverse = TRUE ){
   return(revComp(nuc.sequences, reverse))
 }
 
+
+
+#' @name iupac2regex
+#' @title Ambiguity symbol conversion
+#' @aliases uipac2regex regex2iupac
+#' 
+#' @description Converting DNA ambiguity symbols to regular expressions, and vice versa.
+#' 
+#' @usage iupac2regex( sequence )
+#' regex2iupac( sequence )
+#' 
+#' @param seq Character string containing a DNA sequence.
+#' 
+#' @details The DNA alphabet may contain ambiguity symbols, e.g. a W means either A or T.
+#' When using a regular expression search, these letters must be replaced by the proper
+#' regular expression, e.g. W is replaced by [AT] in the string. These function makes this
+#' translations
+#' 
+#' @return A string where the ambiguity symbol has been replaced by a regular expression
+#' (\code{iupac2regex}) or a regular expression has been replaced by an ambiguity symbol
+#' (\code{regex2iupac}).
+#' 
+#' @author Lars Snipen.
+#' 
+#' @examples
+#' iupac2regex( "ACWGT" )
+#' regex2iupac( "AC[AG]GT" )
+#' 
+#' @export iupac2regex
+#' @export regex2iupac
+#' 
+iupac2regex <- function( sequence ){
+  IUPAC <- matrix( c( "W","[AT]",
+                      "S","[CG]",
+                      "M","[AC]",
+                      "K","[GT]",
+                      "R","[AG]",
+                      "Y","[CT]",
+                      "B","[CGT]",
+                      "D","[AGT]",
+                      "H","[ACT]",
+                      "V","[ACG]",
+                      "N","[ACGT]" ), ncol=2, byrow=T )
+  s <- gsub( "X", "N", toupper( sequence ) )
+  for( i in 1:nrow(IUPAC) ){
+    s <- gsub( IUPAC[i,1], IUPAC[i,2], s, fixed=T )
+  }
+  return( s )
+}
+regex2iupac <- function( s ){
+  IUPAC <- matrix( c( "W","[AT]",
+                      "S","[CG]",
+                      "M","[AC]",
+                      "K","[GT]",
+                      "R","[AG]",
+                      "Y","[CT]",
+                      "B","[CGT]",
+                      "D","[AGT]",
+                      "H","[ACT]",
+                      "V","[ACG]",
+                      "N","[ACGT]" ), ncol=2, byrow=T )
+  s <- toupper( s )
+  for( i in 1:nrow(IUPAC) ){
+    s <- gsub( IUPAC[i,2], IUPAC[i,1], s, fixed=T )
+  }
+  return( s )
+}
+
