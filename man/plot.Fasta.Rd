@@ -3,6 +3,7 @@
 \name{plot.Fasta}
 \alias{plot.Fasta}
 \alias{summary.Fasta}
+\alias{summary.Fasta}
 \title{Plotting and summary of \code{Fasta} objects}
 \usage{
 \method{plot}{Fasta}(x, y = NULL, col = "tan4", border = "tan4", ...)
@@ -46,10 +47,9 @@ i.e. listing all unique symbols found in the file.
 # See the examples in the Help-file for readFasta/writeFasta
 
 }
-\author{
-Lars Snipen and Kristian Hovde Liland.
-}
 \seealso{
 \code{\link{readFasta}}, \code{\link{writeFasta}}.
 }
-
+\author{
+Lars Snipen and Kristian Hovde Liland.
+}

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // read_fastq
 Rcpp::List read_fastq(std::string path);
-RcppExport SEXP microseq_read_fastq(SEXP pathSEXP) {
+RcppExport SEXP _microseq_read_fastq(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // read_fastq_Sanger
 Rcpp::List read_fastq_Sanger(std::string path);
-RcppExport SEXP microseq_read_fastq_Sanger(SEXP pathSEXP) {
+RcppExport SEXP _microseq_read_fastq_Sanger(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -29,7 +29,7 @@ END_RCPP
 }
 // write_fastq
 bool write_fastq(std::vector<std::string> header, std::vector<std::string> sequence, std::vector<std::string> quality, std::string path);
-RcppExport SEXP microseq_write_fastq(SEXP headerSEXP, SEXP sequenceSEXP, SEXP qualitySEXP, SEXP pathSEXP) {
+RcppExport SEXP _microseq_write_fastq(SEXP headerSEXP, SEXP sequenceSEXP, SEXP qualitySEXP, SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // read_fasta
 Rcpp::List read_fasta(std::string path);
-RcppExport SEXP microseq_read_fasta(SEXP pathSEXP) {
+RcppExport SEXP _microseq_read_fasta(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -54,7 +54,7 @@ END_RCPP
 }
 // write_fasta
 bool write_fasta(std::vector<std::string> header, std::vector<std::string> sequence, std::string path, int width);
-RcppExport SEXP microseq_write_fasta(SEXP headerSEXP, SEXP sequenceSEXP, SEXP pathSEXP, SEXP widthSEXP) {
+RcppExport SEXP _microseq_write_fasta(SEXP headerSEXP, SEXP sequenceSEXP, SEXP pathSEXP, SEXP widthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +68,7 @@ END_RCPP
 }
 // revComp
 CharacterVector revComp(CharacterVector Seq, bool rev);
-RcppExport SEXP microseq_revComp(SEXP SeqSEXP, SEXP revSEXP) {
+RcppExport SEXP _microseq_revComp(SEXP SeqSEXP, SEXP revSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,7 +80,7 @@ END_RCPP
 }
 // transl
 CharacterVector transl(CharacterVector Seq);
-RcppExport SEXP microseq_transl(SEXP SeqSEXP) {
+RcppExport SEXP _microseq_transl(SEXP SeqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -91,13 +91,13 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"microseq_read_fastq", (DL_FUNC) &microseq_read_fastq, 1},
-    {"microseq_read_fastq_Sanger", (DL_FUNC) &microseq_read_fastq_Sanger, 1},
-    {"microseq_write_fastq", (DL_FUNC) &microseq_write_fastq, 4},
-    {"microseq_read_fasta", (DL_FUNC) &microseq_read_fasta, 1},
-    {"microseq_write_fasta", (DL_FUNC) &microseq_write_fasta, 4},
-    {"microseq_revComp", (DL_FUNC) &microseq_revComp, 2},
-    {"microseq_transl", (DL_FUNC) &microseq_transl, 1},
+    {"_microseq_read_fastq", (DL_FUNC) &_microseq_read_fastq, 1},
+    {"_microseq_read_fastq_Sanger", (DL_FUNC) &_microseq_read_fastq_Sanger, 1},
+    {"_microseq_write_fastq", (DL_FUNC) &_microseq_write_fastq, 4},
+    {"_microseq_read_fasta", (DL_FUNC) &_microseq_read_fasta, 1},
+    {"_microseq_write_fasta", (DL_FUNC) &_microseq_write_fasta, 4},
+    {"_microseq_revComp", (DL_FUNC) &_microseq_revComp, 2},
+    {"_microseq_transl", (DL_FUNC) &_microseq_transl, 1},
     {NULL, NULL, 0}
 };
 

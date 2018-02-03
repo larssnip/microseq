@@ -2,8 +2,8 @@
 % Please edit documentation in R/primers.R
 \name{iupac2regex}
 \alias{iupac2regex}
-\alias{regex2iupac}
 \alias{uipac2regex}
+\alias{regex2iupac}
 \title{Ambiguity symbol conversion}
 \usage{
 iupac2regex( s )
@@ -34,4 +34,3 @@ regex2iupac( "AC[AG]GT" )
 \author{
 Lars Snipen.
 }
-

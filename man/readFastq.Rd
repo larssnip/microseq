@@ -53,13 +53,12 @@ summary(fdta)
 }
 
 }
-\author{
-Lars Snipen and Kristian Hovde Liland.
-}
 \seealso{
 code{\link{readFasta}}, \code{\link{plot.Fastq}}, \code{\link{summary.Fastq}}.
+}
+\author{
+Lars Snipen and Kristian Hovde Liland.
 }
 \keyword{FASTQ}
 \keyword{Fastq}
 \keyword{sequence}
-

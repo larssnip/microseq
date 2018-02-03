@@ -40,10 +40,9 @@ print(nchar(msa.trimmed$Sequence))
 }
 
 }
-\author{
-Lars Snipen.
-}
 \seealso{
 \code{\link{muscle}}, \code{\link{cmalign}}.
 }
-
+\author{
+Lars Snipen.
+}

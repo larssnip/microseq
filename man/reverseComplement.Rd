@@ -30,4 +30,3 @@ reverseComplement(fdta$Sequence)
 \author{
 Lars Snipen and Kristian Hovde Liland.
 }
-

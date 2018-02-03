@@ -3,6 +3,7 @@
 \name{plot.Fastq}
 \alias{plot.Fastq}
 \alias{summary.Fastq}
+\alias{summary.Fastq}
 \title{Plotting and summary of \code{Fastq} objects}
 \usage{
 \method{plot}{Fastq}(x, y = NULL, col = "tan4", border = "tan4", ...)
@@ -50,10 +51,9 @@ i.e. listing all unique symbols found in the file.
 # See the examples in the Help-file for readFastq/writeFastq
 
 }
-\author{
-Lars Snipen and Kristian Hovde Liland.
-}
 \seealso{
 \code{\link{readFastq}}, \code{\link{writeFastq}}.
 }
-
+\author{
+Lars Snipen and Kristian Hovde Liland.
+}

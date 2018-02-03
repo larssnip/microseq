@@ -2,8 +2,8 @@
 % Please edit documentation in R/microseq-package.R
 \docType{package}
 \name{microseq-package}
-\alias{microseq}
 \alias{microseq-package}
+\alias{microseq}
 \title{Basic Biological Sequence Analysis}
 \usage{
 microseq()
@@ -25,4 +25,3 @@ Lars Snipen, Kristian Hovde Liland\cr
 Maintainer: Lars Snipen <lars.snipen@nmbu.no>
 }
 \keyword{package}
-

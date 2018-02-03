@@ -47,4 +47,3 @@ amp.lst.2 <- amplicon( fdta$Sequence, forward="AANNTC", reverse="CCNGT" ) # more
 \author{
 Lars Snipen.
 }
-

@@ -38,10 +38,9 @@ msa <- msalign(fdta)
 }
 
 }
-\author{
-Lars Snipen.
-}
 \seealso{
 \code{\link{muscle}}, \code{\link{msaTrim}}.
 }
-
+\author{
+Lars Snipen.
+}

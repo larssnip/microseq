@@ -47,9 +47,6 @@ cmalign(in.file,"msa_infernal.fasta",cm.file)
 
 
 }
-\author{
-Lars Snipen.
-}
 \references{
 E.P. Nawrocki and S.R. Eddy,  Infernal 1.1: 100-fold faster RNA homology searches, 
 Bioinformatics 29:2933-2935 (2013).
@@ -57,4 +54,6 @@ Bioinformatics 29:2933-2935 (2013).
 \seealso{
 \code{\link{msaTrim}}.
 }
-
+\author{
+Lars Snipen.
+}

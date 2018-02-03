@@ -50,11 +50,10 @@ sequences<-c("ACATGTCATGTCC","CTTGTATGCTG")
 gregexpr("ATG",sequences,extract=TRUE)
 
 }
-\author{
-Lars Snipen and Kristian Liland.
-}
 \seealso{
 \code{\link[base]{gregexpr}}
 }
+\author{
+Lars Snipen and Kristian Liland.
+}
 \keyword{gregexpr}
-

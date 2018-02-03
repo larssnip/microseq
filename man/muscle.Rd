@@ -44,9 +44,6 @@ muscle(in.file=ex.file,out.file="deleteMe.fasta")
 }
 
 }
-\author{
-Lars Snipen.
-}
 \references{
 Edgar, R.C. (2004). MUSCLE: multiple sequence alignment with high accuracy and high 
 throughput, Nucleic Acids Res, 32, 1792-1797.
@@ -54,4 +51,6 @@ throughput, Nucleic Acids Res, 32, 1792-1797.
 \seealso{
 \code{\link{msaTrim}}.
 }
-
+\author{
+Lars Snipen.
+}
