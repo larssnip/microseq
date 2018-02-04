@@ -2,30 +2,30 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 read_fastq <- function(path) {
-    .Call('_microseq_read_fastq', PACKAGE = 'microseq', path)
+    .Call(`_microseq_read_fastq`, path)
 }
 
 read_fastq_Sanger <- function(path) {
-    .Call('_microseq_read_fastq_Sanger', PACKAGE = 'microseq', path)
+    .Call(`_microseq_read_fastq_Sanger`, path)
 }
 
 write_fastq <- function(header, sequence, quality, path) {
-    .Call('_microseq_write_fastq', PACKAGE = 'microseq', header, sequence, quality, path)
+    .Call(`_microseq_write_fastq`, header, sequence, quality, path)
 }
 
 read_fasta <- function(path) {
-    .Call('_microseq_read_fasta', PACKAGE = 'microseq', path)
+    .Call(`_microseq_read_fasta`, path)
 }
 
 write_fasta <- function(header, sequence, path, width) {
-    .Call('_microseq_write_fasta', PACKAGE = 'microseq', header, sequence, path, width)
+    .Call(`_microseq_write_fasta`, header, sequence, path, width)
 }
 
 revComp <- function(Seq, rev) {
-    .Call('_microseq_revComp', PACKAGE = 'microseq', Seq, rev)
+    .Call(`_microseq_revComp`, Seq, rev)
 }
 
 transl <- function(Seq) {
-    .Call('_microseq_transl', PACKAGE = 'microseq', Seq)
+    .Call(`_microseq_transl`, Seq)
 }
 
