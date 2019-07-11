@@ -46,8 +46,8 @@ behaviour is identical to \code{base::gregexpr}, but setting \code{extract=TRUE}
 are returned.
 }
 \examples{
-sequences<-c("ACATGTCATGTCC","CTTGTATGCTG")
-gregexpr("ATG",sequences,extract=TRUE)
+sequences <- c("ACATGTCATGTCC", "CTTGTATGCTG")
+gregexpr("ATG", sequences, extract = TRUE)
 
 }
 \seealso{

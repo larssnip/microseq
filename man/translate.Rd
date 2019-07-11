@@ -24,8 +24,8 @@ The translation from DNA(RNA) to amino acid sequence according to the standard g
 }
 \details{
 Translating DNA or RNA to protein. Possible start codons are ATG, GTG or TTG. Stop codons are TAA, TGA, TAG. All codons are
-translated accoring to the Stadard geneti code. This is translation table 1. Th eonly alternative implemented here is translation 
-table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma). If \code{trans.tab} is not 1, the stop codon TGA is 
+translated accoring to the Stadard geneti code. This is translation table 1. The only alternative implemented here is translation 
+table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma). If \code{trans.tab} is 4, the stop codon TGA is 
 translated to W (Tryptophan).
 }
 \examples{
