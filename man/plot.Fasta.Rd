@@ -3,7 +3,6 @@
 \name{plot.Fasta}
 \alias{plot.Fasta}
 \alias{summary.Fasta}
-\alias{summary.Fasta}
 \title{Plotting and summary of \code{Fasta} objects}
 \usage{
 \method{plot}{Fasta}(x, y = NULL, col = "tan4", border = "tan4", ...)

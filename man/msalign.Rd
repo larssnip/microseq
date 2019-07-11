@@ -4,10 +4,10 @@
 \alias{msalign}
 \title{Multiple alignment}
 \usage{
-msalign(fdata, machine = "muscle")
+msalign(fdta, machine = "muscle")
 }
 \arguments{
-\item{fdata}{A \code{Fasta} object with input sequences.}
+\item{fdta}{A \code{Fasta} object with input sequences.}
 
 \item{machine}{Function that does the 'dirty work'.}
 }

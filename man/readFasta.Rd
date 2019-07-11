@@ -48,7 +48,6 @@ ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta"
 # Reading a file with name in ex.file
 fdta <- readFasta(ex.file)
 summary(fdta)
-plot(fdta)
 }
 
 }

@@ -79,13 +79,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // transl
-CharacterVector transl(CharacterVector Seq);
-RcppExport SEXP _microseq_transl(SEXP SeqSEXP) {
+CharacterVector transl(CharacterVector Seq, int trans_tab);
+RcppExport SEXP _microseq_transl(SEXP SeqSEXP, SEXP trans_tabSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type Seq(SeqSEXP);
-    rcpp_result_gen = Rcpp::wrap(transl(Seq));
+    Rcpp::traits::input_parameter< int >::type trans_tab(trans_tabSEXP);
+    rcpp_result_gen = Rcpp::wrap(transl(Seq, trans_tab));
     return rcpp_result_gen;
 END_RCPP
 }

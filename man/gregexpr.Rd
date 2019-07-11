@@ -4,8 +4,8 @@
 \alias{gregexpr}
 \title{Extended \code{\link{gregexpr}} with substring retrieval}
 \usage{
-gregexpr(pattern, text, ignore.case = FALSE, perl = FALSE, fixed = FALSE,
-  useBytes = FALSE, extract = FALSE)
+gregexpr(pattern, text, ignore.case = FALSE, perl = FALSE,
+  fixed = FALSE, useBytes = FALSE, extract = FALSE)
 }
 \arguments{
 \item{pattern}{Character string containing a \link{regular expression} (or character string for 

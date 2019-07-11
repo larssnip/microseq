@@ -26,7 +26,7 @@ To use \texttt{msalign()} and \texttt{muscle()} you need the software MUSCLE ins
 
 To use \texttt{cmalign()} you need the software Infernal installed, see \url{http://rfam.xfam.org/}.
 
-These external programs must be available to R, i.e. the PATH environment variable must specify their location on the system. If you use RStudio you may also need to include an \texttt{.Renviron} file in you home-directory, but this will depend on the system (we have found it necessary for linux but not for windows).
+These external programs must be available to R, i.e. the PATH environment variable must specify their location on the system.
 
 
 

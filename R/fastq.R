@@ -54,28 +54,28 @@
 #' @export readFastq
 #' @export writeFastq
 #' 
-readFastq <- function( in.file, Sanger = FALSE ){
-  if( file.exists( in.file ) ){
-    in.file <- normalizePath( in.file )
+readFastq <- function(in.file, Sanger = FALSE){
+  if(file.exists(in.file)){
+    in.file <- normalizePath(in.file)
     if(Sanger){
-      fq <- read_fastq_Sanger( in.file )
+      fq <- read_fastq_Sanger(in.file)
     } else {
-      fq <- read_fastq( in.file )
+      fq <- read_fastq(in.file)
     }
-    fq <- as.data.frame( fq, stringsAsFactors = FALSE )
-    class( fq ) <- c( "Fastq", "data.frame" )
-    return( fq )
+    fq <- as.data.frame(fq, stringsAsFactors = FALSE)
+    class(fq) <- c("Fastq", "data.frame")
+    return(fq)
   } else {
-    stop( "Cannot find ", in.file, ", please correct path and/or file name" )
+    stop("Cannot find ", in.file, ", please correct path and/or file name")
   }
 }
-writeFastq <- function( fdta, out.file ){
+writeFastq <- function(fdta, out.file){
   cn <- colnames( fdta )
-  if( !("Header" %in% cn) || !("Sequence" %in% cn) || !("Quality" %in% cn) ){
-    stop( "This is not a Fastq object, Header, Sequence or Quality is lacking\n" )
+  if(!("Header" %in% cn) || !("Sequence" %in% cn) || !("Quality" %in% cn)){
+    stop("This is not a Fastq object, Header, Sequence or Quality is lacking\n")
   }
-  status <- write_fastq( fdta$Header, fdta$Sequence, fdta$Quality, out.file )
-  invisible( status )
+  status <- write_fastq(fdta$Header, fdta$Sequence, fdta$Quality, out.file)
+  invisible(status)
 }
 
 
@@ -122,18 +122,18 @@ writeFastq <- function( fdta, out.file ){
 #' 
 #' @method plot Fastq
 #' @export
-plot.Fastq <- function( x, y=NULL, col="tan4", border="tan4", ... ){
-  nc <- nchar( x$Sequence )
-  hist( nc, breaks=length( nc )^(1/3), col="tan4", xlab="Sequence length",
-        ylab="Number of sequences", main="Fastq object" )
+plot.Fastq <- function(x, y = NULL, col = "tan4", border = "tan4", ...){
+  nc <- nchar(x$Sequence)
+  hist(nc, breaks = length(nc)^(1/3), col = col, xlab = "Sequence length",
+        ylab = "Number of sequences", main = "Fastq object" )
 }
 
 #' @rdname plot.Fastq
 #' @method summary Fastq
 #' @export
-summary.Fastq <- function( object, ... ){
-  n.seq <- nrow( object )
-  alphabet <- unique( unlist( strsplit( object$Sequence, split="" ) ) )
-  cat( "Fastq formatted sequence data containing", n.seq, "sequences\n" )
-  cat( "Alphabet:", sort( alphabet ), "\n" )
+summary.Fastq <- function(object, ...){
+  n.seq <- nrow(object)
+  alphabet <- unique(unlist(strsplit(object$Sequence, split = "")))
+  cat("Fastq formatted sequence data containing", n.seq, "sequences\n")
+  cat("Alphabet:", sort(alphabet), "\n")
 }

@@ -41,7 +41,6 @@
 #' # Reading a file with name in ex.file
 #' fdta <- readFasta(ex.file)
 #' summary(fdta)
-#' plot(fdta)
 #' }
 #' 
 #' @keywords sequence FASTA Fasta
@@ -50,23 +49,24 @@
 #' @export readFasta
 #' @export writeFasta
 #' 
-readFasta <- function( in.file ){
-  if( file.exists( in.file ) ){
-    in.file <- normalizePath( in.file )
-    fdta <- data.frame( read_fasta( in.file ), stringsAsFactors = FALSE )
-    class( fdta ) <- c( "Fasta", "data.frame" )
-    return( fdta )
+readFasta <- function(in.file){
+  if(!is.character(in.file) | length(in.file)>1) stop("The argument in.file must be a single text (a filename)")
+  if(file.exists(in.file)){
+    in.file <- normalizePath(in.file)
+    fdta <- data.frame(read_fasta(in.file), stringsAsFactors = FALSE)
+    class(fdta) <- c("Fasta", "data.frame")
+    return(fdta)
   } else {
-    stop( "Cannot find ", in.file, ", please correct path and/or file name" )
+    stop("Cannot find ", in.file, ", please correct path and/or file name")
   }
 }
-writeFasta <- function( fdta, out.file, width=80 ){
-  cn <- colnames( fdta )
-  if( !("Header" %in% cn) | !("Sequence" %in% cn) ){
-    stop( "This is not a Fasta object, Header or Sequence is lacking\n" )
+writeFasta <- function(fdta, out.file, width=80){
+  cn <- colnames(fdta)
+  if(!("Header" %in% cn) | !("Sequence" %in% cn)){
+    stop("This is not a Fasta object, Header or Sequence is lacking\n")
   }
-  status <- write_fasta( fdta$Header, fdta$Sequence, out.file, width )
-  invisible( status )
+  status <- write_fasta(fdta$Header, fdta$Sequence, out.file, width)
+  invisible(status)
 }
 
 
@@ -110,19 +110,19 @@ writeFasta <- function( fdta, out.file, width=80 ){
 #' @method plot Fasta
 #' @export
 #' 
-plot.Fasta <- function( x, y=NULL, col="tan4", border="tan4", ... ){
-  nc <- nchar( x$Sequence )
-  hist( nc, breaks=length( nc )^(1/3), col="tan4", xlab="Sequence length",
-        ylab="Number of sequences", main="Fastq object" )
+plot.Fasta <- function(x, y = NULL, col = "tan4", border = "tan4", ...){
+  nc <- nchar(x$Sequence)
+  hist( nc, breaks=length(nc)^(1/3), col = col, xlab = "Sequence length",
+        ylab = "Number of sequences", main = "Fastq object" )
 }
 
 #' @rdname plot.Fasta
 #' @method summary Fasta
 #' @export
-summary.Fasta <- function( object, ... ){
-  n.seq <- nrow( object )
-  alphabet <- unique( unlist( strsplit( object$Sequence, split="" ) ) )
-  cat( "Fasta formatted sequence data containing", n.seq, "sequences\n" )
-  cat( "Alphabet:", sort( alphabet ), "\n" )
+summary.Fasta <- function(object, ...){
+  n.seq <- nrow(object)
+  alphabet <- unique(unlist(strsplit(object$Sequence, split = "")))
+  cat("Fasta formatted sequence data containing", n.seq, "sequences\n")
+  cat("Alphabet:", sort(alphabet), "\n")
 }
 

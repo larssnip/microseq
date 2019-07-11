@@ -25,7 +25,7 @@ revComp <- function(Seq, rev) {
     .Call(`_microseq_revComp`, Seq, rev)
 }
 
-transl <- function(Seq) {
-    .Call(`_microseq_transl`, Seq)
+transl <- function(Seq, trans_tab) {
+    .Call(`_microseq_transl`, Seq, trans_tab)
 }
 

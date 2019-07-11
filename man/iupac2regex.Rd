@@ -2,12 +2,11 @@
 % Please edit documentation in R/dnaManipulate.R
 \name{iupac2regex}
 \alias{iupac2regex}
-\alias{uipac2regex}
 \alias{regex2iupac}
 \title{Ambiguity symbol conversion}
 \usage{
-iupac2regex( sequence )
-regex2iupac( sequence )
+iupac2regex(sequence)
+regex2iupac(sequence)
 }
 \arguments{
 \item{sequence}{Character string containing a DNA sequence.}
@@ -27,8 +26,8 @@ regular expression, e.g. W is replaced by [AT] in the string. The \code{iupac2re
 translation, while \code{regex2iupac} cobverts the other way again (replace [AT] with W).
 }
 \examples{
-iupac2regex( "ACWGT" )
-regex2iupac( "AC[AG]GT" )
+iupac2regex("ACWGT")
+regex2iupac("AC[AG]GT")
 
 }
 \author{

@@ -3,7 +3,6 @@
 \name{plot.Fastq}
 \alias{plot.Fastq}
 \alias{summary.Fastq}
-\alias{summary.Fastq}
 \title{Plotting and summary of \code{Fastq} objects}
 \usage{
 \method{plot}{Fastq}(x, y = NULL, col = "tan4", border = "tan4", ...)

@@ -4,7 +4,8 @@
 \alias{muscle}
 \title{Multiple alignment using MUSCLE}
 \usage{
-muscle(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 16)
+muscle(in.file, out.file, quiet = FALSE, diags = FALSE,
+  maxiters = 16)
 }
 \arguments{
 \item{in.file}{Name of FASTA-file with input sequences.}

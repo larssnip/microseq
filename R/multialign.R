@@ -3,7 +3,7 @@
 #' 
 #' @description Quickly computing a smallish multiple sequence alignment.
 #' 
-#' @param fdata A \code{Fasta} object with input sequences.
+#' @param fdta A \code{Fasta} object with input sequences.
 #' @param machine Function that does the 'dirty work'.
 #' 
 #' @details This function computes a multiple sequence alignment given a set of sequences in a \code{Fasta} object,
@@ -35,17 +35,17 @@
 #' 
 #' @export msalign
 #' 
-msalign <- function( fdata, machine="muscle" ){
+msalign <- function(fdta, machine = "muscle"){
   available.external(machine)
-  num <- substr(as.character(rnorm(1)),4,7)
-  in.fil <- file.path( getwd(), paste( "in", num, ".fasta", sep="" ) )
-  ut.fil <- file.path( getwd(), paste( "ut", num, ".fasta", sep="" ) )
-  writeFasta( fdata, out.file=in.fil )
-  cmd <- paste(machine, "('", in.fil, "','", ut.fil, "',quiet=T)", sep="")
-  eval( parse( text=cmd ) )
-  msa <- readFasta( ut.fil )
-  file.remove( c( in.fil, ut.fil ) )
-  return( msa )
+  num <- substr(as.character(rnorm(1)), 4, 7)
+  in.fil <- file.path(getwd(), paste0("in", num, ".fasta"))
+  ut.fil <- file.path(getwd(), paste0("ut", num, ".fasta", sep=""))
+  writeFasta(fdta, out.file = in.fil)
+  cmd <- paste0(machine, "('", in.fil, "','", ut.fil, "',quiet = T)")
+  eval(parse(text = cmd))
+  msa <- readFasta(ut.fil)
+  file.remove(c(in.fil, ut.fil))
+  return(msa)
 }
 
 
@@ -91,13 +91,13 @@ msalign <- function( fdata, machine="muscle" ){
 #' 
 #' @export muscle
 #' 
-muscle <- function( in.file, out.file, quiet=FALSE, diags=FALSE, maxiters=16 ){
-  if( available.external( "muscle" ) ){
-    dtxt <- ifelse( diags, "-diags", "" )
-    itxt <- paste( "-maxiters", maxiters )
-    qt <- ifelse( quiet, "-quiet", "" )
-    cmd <- paste( "muscle", dtxt, itxt, qt, "-in", in.file, "-out", out.file )
-    system( cmd )
+muscle <- function(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 16){
+  if(available.external("muscle")){
+    dtxt <- ifelse(diags, "-diags", "")
+    itxt <- paste("-maxiters", maxiters)
+    qt <- ifelse(quiet, "-quiet", "")
+    cmd <- paste("muscle", dtxt, itxt, qt, "-in", in.file, "-out", out.file)
+    system(cmd)
   }
 }
 
@@ -148,35 +148,35 @@ muscle <- function( in.file, out.file, quiet=FALSE, diags=FALSE, maxiters=16 ){
 #' 
 #' @export cmalign
 #' 
-cmalign <- function( in.file, out.file, CM.file, threads=1 ){
-  if( available.external('infernal') ){
-    cmd <- paste( "cmalign --cpu ", threads,
-                  " -o cmalign.stk",
-                  " --outformat Pfam",
-                  " ", CM.file,
-                  " ", in.file,
-                  sep="" )
-    system( cmd )
-    lines <- readLines( "cmalign.stk" )
-    fdta <- stk2fasta( lines )
-    writeFasta( fdta, out.file )
-    file.remove( "cmalign.stk" )
+cmalign <- function(in.file, out.file, CM.file, threads = 1){
+  if(available.external('infernal')){
+    cmd <- paste("cmalign --cpu ",
+                 threads,
+                 "-o cmalign.stk",
+                 "--outformat Pfam",
+                 CM.file,
+                 in.file)
+    system(cmd)
+    lines <- readLines("cmalign.stk")
+    fdta <- stk2fasta(lines)
+    writeFasta(fdta, out.file)
+    file.remove("cmalign.stk")
   }
 }
 
-stk2fasta <- function( lines ){
+stk2fasta <- function(lines){
   lines <- lines[nchar(lines)>0]
   lines <- lines[lines != "//"]
-  lines <- lines[grep( "^#", lines, invert=T )]
-  lst <- strsplit( lines, split=" " )
-  header <- sapply( lst, function(x){x[1]} )
-  sequence <- toupper( sapply( lst, function(x){x[length(x)]} ) )
+  lines <- lines[grep( "^#", lines, invert = T )]
+  lst <- strsplit(lines, split = " ")
+  header <- sapply(lst, function(x){x[1]})
+  sequence <- toupper(sapply(lst, function(x){x[length(x)]}))
   
-  fdta <- data.frame( Header=header,
-                      Sequence=gsub( "U", "T", gsub( "\\.", "-", sequence ) ),
-                      stringsAsFactors=F )
-  class( fdta ) <- c( "Fasta", "data.frame" )
-  return( fdta )
+  fdta <- data.frame(Header = header,
+                     Sequence = gsub("U", "T", gsub("\\.", "-", sequence)),
+                     stringsAsFactors = F)
+  class(fdta) <- c("Fasta", "data.frame")
+  return(fdta)
 }
 
 
@@ -217,29 +217,29 @@ stk2fasta <- function( lines ){
 #' 
 #' @export msaTrim
 #' 
-msaTrim <- function( msa, gap.end=0.5, gap.mid=0.9 ){
-  nc <- unique( nchar( msa$Sequence ) )
-  if( length( nc ) != 1 ) stop( "This is not a multiple alignment, sequences have different lengths!" )
-  cmat <- t( sapply( strsplit( msa$Sequence, split="" ), function(x){x} ) )
-  gap.frac <- colSums( cmat == "-" )/nrow( cmat )
-  if( min( gap.frac ) > min( gap.end, gap.mid ) ){
-    warning( "All positions have more gaps than arguments allow, please increase gap.end value" )
+msaTrim <- function(msa, gap.end = 0.5, gap.mid = 0.9){
+  nc <- unique(nchar(msa$Sequence))
+  if(length(nc) != 1) stop("This is not a multiple alignment, sequences have different lengths!")
+  cmat <- t(sapply(strsplit(msa$Sequence, split = ""), function(x){x}))
+  gap.frac <- colSums(cmat == "-")/nrow(cmat)
+  if(min(gap.frac) > min(gap.end, gap.mid)){
+    warning("All positions have more gaps than arguments allow, please increase gap.end value")
     msa$Sequence <- ""
-    return( msa )
+    return(msa)
   }
   idx.keep <- (gap.frac <= gap.mid)
   j <- 1
-  while( gap.frac[j] > gap.end ){
-    idx.keep[j]<-F
+  while(gap.frac[j] > gap.end){
+    idx.keep[j] <- F
     j <- j + 1
   }
   j <- nc
-  while( gap.frac[j] > gap.end ){
-    idx.keep[j]<-F
+  while(gap.frac[j] > gap.end){
+    idx.keep[j] <- F
     j <- j - 1
   }
-  msa$Sequence <- apply( cmat[,idx.keep], 1, paste, collapse="" )
-  return( msa )
+  msa$Sequence <- apply(cmat[,idx.keep], 1, paste, collapse="")
+  return(msa)
 }
 
 
@@ -250,9 +250,9 @@ available.external <- function(what){
     try(chr <- system('muscle -version', intern = TRUE), silent = TRUE)
     if(is.null(chr)){
       stop(paste('MUSCLE was not found by R.',
-                    'Please install MUSCLE from: http://www.drive5.com/muscle/downloads.htm.',
-                    'After installation, make sure MUSCLE can be run from a shell/terminal, ',
-                    'using the command \'muscle\', then restart the R session.', sep = '\n'))
+                 'Please install MUSCLE from: http://www.drive5.com/muscle/downloads.htm.',
+                 'After installation, make sure MUSCLE can be run from a shell/terminal, ',
+                 'using the command \'muscle\', then restart the R session.', sep = '\n'))
       return(FALSE)
     } else {
       return(TRUE)
@@ -264,9 +264,9 @@ available.external <- function(what){
     try(chr <- system('cmalign -h', intern = TRUE), silent = TRUE)
     if(is.null(chr)){
       stop(paste('Infernal was not found by R.',
-                    'Please install Infernal from: http://eddylab.org/infernal/.',
-                    'After installation, make sure Infernal can be run from a shell/terminal, ',
-                    'using the command \'cmalign\', then restart the R session.', sep = '\n'))
+                 'Please install Infernal from: http://eddylab.org/infernal/.',
+                 'After installation, make sure Infernal can be run from a shell/terminal, ',
+                 'using the command \'cmalign\', then restart the R session.', sep = '\n'))
       return(FALSE)
     } else {
       return(TRUE)

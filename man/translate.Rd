@@ -4,13 +4,17 @@
 \alias{translate}
 \title{Translation according to the standard genetic code}
 \usage{
-translate(nuc.sequences, M.start = TRUE)
+translate(nuc.sequences, M.start = TRUE, no.stop = TRUE,
+  trans.tab = 1)
 }
 \arguments{
 \item{nuc.sequences}{Character vector containing the nucleotide sequences.}
 
-\item{M.start}{A logical indicating if the amino acid sequence should start with M regardless of 
-start codon (ATG, GTG or TTG).}
+\item{M.start}{A logical indicating if the amino acid sequence should start with M regardless of start codon (ATG, GTG or TTG).}
+
+\item{no.stop}{A logical indicating if terminal stops (*) should be eliminated from the translated sequence}
+
+\item{trans.tab}{Translation table, either 1 or 4}
 }
 \value{
 A character vector of translated sequences.
@@ -19,7 +23,10 @@ A character vector of translated sequences.
 The translation from DNA(RNA) to amino acid sequence according to the standard genetic code.
 }
 \details{
-This function uses the Biostrings::translate function.
+Translating DNA or RNA to protein. Possible start codons are ATG, GTG or TTG. Stop codons are TAA, TGA, TAG. All codons are
+translated accoring to the Stadard geneti code. This is translation table 1. Th eonly alternative implemented here is translation 
+table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma). If \code{trans.tab} is not 1, the stop codon TGA is 
+translated to W (Tryptophan).
 }
 \examples{
 ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")

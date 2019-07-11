@@ -4,10 +4,14 @@
 #' @description The translation from DNA(RNA) to amino acid sequence according to the standard genetic code.
 #' 
 #' @param nuc.sequences Character vector containing the nucleotide sequences.
-#' @param M.start A logical indicating if the amino acid sequence should start with M regardless of 
-#' start codon (ATG, GTG or TTG).
+#' @param M.start A logical indicating if the amino acid sequence should start with M regardless of start codon (ATG, GTG or TTG).
+#' @param no.stop A logical indicating if terminal stops (*) should be eliminated from the translated sequence
+#' @param trans.tab Translation table, either 1 or 4
 #' 
-#' @details This function uses the Biostrings::translate function.
+#' @details Translating DNA or RNA to protein. Possible start codons are ATG, GTG or TTG. Stop codons are TAA, TGA, TAG. All codons are
+#' translated accoring to the Stadard geneti code. This is translation table 1. The only alternative implemented here is translation 
+#' table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma). If \code{trans.tab} is 4, the stop codon TGA is 
+#' translated to W (Tryptophan).
 #' 
 #' @return A character vector of translated sequences.
 #' 
@@ -19,12 +23,12 @@
 #' translate(fdta$Sequence)
 #' 
 #' @export
-translate <- function( nuc.sequences, M.start=TRUE ){
-  nuc.sequences <- gsub( "U", "T", toupper( nuc.sequences ) )
-  if( M.start ){
-    nuc.sequences <- gsub( "^GTG|^TTG", "ATG", nuc.sequences )
-  }
-  return( transl( nuc.sequences ) )
+translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab = 1){
+  nuc.sequences <- gsub("U", "T", toupper(nuc.sequences))
+  if(M.start) nuc.sequences <- gsub("^GTG|^TTG", "ATG", nuc.sequences)
+  prot.sequences <- transl(nuc.sequences, trans.tab)
+  if(no.stop) prot.sequences <- gsub("\\*$", "", prot.sequences)
+  return(prot.sequences)
 }
 
 
@@ -57,12 +61,12 @@ reverseComplement <- function( nuc.sequences, reverse = TRUE ){
 
 #' @name iupac2regex
 #' @title Ambiguity symbol conversion
-#' @aliases uipac2regex regex2iupac
+#' @aliases iupac2regex regex2iupac
 #' 
 #' @description Converting DNA ambiguity symbols to regular expressions, and vice versa.
 #' 
-#' @usage iupac2regex( sequence )
-#' regex2iupac( sequence )
+#' @usage iupac2regex(sequence)
+#' regex2iupac(sequence)
 #' 
 #' @param sequence Character string containing a DNA sequence.
 #' 
@@ -78,8 +82,8 @@ reverseComplement <- function( nuc.sequences, reverse = TRUE ){
 #' @author Lars Snipen.
 #' 
 #' @examples
-#' iupac2regex( "ACWGT" )
-#' regex2iupac( "AC[AG]GT" )
+#' iupac2regex("ACWGT")
+#' regex2iupac("AC[AG]GT")
 #' 
 #' @export iupac2regex
 #' @export regex2iupac
