@@ -5,6 +5,33 @@
 
 using namespace Rcpp;
 
+// ORF_index
+Rcpp::DataFrame ORF_index(SEXP Tags, SEXP Sequence, int trans_tab);
+RcppExport SEXP _microseq_ORF_index(SEXP TagsSEXP, SEXP SequenceSEXP, SEXP trans_tabSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type Tags(TagsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type Sequence(SequenceSEXP);
+    Rcpp::traits::input_parameter< int >::type trans_tab(trans_tabSEXP);
+    rcpp_result_gen = Rcpp::wrap(ORF_index(Tags, Sequence, trans_tab));
+    return rcpp_result_gen;
+END_RCPP
+}
+// extractSeq
+SEXP extractSeq(SEXP Gseq, SEXP Left, SEXP Right, SEXP Strand);
+RcppExport SEXP _microseq_extractSeq(SEXP GseqSEXP, SEXP LeftSEXP, SEXP RightSEXP, SEXP StrandSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type Gseq(GseqSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type Left(LeftSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type Right(RightSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type Strand(StrandSEXP);
+    rcpp_result_gen = Rcpp::wrap(extractSeq(Gseq, Left, Right, Strand));
+    return rcpp_result_gen;
+END_RCPP
+}
 // read_fastq
 Rcpp::List read_fastq(std::string path);
 RcppExport SEXP _microseq_read_fastq(SEXP pathSEXP) {

@@ -15,6 +15,8 @@ extern SEXP _microseq_revComp(SEXP, SEXP);
 extern SEXP _microseq_transl(SEXP, SEXP);
 extern SEXP _microseq_write_fasta(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _microseq_write_fastq(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _microseq_extractSeq(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _microseq_ORF_index(SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_microseq_read_fasta",        (DL_FUNC) &_microseq_read_fasta,        1},
@@ -24,6 +26,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_microseq_transl",            (DL_FUNC) &_microseq_transl,            2},
     {"_microseq_write_fasta",       (DL_FUNC) &_microseq_write_fasta,       4},
     {"_microseq_write_fastq",       (DL_FUNC) &_microseq_write_fastq,       4},
+    {"_microseq_extractSeq",        (DL_FUNC) &_microseq_extractSeq,        4},
+    {"_microseq_ORF_index",         (DL_FUNC) &_microseq_ORF_index,         3},
     {NULL, NULL, 0}
 };
 
