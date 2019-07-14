@@ -18,7 +18,7 @@ A \code{gff.table} (see \code{\link{readGFF}} for details) with one row for each
 rRNA sequence.
 }
 \description{
-Locating all rRNA genes in genomic DNA using the barrnap software.
+Finding rRNA genes in genomic DNA using the barrnap software.
 }
 \details{
 The external software barrnap is used to scan through a prokaryotic genome to detect the
