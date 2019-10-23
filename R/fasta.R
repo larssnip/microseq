@@ -60,12 +60,19 @@ readFasta <- function(in.file){
     stop("Cannot find ", in.file, ", please correct path and/or file name")
   }
 }
-writeFasta <- function(fdta, out.file, width=80){
+writeFasta <- function(fdta, out.file, width = 80){
   cn <- colnames(fdta)
   if(!("Header" %in% cn) | !("Sequence" %in% cn)){
     stop("This is not a Fasta object, Header or Sequence is lacking\n")
   }
-  status <- write_fasta(fdta$Header, fdta$Sequence, out.file, width)
+  if(width == 0){
+    fdta <- as.data.frame(fdta)
+    heads <- paste0(">", fdta$Header)
+    seqs <- fdta$Sequence
+    status <- writeLines(as.vector(t(cbind(heads, seqs))), con = out.file)
+  } else {
+    status <- write_fasta(fdta$Header, fdta$Sequence, out.file, width)
+  }
   invisible(status)
 }
 

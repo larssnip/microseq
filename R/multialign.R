@@ -72,7 +72,7 @@ msalign <- function(fdta, machine = "muscle"){
 #' 
 #' @author Lars Snipen.
 #' 
-#' @seealso \code{\link{muscle}}, \code{\link{cmalign}}.
+#' @seealso \code{\link{muscle}}.
 #' 
 #' @examples 
 #' \dontrun{

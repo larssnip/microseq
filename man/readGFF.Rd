@@ -6,12 +6,12 @@
 \title{Reading and writing GFF-tables}
 \usage{
 readGFF(in.file)
-writeGFF(gff.table, out.file)
+writeGFF(gff.tbl, out.file)
 }
 \arguments{
 \item{in.file}{Name of file with a GFF-table.}
 
-\item{gff.table}{A \code{gff.table} (\code{data.frame}) with genomic features information.}
+\item{gff.tbl}{A table (\code{data.frame} or \code{tibble}) with genomic features information.}
 
 \item{out.file}{Name of file.}
 }
@@ -21,10 +21,10 @@ writeGFF(gff.table, out.file)
 \code{writeGFF} writes the supplied \code{gff.table} to a text-file.
 }
 \description{
-Reading or writing a \code{gff.table} from/to file.
+Reading or writing a GFF-table from/to file.
 }
 \details{
-A \code{gff.table} is simply a \code{data.frame} with columns
+A GFF-table is simply a \code{\link{data.frame}} or \code{\link{tibble}} with columns
 adhering to the format specified by the GFF3 format, see
 https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md for details. There is
 one row for each feature.
@@ -47,6 +47,10 @@ The following columns should always be in a full \code{gff.table} of the GFF3 fo
 Missing values are described by \code{"."} in the GFF3 format. This is also done here, except for the
 numerical columns Start, End, Score and Phase. Here \code{NA} is used, but this is replaced by
 \code{"."} when writing to file.
+
+The \code{readGFF} function will also read files where sequences in FASTA format are added after the GFF-table.
+This file section must always start with the line \code{##FASTA}. This \code{\link{Fasta}} object is added to
+the GFF-table as an attribute (use \code{attr(gff.tbl, "Fasta")} to retrieve it).
 }
 \examples{
 # Using a GFF file in this package

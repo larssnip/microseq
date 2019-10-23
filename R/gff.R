@@ -111,16 +111,16 @@ gffSignature <- function(gff.table){
 #' @title Reading and writing GFF-tables
 #' @aliases readGFF writeGFF
 #' 
-#' @description Reading or writing a \code{gff.table} from/to file.
+#' @description Reading or writing a GFF-table from/to file.
 #' 
 #' @usage readGFF(in.file)
-#' writeGFF(gff.table, out.file)
+#' writeGFF(gff.tbl, out.file)
 #' 
 #' @param in.file Name of file with a GFF-table.
-#' @param gff.table A \code{gff.table} (\code{data.frame}) with genomic features information.
+#' @param gff.tbl A table (\code{data.frame} or \code{tibble}) with genomic features information.
 #' @param out.file Name of file.
 #' 
-#' @details A \code{gff.table} is simply a \code{data.frame} with columns
+#' @details A GFF-table is simply a \code{\link{data.frame}} or \code{\link{tibble}} with columns
 #' adhering to the format specified by the GFF3 format, see
 #' https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md for details. There is
 #' one row for each feature.
@@ -142,7 +142,11 @@ gffSignature <- function(gff.table){
 #' }
 #' Missing values are described by \code{"."} in the GFF3 format. This is also done here, except for the
 #' numerical columns Start, End, Score and Phase. Here \code{NA} is used, but this is replaced by
-#' \code{"."} when writing to file. 
+#' \code{"."} when writing to file.
+#' 
+#' The \code{readGFF} function will also read files where sequences in FASTA format are added after the GFF-table.
+#' This file section must always start with the line \code{##FASTA}. This \code{\link{Fasta}} object is added to
+#' the GFF-table as an attribute (use \code{attr(gff.tbl, "Fasta")} to retrieve it).
 #' 
 #' @return \code{readGFF} returns a \code{gff.table} with the columns described above.
 #' 
@@ -171,41 +175,66 @@ gffSignature <- function(gff.table){
 #' # ...and cleaning...
 #' s <- file.remove(out.tmp)
 #' 
+#' @importFrom stringr str_split str_c
+#' @importFrom tibble tibble as_tibble
+#' 
 #' @export readGFF writeGFF
 #' 
 readGFF <- function(in.file){
   fil <- file(in.file, open = "rt")
-  lines <- readLines(fil, n = 2)
+  lines <- readLines(fil)
   close(fil)
+  fasta.idx <- grep("##FASTA", lines)
   if(length(lines) > 1){
-    gff.table <- read.table(in.file, sep = "\t", header = F,
-                             stringsAsFactors = F, comment.char = "#" )
-    if(ncol(gff.table) != 9) stop("File", in.file, "does not contain data in GFF3 format")
-    colnames(gff.table) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
-    w <- options()$warn
-    options(warn = -1)
-    gff.table$Start <- as.numeric(gff.table$Start)
-    gff.table$End <- as.numeric(gff.table$End)
-    gff.table$Score <- as.numeric(gff.table$Score)
-    gff.table$Phase <- as.numeric(gff.table$Phase)
-    options(warn = w)
+    if(length(fasta.idx) > 0){
+      lns1 <- lines[1:fasta.idx]
+      str_split(lns1[!grepl("^#", lns1)], pattern = "\t", simplify = T) %>% 
+        as_tibble() -> tbl
+      colnames(tbl) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
+      w <- options()$warn
+      options(warn = -1)
+      tbl$Start <- as.numeric(tbl$Start)
+      tbl$End   <- as.numeric(tbl$End)
+      tbl$Score <- as.numeric(tbl$Score)
+      tbl$Phase <- as.numeric(tbl$Phase)
+      options(warn = w)
+      
+      lns2 <- lines[(fasta.idx+1):length(lines)]
+      idx <- c(grep("^>", lns2), length(lns2) + 1)
+      fsa <- tibble(Header = gsub("^>", "", lns2[idx[1:(length(idx)-1)]]),
+                    Sequence = sapply(1:(length(idx)-1), function(ii){
+                      str_c(lns2[(idx[ii]+1):(idx[ii+1]-1)], collapse = "")
+                    }))
+      attr(tbl, "Fasta") <- fsa
+    } else {
+      str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T) %>% 
+        as_tibble() -> tbl
+      if(ncol(tbl) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(tbl))
+      colnames(tbl) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
+      w <- options()$warn
+      options(warn = -1)
+      tbl$Start <- as.numeric(tbl$Start)
+      tbl$End   <- as.numeric(tbl$End)
+      tbl$Score <- as.numeric(tbl$Score)
+      tbl$Phase <- as.numeric(tbl$Phase)
+      options(warn = w)
+    }
   } else {
-    gff.table <- data.frame("Seqid" = NULL,
-                            "Source" = NULL,
-                            "Type" = NULL,
-                            "Start" = NULL,
-                            "End" = NULL,
-                            "Score" = NULL,
-                            "Strand" = NULL,
-                            "Phase" = NULL,
-                            "Attributes" = NULL,
-                            stringsAsFactors = F)
+    tbl <- tibble("Seqid" = NULL,
+                  "Source" = NULL,
+                  "Type" = NULL,
+                  "Start" = NULL,
+                  "End" = NULL,
+                  "Score" = NULL,
+                  "Strand" = NULL,
+                  "Phase" = NULL,
+                  "Attributes" = NULL)
   }
-  return(gff.table)
+  return(tbl)
 }
-writeGFF <- function(gff.table, out.file){
+writeGFF <- function(gff.tbl, out.file){
   line1 <- c("##gff-version 3")
-  lines <- sapply(1:nrow(gff.table), function(i){paste(gff.table[i,], collapse = "\t")})
+  lines <- sapply(1:nrow(gff.tbl), function(i){paste(gff.tbl[i,], collapse = "\t")})
   lines <- gsub("\tNA\t", "\t.\t", lines)
   lines <- gsub("\tNA$", "\t.", lines)
   writeLines(c(line1, lines), con = out.file)

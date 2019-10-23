@@ -106,31 +106,31 @@ findrRNA <- function(genome.file, bacteria = TRUE, cpu = 1){
 #' @name findGenes
 #' @title Finding coding genes
 #' 
-#' @description Finding coding genes in genomic DNA using the prodigal software.
+#' @description Finding coding genes in genomic DNA using the Prodigal software.
 #' 
 #' @param genome.file A fasta-formatted file with the genome sequence(s).
-#' @param protein.file If provided, prodigal will output all proteins to this fasta-file (text).
-#' @param mrna.file If provided, prodigal will output all DNA sequences to this fasta-file (text).
+#' @param faa.file If provided, prodigal will output all proteins to this fasta-file (text).
+#' @param ffn.file If provided, prodigal will output all DNA sequences to this fasta-file (text).
 #' @param proc Either \code{"single"} or \code{"meta"}, see below.
 #' @param trans.tab Either 11 or 4 (see below).
 #' @param mask.N Turn on masking of N's (logical)
 #' @param bypass.SD Bypass Shine-Dalgarno filter (logical)
 #' 
-#' @details The external software prodigal is used to scan through a prokaryotic genome to detect the protein
+#' @details The external software Prodigal is used to scan through a prokaryotic genome to detect the protein
 #' coding genes. This free software can be installed from https://github.com/hyattpd/Prodigal.
 #' 
-#' In addition to the standard output from thsi function, fasta-files with protein and/or DNA sequences can
-#' be produced directly by providing filenames in \code{protein-file} and \code{mrna.file}.
+#' In addition to the standard output from this function, fasta-files with protein and/or DNA sequences may
+#' be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.
 #' 
 #' The input \code{proc} allows you to såecify i the input data should be treated as a single genome
 #' (default) or as a metagenome.
 #' 
-#' The transation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.
+#' The translation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.
 #' 
 #' The \code{mask.N} will prevent genes having runs of N inside. The \code{bypass.SD} turn off the search
 #' for a Shine-Dalgarno motif.
 #' 
-#' @return A \code{gff.table} (see \code{\link{readGFF}} for details) with one row for each detected
+#' @return A GFF-table (see \code{\link{readGFF}} for details) with one row for each detected
 #' coding gene.
 #' 
 #' @note The prodigal software must be installed on the system for this function to work, i.e. the command
@@ -157,11 +157,11 @@ findrRNA <- function(genome.file, bacteria = TRUE, cpu = 1){
 #' 
 #' @export findGenes
 #' 
-findGenes <- function(genome.file, protein.file = "", mrna.file = "", proc = "single",
+findGenes <- function(genome.file, faa.file = "", ffn.file = "", proc = "single",
                       trans.tab = 11, mask.N = FALSE, bypass.SD = FALSE){
   if(available.external("prodigal")){
-    if(nchar(protein.file) > 0) protein.file <- paste("-a", protein.file)
-    if(nchar(mrna.file) > 0) mrna.file <- paste("-d", mrna.file)
+    if(nchar(faa.file) > 0) faa.file <- paste("-a", faa.file)
+    if(nchar(ffn.file) > 0) ffn.file <- paste("-d", ffn.file)
     mask.N <- ifelse(mask.N, "-m", "")
     bypass.SD <- ifelse(bypass.SD, "-n", "")
     tmp.file <- tempfile(pattern = "prodigal", fileext = "gff")

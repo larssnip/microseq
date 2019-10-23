@@ -42,7 +42,7 @@ print(nchar(msa.trimmed$Sequence))
 
 }
 \seealso{
-\code{\link{muscle}}, \code{\link{cmalign}}.
+\code{\link{muscle}}.
 }
 \author{
 Lars Snipen.

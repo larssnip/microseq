@@ -4,16 +4,15 @@
 \alias{findGenes}
 \title{Finding coding genes}
 \usage{
-findGenes(genome.file, protein.file = "", mrna.file = "",
-  proc = "single", trans.tab = 11, mask.N = FALSE,
-  bypass.SD = FALSE)
+findGenes(genome.file, faa.file = "", ffn.file = "", proc = "single",
+  trans.tab = 11, mask.N = FALSE, bypass.SD = FALSE)
 }
 \arguments{
 \item{genome.file}{A fasta-formatted file with the genome sequence(s).}
 
-\item{protein.file}{If provided, prodigal will output all proteins to this fasta-file (text).}
+\item{faa.file}{If provided, prodigal will output all proteins to this fasta-file (text).}
 
-\item{mrna.file}{If provided, prodigal will output all DNA sequences to this fasta-file (text).}
+\item{ffn.file}{If provided, prodigal will output all DNA sequences to this fasta-file (text).}
 
 \item{proc}{Either \code{"single"} or \code{"meta"}, see below.}
 
@@ -24,23 +23,23 @@ findGenes(genome.file, protein.file = "", mrna.file = "",
 \item{bypass.SD}{Bypass Shine-Dalgarno filter (logical)}
 }
 \value{
-A \code{gff.table} (see \code{\link{readGFF}} for details) with one row for each detected
+A GFF-table (see \code{\link{readGFF}} for details) with one row for each detected
 coding gene.
 }
 \description{
-Finding coding genes in genomic DNA using the prodigal software.
+Finding coding genes in genomic DNA using the Prodigal software.
 }
 \details{
-The external software prodigal is used to scan through a prokaryotic genome to detect the protein
+The external software Prodigal is used to scan through a prokaryotic genome to detect the protein
 coding genes. This free software can be installed from https://github.com/hyattpd/Prodigal.
 
-In addition to the standard output from thsi function, fasta-files with protein and/or DNA sequences can
-be produced directly by providing filenames in \code{protein-file} and \code{mrna.file}.
+In addition to the standard output from this function, fasta-files with protein and/or DNA sequences may
+be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.
 
 The input \code{proc} allows you to såecify i the input data should be treated as a single genome
 (default) or as a metagenome.
 
-The transation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.
+The translation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.
 
 The \code{mask.N} will prevent genes having runs of N inside. The \code{bypass.SD} turn off the search
 for a Shine-Dalgarno motif.
