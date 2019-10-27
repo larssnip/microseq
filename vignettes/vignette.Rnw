@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{url,Sweave}
+%\VignetteIndexEntry{The microseq package vignette}
+
+\title{The \texttt{microseq} package vignette}
+\author{Lars Snipen and Kristian Hovde Liland}
+\date{}
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\section{External software}
+Some functions in this package calls upons external software that must be available on the system. Some of these are 'installed' by simply downloading a binary executable that you put somewhere proper on your computer. To make such program visible to R, you typically need to update your \texttt{PATH} environment variable, to specify where these executables are located. Depending on your system, you may also need to create an \texttt{.Renviron} file for making the PATH visible to R. Try it out, and use google for help!
+
+
+\subsection{Software \texttt{muscle}}
+The functions \emph{msalign()} and \emph{muscle()} uses the free software \texttt{muscle} (https://www.drive5.com/muscle/). From the website you download (and unzip) an executable. NB! Change its name to \texttt{muscle}, no more and no less (i.e. no version numbers etc). You need to update your PATH environment variable to make this visible to R. In the R console the command
+<<eval=FALSE>>=
+system("muscle -h")
+@
+should produce some sensible output.
+
+
+
+\end{document}
