@@ -61,16 +61,6 @@ gff.file <- file.path(xpth,"small.gff")
 gff.tbl <- readGFF(gff.file)
 print(gffSignature(gff.tbl))
 
-# Using piping (dplyr) to write first 3 rows to new (temporary) file
-library(dplyr)
-out.tmp <- tempfile(fileext = ".gff")
-readGFF(gff.file) \%>\% 
-  slice(1:3) \%>\% 
-  writeGFF(out.tmp)
-
-# ...and cleaning...
-s <- file.remove(out.tmp)
-
 }
 \seealso{
 \code{\link{findOrfs}}, \code{\link{lorfs}}.

@@ -58,14 +58,6 @@
 #' # Filtering to retrieve the LORFs only
 #' lorf.table <- lorfs(orf.tbl)
 #' 
-#' # Finding all LORFs of length 30 or more in a genome, using piping (dplyr)
-#' library(dplyr)
-#' readFasta(genome.file) %>% 
-#'   findOrfs() %>% 
-#'   lorfs() %>% 
-#'   mutate(Length = orfLength(.)) %>% 
-#'   filter(Length >= 30 ) -> lorf.tbl
-#' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
 #' 
@@ -196,7 +188,7 @@ circularize <- function(ott, NC){
   ugs <- unique(ott$Seqid)
   # otn is the NEW table, where we have spliced the ORFs truncated at each end
   # It is impossible to know how many ORF we will end up with!
-  otn <- data.frame(Seqid = NULL, Start = NULL, End = NULL, Strand = NULL, Truncated = bNULL,
+  otn <- data.frame(Seqid = NULL, Start = NULL, End = NULL, Strand = NULL, Truncated = NULL,
                     stringsAsFactors = F)
   for(i in 1:length(ugs)){
     idx <- which(tags == ugs[i])                  # ugs[i] is genome sequence idx

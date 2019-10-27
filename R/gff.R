@@ -165,16 +165,6 @@ gffSignature <- function(gff.table){
 #' gff.tbl <- readGFF(gff.file)
 #' print(gffSignature(gff.tbl))
 #' 
-#' # Using piping (dplyr) to write first 3 rows to new (temporary) file
-#' library(dplyr)
-#' out.tmp <- tempfile(fileext = ".gff")
-#' readGFF(gff.file) %>% 
-#'   slice(1:3) %>% 
-#'   writeGFF(out.tmp)
-#' 
-#' # ...and cleaning...
-#' s <- file.remove(out.tmp)
-#' 
 #' @importFrom stringr str_split str_c
 #' @importFrom tibble tibble as_tibble
 #' 
@@ -188,8 +178,8 @@ readGFF <- function(in.file){
   if(length(lines) > 1){
     if(length(fasta.idx) > 0){
       lns1 <- lines[1:fasta.idx]
-      str_split(lns1[!grepl("^#", lns1)], pattern = "\t", simplify = T) %>% 
-        as_tibble() -> tbl
+      tbl <- as_tibble(str_split(lns1[!grepl("^#", lns1)], pattern = "\t", simplify = T))
+      if(ncol(tbl) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(tbl))
       colnames(tbl) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
       w <- options()$warn
       options(warn = -1)
@@ -207,8 +197,7 @@ readGFF <- function(in.file){
                     }))
       attr(tbl, "Fasta") <- fsa
     } else {
-      str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T) %>% 
-        as_tibble() -> tbl
+      tbl <- as_tibble(str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T))
       if(ncol(tbl) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(tbl))
       colnames(tbl) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
       w <- options()$warn

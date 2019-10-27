@@ -122,7 +122,7 @@ findrRNA <- function(genome.file, bacteria = TRUE, cpu = 1){
 #' In addition to the standard output from this function, fasta-files with protein and/or DNA sequences may
 #' be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.
 #' 
-#' The input \code{proc} allows you to såecify i the input data should be treated as a single genome
+#' The input \code{proc} allows you to specify if the input data should be treated as a single genome
 #' (default) or as a metagenome.
 #' 
 #' The translation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.
@@ -166,8 +166,8 @@ findGenes <- function(genome.file, faa.file = "", ffn.file = "", proc = "single"
     bypass.SD <- ifelse(bypass.SD, "-n", "")
     tmp.file <- tempfile(pattern = "prodigal", fileext = "gff")
     command <- paste("prodigal -q -f gff",
-                     protein.file,
-                     mrna.file,
+                     faa.file,
+                     ffn.file,
                      "-p", proc,
                      mask.N,
                      bypass.SD,

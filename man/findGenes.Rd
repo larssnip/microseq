@@ -36,7 +36,7 @@ coding genes. This free software can be installed from https://github.com/hyattp
 In addition to the standard output from this function, fasta-files with protein and/or DNA sequences may
 be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.
 
-The input \code{proc} allows you to såecify i the input data should be treated as a single genome
+The input \code{proc} allows you to specify if the input data should be treated as a single genome
 (default) or as a metagenome.
 
 The translation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.

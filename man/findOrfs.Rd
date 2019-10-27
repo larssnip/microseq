@@ -64,14 +64,6 @@ orf.lengths <- orfLength(orf.tbl)
 # Filtering to retrieve the LORFs only
 lorf.table <- lorfs(orf.tbl)
 
-# Finding all LORFs of length 30 or more in a genome, using piping (dplyr)
-library(dplyr)
-readFasta(genome.file) \%>\% 
-  findOrfs() \%>\% 
-  lorfs() \%>\% 
-  mutate(Length = orfLength(.)) \%>\% 
-  filter(Length >= 30 ) -> lorf.tbl
-
 }
 \seealso{
 \code{\link{readGFF}}, \code{\link{gff2fasta}}, \code{\link{lorfs}}.
