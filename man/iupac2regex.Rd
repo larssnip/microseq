@@ -9,7 +9,7 @@ iupac2regex(sequence)
 regex2iupac(sequence)
 }
 \arguments{
-\item{sequence}{Character string containing a DNA sequence.}
+\item{sequence}{Character vector containing DNA sequences.}
 }
 \value{
 A string where the ambiguity symbol has been replaced by a regular expression
@@ -23,7 +23,7 @@ Converting DNA ambiguity symbols to regular expressions, and vice versa.
 The DNA alphabet may contain ambiguity symbols, e.g. a W means either A or T.
 When using a regular expression search, these letters must be replaced by the proper
 regular expression, e.g. W is replaced by [AT] in the string. The \code{iupac2regex} makes this
-translation, while \code{regex2iupac} cobverts the other way again (replace [AT] with W).
+translation, while \code{regex2iupac} converts the other way again (replace [AT] with W).
 }
 \examples{
 iupac2regex("ACWGT")

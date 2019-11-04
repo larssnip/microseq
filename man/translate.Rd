@@ -23,8 +23,8 @@ A character vector of translated sequences.
 The translation from DNA(RNA) to amino acid sequence according to the standard genetic code.
 }
 \details{
-Translating DNA or RNA to protein. Possible start codons are ATG, GTG or TTG. Stop codons are TAA, TGA, TAG. Codons are
-by default translated accoring to translation table 11. The only alternative implemented here is translation 
+Codons are by default translated according to translation table 11, i.e. the possible start codons are ATG, GTG
+or TTG and stop codons are TAA, TGA and TAG.  The only alternative implemented here is translation 
 table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma). If \code{trans.tab} is 4, the stop codon TGA is 
 translated to W (Tryptophan).
 }

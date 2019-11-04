@@ -6,12 +6,12 @@
 \title{Reading and writing GFF-tables}
 \usage{
 readGFF(in.file)
-writeGFF(gff.tbl, out.file)
+writeGFF(gff.table, out.file)
 }
 \arguments{
 \item{in.file}{Name of file with a GFF-table.}
 
-\item{gff.tbl}{A table (\code{data.frame} or \code{tibble}) with genomic features information.}
+\item{gff.table}{A table (\code{tibble} or \code{data.frame}) with genomic features information.}
 
 \item{out.file}{Name of file.}
 }
@@ -24,7 +24,7 @@ writeGFF(gff.tbl, out.file)
 Reading or writing a GFF-table from/to file.
 }
 \details{
-A GFF-table is simply a \code{\link{data.frame}} or \code{\link{tibble}} with columns
+A GFF-table is simply a \code{\link{tibble}} with columns
 adhering to the format specified by the GFF3 format, see
 https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md for details. There is
 one row for each feature.

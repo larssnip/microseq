@@ -2,7 +2,7 @@ Package: microseq
 Type: Package
 Title: Basic Biological Sequence Handling
 Version: 2.0
-Date: 2019-10-26
+Date: 2019-11-04
 Author: Lars Snipen, Kristian Hovde Liland
 Maintainer: Lars Snipen <lars.snipen@nmbu.no>
 Description: Basic functions for microbial sequence data analysis. The idea is to use the basic R data structures as much as possible, without building complex data types.

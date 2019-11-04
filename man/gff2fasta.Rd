@@ -36,7 +36,7 @@ gff.table <- readGFF(gff.file)
 genome <- readFasta(genome.file)
 
 # Retrieving sequences
-fasta.obj <- gff2fasta(gff.table,genome)
+fasta.obj <- gff2fasta(gff.table, genome)
 summary(fasta.obj)
 plot(fasta.obj)
 
