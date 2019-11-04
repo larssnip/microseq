@@ -16,9 +16,9 @@ A vector of texts, one for each row in \code{gff.table}.
 Making a signature text from \code{gff.table} data.
 }
 \details{
-For each row in \code{gff.table} a text is created by pasting these
-data together, adding some explanatory text. This function is used by \code{link{gff2fasta}}
-to create the Header-lines for the \code{\link{Fasta}} object when retrieving the sequences.
+For each row in \code{gff.table} a text is created by pasting the data in
+the columns \code{Seqid}, \code{Start}, \code{End} and \code{Strand}. This text should be unique
+to each entry in the \code{gff.table}.
 }
 \examples{
 # See the example in the Help-file for readGFF.

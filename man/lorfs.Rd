@@ -7,7 +7,7 @@
 lorfs(gff.table)
 }
 \arguments{
-\item{gff.table}{A \code{gff.table} (\code{data.frame}) with genomic features information.}
+\item{gff.table}{A \code{gff.table} (\code{tibble}) with genomic features information.}
 }
 \value{
 A \code{gff.table} with a subset of the rows of the argument \code{gff.table}. 

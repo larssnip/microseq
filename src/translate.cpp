@@ -65,7 +65,7 @@ CharacterVector transl(CharacterVector Seq, int trans_tab) {
       } else if(c1=="T" && c2=="A" && (c3=="A" || c3=="G" || c3=="R")){
         aa[i].replace(j,1,"*");
       } else if(c1=="T" && (c2=="A" || c2=="G" || c2=="R") && c3=="A"){
-        if(trans_tab!=1 && c1=="T" && c2=="G" && c3=="A"){
+        if(trans_tab!=11 && c1=="T" && c2=="G" && c3=="A"){
           aa[i].replace(j,1,"W");
         } else {
           aa[i].replace(j,1,"*");

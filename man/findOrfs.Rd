@@ -4,7 +4,7 @@
 \alias{findOrfs}
 \title{Finding ORFs in genomes}
 \usage{
-findOrfs(genome, circular = F, trans.tab = 1)
+findOrfs(genome, circular = F, trans.tab = 11)
 }
 \arguments{
 \item{genome}{A \code{\link{Fasta}} object with the genome sequence(s).}
@@ -14,7 +14,7 @@ findOrfs(genome, circular = F, trans.tab = 1)
 \item{trans.tab}{Translation table}
 }
 \value{
-This function returns a \code{gff.table}, which is simply a \code{data.frame} with columns
+This function returns a \code{gff.table}, which is simply a \code{\link{tibble}} with columns
 adhering to the format specified by the GFF3 format, see \code{\link{readGFF}}. If you want to retrieve
 the ORF sequences, use \code{\link{gff2fasta}}.
 }
@@ -24,7 +24,7 @@ Finds all ORFs in prokaryotic genome sequences.
 \details{
 A prokaryotic Open Reading Frame (ORF) is defined as a subsequence starting with a  start-codon
 (ATG, GTG or TTG), followed by an integer number of triplets (codons), and ending with a stop-codon (TAA,
-TGA or TAG, unless \code{trans.tab} is not 1, see below). This function will locate all ORFs in a genome.
+TGA or TAG, unless \code{trans.tab} is not 11, see below). This function will locate all ORFs in a genome.
 
 The argument \code{genome} will typically have several sequences (chromosomes/plasmids/scaffolds/contigs).
 It is vital that the \emph{first token} (characters before first space) of every \code{genome$Header} is

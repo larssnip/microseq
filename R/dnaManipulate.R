@@ -6,10 +6,10 @@
 #' @param nuc.sequences Character vector containing the nucleotide sequences.
 #' @param M.start A logical indicating if the amino acid sequence should start with M regardless of start codon (ATG, GTG or TTG).
 #' @param no.stop A logical indicating if terminal stops (*) should be eliminated from the translated sequence
-#' @param trans.tab Translation table, either 1 or 4
+#' @param trans.tab Translation table, either 11 or 4
 #' 
-#' @details Translating DNA or RNA to protein. Possible start codons are ATG, GTG or TTG. Stop codons are TAA, TGA, TAG. All codons are
-#' translated accoring to the Stadard geneti code. This is translation table 1. The only alternative implemented here is translation 
+#' @details Translating DNA or RNA to protein. Possible start codons are ATG, GTG or TTG. Stop codons are TAA, TGA, TAG. Codons are
+#' by default translated accoring to translation table 11. The only alternative implemented here is translation 
 #' table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma). If \code{trans.tab} is 4, the stop codon TGA is 
 #' translated to W (Tryptophan).
 #' 
@@ -23,7 +23,7 @@
 #' translate(fdta$Sequence)
 #' 
 #' @export
-translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab = 1){
+translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab = 11){
   nuc.sequences <- gsub("U", "T", toupper(nuc.sequences))
   if(M.start) nuc.sequences <- gsub("^GTG|^TTG", "ATG", nuc.sequences)
   prot.sequences <- transl(nuc.sequences, trans.tab)

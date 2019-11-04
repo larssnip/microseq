@@ -67,7 +67,7 @@ Rcpp::DataFrame ORF_index(SEXP Tags, SEXP Sequence, int trans_tab) {
               ret = 2;
             } else {
               if(C2 == "G"){
-                if(trans_tab == 1){
+                if(trans_tab == 11){
                   ret = 2;
                 } else {
                   ret = 0;
