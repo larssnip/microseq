@@ -9,7 +9,7 @@
 #' 
 #' @details A prokaryotic Open Reading Frame (ORF) is defined as a subsequence starting with a  start-codon
 #' (ATG, GTG or TTG), followed by an integer number of triplets (codons), and ending with a stop-codon (TAA,
-#' TGA or TAG, unless \code{trans.tab} is not 11, see below). This function will locate all ORFs in a genome.
+#' TGA or TAG, unless \code{trans.tab = 4}, see below). This function will locate all such ORFs in a genome.
 #' 
 #' The argument \code{genome} will typically have several sequences (chromosomes/plasmids/scaffolds/contigs).
 #' It is vital that the \emph{first token} (characters before first space) of every \code{genome$Header} is
@@ -26,16 +26,16 @@
 #' 
 #' By default the genome sequences are assumed to be linear, i.e. contigs or other incomplete fragments
 #' of a genome. In such cases there will usually be some truncated ORFs at each end, i.e. ORFs where either
-#' the start- or the stop-codon is lacking. In the \code{gff.table} returned by this function this is marked in the
+#' the start- or the stop-codon is lacking. In the \code{orf.table} returned by this function this is marked in the
 #' Attributes column. The texts "Truncated=10" or "Truncated=01" indicates truncated at 
-#' the Start or End, respectively. If the supplied \code{genome} is a completed genome, with 
-#' circular chromosome/plasmids, set the flag \code{circular=TRUE} and no truncated ORFs will be listed.
+#' the beginning or end of the genomic sequence, respectively. If the supplied \code{genome} is a completed genome, with 
+#' circular chromosome/plasmids, set the flag \code{circular = TRUE} and no truncated ORFs will be listed.
 #' In cases where an ORF runs across the origin of a circular genome sequences, the Stop coordinate will be
 #' larger than the length of the genome sequence. This is in line with the specifications of the GFF3 format, where 
 #' a Start cannot be larger than the corresponding End.
 #' 
-#' @return This function returns a \code{gff.table}, which is simply a \code{\link{tibble}} with columns
-#' adhering to the format specified by the GFF3 format, see \code{\link{readGFF}}. If you want to retrieve
+#' @return This function returns an \code{orf.table}, which is simply a \code{\link{tibble}} with columns
+#' adhering to the GFF3 format specifications (a \code{gff.table}), see \code{\link{readGFF}}. If you want to retrieve
 #' the ORF sequences, use \code{\link{gff2fasta}}.
 #' 
 #' 
@@ -52,63 +52,127 @@
 #' genome <- readFasta(genome.file)
 #' orf.tbl <- findOrfs(genome)
 #' 
-#' # Computing ORF-lengths
-#' orf.lengths <- orfLength(orf.tbl)
-#' 
-#' # Filtering to retrieve the LORFs only
-#' lorf.table <- lorfs(orf.tbl)
+#' # Pipeline for finding LORFs of minimum length 100 amino acids
+#' # and collecting their sequences from the genome
+#' findOrfs(genome) %>% 
+#'  lorfs() %>% 
+#'  filter(orfLength(., aa = T) > 100) %>% 
+#'  gff2fasta(genome) -> lorf.fasta
 #' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble as_tibble
+#' @importFrom dplyr mutate right_join filter bind_rows select if_else
+#' @importFrom stringr word str_length
 #' 
 #' @export findOrfs
 #' 
 findOrfs <- function(genome, circular = F, trans.tab = 11){
-  tags <- sapply(strsplit(genome$Header, split = " "), function(x){x[1]})
-  if(length(unique(tags)) != length(tags)) stop("First token in the Headers must be unique!")
-  NC <- nchar(genome$Sequence)
-  names(NC) <- tags
-  orf.table <- ORF_index(tags, genome$Sequence, trans.tab)
-  orf.table$Seqid <- as.character(orf.table$Seqid)
+  genome %>% 
+    mutate(Header = word(Header, 1, 1)) %>% 
+    mutate(Length = str_length(Sequence)) -> genome
+  if(length(unique(genome$Header)) != length(genome$Header)) stop("First token in the Headers must be unique!")
+  ORF_index(genome$Header, genome$Sequence, trans.tab) %>% 
+    as_tibble() %>% 
+    mutate(Seqid = as.character(Seqid)) -> orf.table
   if(circular){
-    idx <- which(orf.table$Truncated != 0)
-    otn <- circularize(orf.table[idx,], NC)
-    orf.table <- rbind(orf.table[-idx,], otn)
+    orf.table %>% 
+      right_join(genome, by = c("Seqid" = "Header")) -> ott
+    otn <- circularize(ott, trans.tab)
+    orf.table %>% 
+      filter(Truncated == 0) %>% 
+      bind_rows(otn) -> orf.table
   }
-  nr <- nrow(orf.table)
-  dStrand <- rep("+", nr)
-  dStrand[orf.table$Strand < 0] <- "-"
-  dAttribute <- rep("Truncated=00", nr)
-  dAttribute[orf.table$Truncated > 0] <- "Truncated=10"
-  dAttribute[orf.table$Truncated < 0] <- "Truncated=01"
-  gff.table <- tibble(Seqid      = orf.table$Seqid,
-                      Source     = rep( "micropan::findOrfs", nr ),
-                      Type       = rep( "ORF", nr ),
-                      Start      = orf.table$Start,
-                      End        = orf.table$End,
-                      Score      = rep( NA, nr ),
-                      Strand     = dStrand,
-                      Phase      = rep( 0, nr ),
-                      Attributes = dAttribute)
-  return(gff.table)
+  orf.table %>% 
+    mutate(Strand = if_else(Strand > 0, "+", "-")) %>% 
+    mutate(Attributes = "Truncated=00") %>% 
+    mutate(Attributes = if_else(Truncated > 0, "Truncated=10", Attributes)) %>% 
+    mutate(Attributes = if_else(Truncated < 0, "Truncated=01", Attributes)) %>% 
+    mutate(Source = "micropan::findOrfs") %>% 
+    mutate(Type = "ORF", Score = NA, Phase = 0) %>% 
+    select(Seqid, Source, Type, Start, End, Score, Strand, Phase, Attributes) -> orf.table
+  return(orf.table)
+}
+
+# Local function
+circularize <- function(ot, trans.tab){
+  ugs <- unique(ot$Seqid)
+  otn <- NULL
+  for(i in 1:length(ugs)){
+    ot %>% 
+      filter(Seqid == ugs[i]) -> otg
+    if(max(otg$Truncated) != min(otg$Truncated)){
+      gseq.pre  <- str_sub(otg$Sequence[1], 1, 10000)
+      gseq.post <- str_sub(otg$Sequence[1], -10000, -1)
+      dd <- otg$Length[1] - str_length(gseq.post)
+      ORF_index(otg$Seqid[1], str_c(gseq.post, gseq.pre), trans.tab) %>% 
+        as_tibble() %>% 
+        mutate(Seqid = as.character(Seqid)) %>% 
+        filter(Truncated == 0) %>% 
+        mutate(Start = Start + dd) %>% 
+        mutate(End = End + dd) %>% 
+        filter(Start < otg$Length[1] & End > otg$Length[1]) %>% 
+        bind_rows(otn) -> otn
+    }
+  }
+  return(otn)
+}
+
+
+
+
+#' @name orfLength
+#' @title Length of ORF
+#' 
+#' @description Computing the lengths of all ORFs in an \code{orf.table}.
+#' 
+#' @param orf.table A \code{\link{gff.table}} with ORF information.
+#' @param aa Logical, length in amino acids instead of bases.
+#' 
+#' @details Computes the length of an ORF in bases, including the stop codon. However, if \code{aa = TRUE},
+#' then the length is in amino acids after translation. This aa-length is the base-length divided by 3 and minus 1,
+#' unless the ORF is truncated and lacks a stop codon.
+#' 
+#' @return A vector of integers.
+#' 
+#' @author Lars Snipen and Kristian Hovde Liland.
+#' 
+#' @seealso \code{\link{findOrfs}}.
+#' 
+#' @examples # See the example in the Help-file for findOrfs.
+#' 
+#' @importFrom dplyr mutate if_else %>% 
+#' 
+#' @export orfLength
+#' 
+orfLength <- function(orf.table, aa = FALSE){
+  orf.table %>% 
+    mutate(Length = abs(Start - End) + 1) -> orf.table
+  if(aa){
+    orf.table %>% 
+      mutate(Length = Length / 3) %>% 
+      mutate(Length = if_else((str_detect(Attributes, "Truncated=01") & Strand == "+")
+                              |(str_detect(Attributes, "Truncated=10") & Strand == "-"),
+                              Length, Length - 1)) -> orf.table
+  }
+  return(orf.table$Length)
 }
 
 
 #' @name lorfs
 #' @title Longest ORF
 #' 
-#' @description Filtering a \code{gff.table} with ORF information to keep only the LORFs.
+#' @description Filtering an \code{orf.table} with ORF information to keep only the LORFs.
 #' 
-#' @param gff.table A \code{gff.table} (\code{tibble}) with genomic features information.
+#' @param orf.table A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).
 #' 
 #' @details For every stop-codon there are usually multiple possible start-codons in the same reading
 #' frame (nested ORFs). The LORF (Longest ORF) is defined as the longest of these nested ORFs,
 #' i.e. the ORF starting at the most upstream start-codon matching the stop-codon.
 #' 
-#' @return A \code{gff.table} with a subset of the rows of the argument \code{gff.table}. 
-#' After this filtering the Type variable in \code{gff.table} is changed to \code{"LORF"}. If you want to
-#' retirve the LORF sequences, use \code{\link{gff2fasta}}.
+#' @return A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.table}. 
+#' After this filtering the Type variable in \code{orf.table} is changed to \code{"LORF"}. If you want to
+#' retrieve the LORF sequences, use \code{\link{gff2fasta}}.
 #' 
 #' @author Lars Snipen and Kristian Hovde Liland.
 #' 
@@ -116,67 +180,18 @@ findOrfs <- function(genome, circular = F, trans.tab = 11){
 #' 
 #' @examples # See the example in the Help-file for findOrfs.
 #' 
-#' @importFrom dplyr mutate arrange distinct %>% 
+#' @importFrom dplyr mutate arrange distinct select %>% 
 #' 
 #' @export lorfs
 #' 
-lorfs <- function(gff.table){
-  gff.table %>% 
-    mutate(Length = abs(Start - End) + 1) %>% 
+lorfs <- function(orf.table){
+  orf.table %>% 
+    mutate(Length = orfLength(.)) %>% 
     arrange(desc(Length)) %>% 
     mutate(End.end = if_else(Strand == "+", End, Start)) %>% 
     mutate(Signature = str_c(Seqid, End.end, Strand)) %>% 
     distinct(Signature, .keep_all = T) %>% 
-    mutate(Type = "LORF") -> lorf.tbl
+    mutate(Type = "LORF") %>% 
+    select(-End.end, -Signature, -Length) -> lorf.tbl
   return(lorf.tbl)
-}
-
-
-
-
-
-
-
-
-
-
-
-# Local function
-circularize <- function(ott, NC){
-  tags <- names(NC)
-  ugs <- unique(ott$Seqid)
-  # otn is the NEW table, where we have spliced the ORFs truncated at each end
-  # It is impossible to know how many ORF we will end up with!
-  otn <- data.frame(Seqid = NULL, Start = NULL, End = NULL, Strand = NULL, Truncated = NULL,
-                    stringsAsFactors = F)
-  for(i in 1:length(ugs)){
-    idx <- which(tags == ugs[i])                  # ugs[i] is genome sequence idx
-    ottg <- ott[which( ott$Seqid == ugs[i] ),]    # orfs from sequence idx
-    nr <- nrow(ottg)
-    if(nr > 0){                          # there are truncated ORFs for this genome sequence
-      ixd <- which(ottg$Truncated > 0)   # incomplete starts
-      ni <- length(ixd)
-      if((ni > 0) & (ni < nr)){          # we need some with truncated starts, but also some
-                                         # with truncated stops!
-        ottg1 <- ottg[ixd,]              # those with truncated starts
-        nb1 <- ottg1$End                 # number of bases from origin to start
-        ottg2 <- ottg[-ixd,]               # those with truncated stops
-        nb2 <- NC[idx] - ottg2$Start + 1   # number of bases before origin
-        for(j in 1:length( nb1 )){
-          idd <- which(((nb2+nb1[j]) %% 3) == 0 & ottg2$Strand == ottg1$Strand[j])
-          nd <- length(idd)
-          if(nd > 0){
-            otn <- rbind(otn,
-                          data.frame(Seqid     = rep(ugs[i], nd),
-                                     Start     = ottg2$Start[idd],
-                                     End       = NC[idx]+rep(ottg1$End[j], nd),
-                                     Strand    = ottg2$Strand[idd],
-                                     Truncated = rep(0, nd),
-                                     stringsAsFactors = F))
-          }
-        }
-      } 
-    }
-  }
-  return(otn)
 }

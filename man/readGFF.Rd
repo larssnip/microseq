@@ -11,7 +11,7 @@ writeGFF(gff.table, out.file)
 \arguments{
 \item{in.file}{Name of file with a GFF-table.}
 
-\item{gff.table}{A table (\code{tibble} or \code{data.frame}) with genomic features information.}
+\item{gff.table}{A table (\code{tibble}) with genomic features information.}
 
 \item{out.file}{Name of file.}
 }

@@ -14,8 +14,8 @@ findOrfs(genome, circular = F, trans.tab = 11)
 \item{trans.tab}{Translation table}
 }
 \value{
-This function returns a \code{gff.table}, which is simply a \code{\link{tibble}} with columns
-adhering to the format specified by the GFF3 format, see \code{\link{readGFF}}. If you want to retrieve
+This function returns an \code{orf.table}, which is simply a \code{\link{tibble}} with columns
+adhering to the GFF3 format specifications (a \code{gff.table}), see \code{\link{readGFF}}. If you want to retrieve
 the ORF sequences, use \code{\link{gff2fasta}}.
 }
 \description{
@@ -24,7 +24,7 @@ Finds all ORFs in prokaryotic genome sequences.
 \details{
 A prokaryotic Open Reading Frame (ORF) is defined as a subsequence starting with a  start-codon
 (ATG, GTG or TTG), followed by an integer number of triplets (codons), and ending with a stop-codon (TAA,
-TGA or TAG, unless \code{trans.tab} is not 11, see below). This function will locate all ORFs in a genome.
+TGA or TAG, unless \code{trans.tab = 4}, see below). This function will locate all such ORFs in a genome.
 
 The argument \code{genome} will typically have several sequences (chromosomes/plasmids/scaffolds/contigs).
 It is vital that the \emph{first token} (characters before first space) of every \code{genome$Header} is
@@ -41,10 +41,10 @@ with \code{\link{lorfs}}.
 
 By default the genome sequences are assumed to be linear, i.e. contigs or other incomplete fragments
 of a genome. In such cases there will usually be some truncated ORFs at each end, i.e. ORFs where either
-the start- or the stop-codon is lacking. In the \code{gff.table} returned by this function this is marked in the
+the start- or the stop-codon is lacking. In the \code{orf.table} returned by this function this is marked in the
 Attributes column. The texts "Truncated=10" or "Truncated=01" indicates truncated at 
-the Start or End, respectively. If the supplied \code{genome} is a completed genome, with 
-circular chromosome/plasmids, set the flag \code{circular=TRUE} and no truncated ORFs will be listed.
+the beginning or end of the genomic sequence, respectively. If the supplied \code{genome} is a completed genome, with 
+circular chromosome/plasmids, set the flag \code{circular = TRUE} and no truncated ORFs will be listed.
 In cases where an ORF runs across the origin of a circular genome sequences, the Stop coordinate will be
 larger than the length of the genome sequence. This is in line with the specifications of the GFF3 format, where 
 a Start cannot be larger than the corresponding End.
@@ -58,11 +58,12 @@ genome.file <- file.path(xpth,"small_genome.fasta")
 genome <- readFasta(genome.file)
 orf.tbl <- findOrfs(genome)
 
-# Computing ORF-lengths
-orf.lengths <- orfLength(orf.tbl)
-
-# Filtering to retrieve the LORFs only
-lorf.table <- lorfs(orf.tbl)
+# Pipeline for finding LORFs of minimum length 100 amino acids
+# and collecting their sequences from the genome
+findOrfs(genome) \%>\% 
+ lorfs() \%>\% 
+ filter(orfLength(., aa = T) > 100) \%>\% 
+ gff2fasta(genome) -> lorf.fasta
 
 }
 \seealso{

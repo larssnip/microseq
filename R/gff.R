@@ -55,37 +55,6 @@ gff2fasta <- function(gff.table, genome){
 }
 
 
-# gff2fasta <- function(gff.table, genome){
-#   genome %>% 
-#     mutate(Header = word(Header, 1, 1)) %>% 
-#     distinct(Header) %>% 
-#     as.character() -> tagz
-#   if(sum(is.na(match(unique(gff.table$Seqid), tagz))) > 0)
-#     stop( "Seqid's in the gff.table do not match the genome$Header" )
-#   
-#   gff.table %>% 
-#     mutate(Header = str_c("Seqid=", Seqid, ";Start=", Start, ";End=", End, ";Strand=", Strand)) %>% 
-#     mutate(Sequence = "") %>% 
-#     select(Header, Sequence) -> fobj
-#   gff.table %>% 
-#     mutate(Strand = if_else(Strand == "+", 1, -1)) -> gff.table
-#   for(i in 1:length(tagz)){
-#     idx <- which(gff.table$Seqid == tagz[i])
-#     seq <- extractSeq(genome$Sequence[i], 
-#                       gff.table$Start[idx], 
-#                       gff.table$End[idx], 
-#                       gff.table$Strand[idx])
-#     idd <- which(gff.table$Strand[idx] < 0)
-#     seq[idd] <- reverseComplement(seq[idd])
-#     fobj$Sequence[idx] <- seq
-#   }
-#   class(fobj) <- c("Fasta", "data.frame")
-#   return(fobj)
-# }
-
-
-
-
 
 #' @name readGFF
 #' @title Reading and writing GFF-tables
@@ -97,7 +66,7 @@ gff2fasta <- function(gff.table, genome){
 #' writeGFF(gff.table, out.file)
 #' 
 #' @param in.file Name of file with a GFF-table.
-#' @param gff.table A table (\code{tibble} or \code{data.frame}) with genomic features information.
+#' @param gff.table A table (\code{tibble}) with genomic features information.
 #' @param out.file Name of file.
 #' 
 #' @details A GFF-table is simply a \code{\link{tibble}} with columns

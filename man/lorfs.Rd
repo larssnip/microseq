@@ -4,18 +4,18 @@
 \alias{lorfs}
 \title{Longest ORF}
 \usage{
-lorfs(gff.table)
+lorfs(orf.table)
 }
 \arguments{
-\item{gff.table}{A \code{gff.table} (\code{tibble}) with genomic features information.}
+\item{orf.table}{A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).}
 }
 \value{
-A \code{gff.table} with a subset of the rows of the argument \code{gff.table}. 
-After this filtering the Type variable in \code{gff.table} is changed to \code{"LORF"}. If you want to
-retirve the LORF sequences, use \code{\link{gff2fasta}}.
+A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.table}. 
+After this filtering the Type variable in \code{orf.table} is changed to \code{"LORF"}. If you want to
+retrieve the LORF sequences, use \code{\link{gff2fasta}}.
 }
 \description{
-Filtering a \code{gff.table} with ORF information to keep only the LORFs.
+Filtering an \code{orf.table} with ORF information to keep only the LORFs.
 }
 \details{
 For every stop-codon there are usually multiple possible start-codons in the same reading
