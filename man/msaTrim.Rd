@@ -7,14 +7,14 @@
 msaTrim(msa, gap.end = 0.5, gap.mid = 0.9)
 }
 \arguments{
-\item{msa}{A \code{Fasta} object containing a multiple alignment.}
+\item{msa}{A fasta object containing a multiple alignment.}
 
 \item{gap.end}{Fraction of gaps tolerated at the ends of the alignment (0-1).}
 
 \item{gap.mid}{Fraction of gaps tolerated inside the alignment (0-1).}
 }
 \value{
-The trimmed alignment is returned as a \code{Fasta} object.
+The trimmed alignment is returned as a fasta object.
 }
 \description{
 Trimming a multiple sequence alignment by discarding columns with too many gaps.
@@ -24,25 +24,24 @@ A multiple alignment is trimmed by removing columns with too many indels (gap-sy
 columns containing a fraction of gaps larger than \code{gap.mid} are discarded. For this reason, \code{gap.mid}
 should always be farily close to 1.0 therwise too many columns may be discarded, destroying the alignment.
 
-Due to the
-heuristics of multiple alignment methods, both ends of the alignment tend to be uncertain and most
+Due to the heuristics of multiple alignment methods, both ends of the alignment tend to be uncertain and most
 of the trimming should be done at the ends. Starting at each end, columns are discarded as long as their fraction of gaps
 surpasses \code{gap.end}. Typically \code{gap.end} can be much smaller than \code{gap.mid}, but if 
 set too low you risk that all columns are discarded!
 }
 \examples{
 \dontrun{
-xpth <- file.path(path.package("microseq"),"extdata")
-msa.file <- file.path(xpth, "msa.fasta")
+msa.file <- file.path(file.path(path.package("microseq"),"extdata"), "msa.fasta")
 msa <- readFasta(msa.file)
-print(nchar(msa$Sequence))
+print(str_length(msa$Sequence))
 msa.trimmed <- msaTrim(msa)
-print(nchar(msa.trimmed$Sequence))
+print(str_length(msa.trimmed$Sequence))
+msa.mat <- msa2mat(msa)  # for use with as.DNAbin(msa.mat)
 }
 
 }
 \seealso{
-\code{\link{muscle}}.
+\code{\link{muscle}}, \code{\link{msalign}}.
 }
 \author{
 Lars Snipen.

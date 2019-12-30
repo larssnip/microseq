@@ -7,7 +7,7 @@
 findrRNA(genome.file, bacteria = TRUE, cpu = 1)
 }
 \arguments{
-\item{genome.file}{A fasta-formatted file with the genome sequence(s).}
+\item{genome.file}{A FASTA file with the genome sequence(s).}
 
 \item{bacteria}{Logical, the genome is either a bacteria (default) or an archea.}
 

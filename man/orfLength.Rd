@@ -4,10 +4,10 @@
 \alias{orfLength}
 \title{Length of ORF}
 \usage{
-orfLength(orf.table, aa = FALSE)
+orfLength(orf.tbl, aa = FALSE)
 }
 \arguments{
-\item{orf.table}{A \code{\link{gff.table}} with ORF information.}
+\item{orf.tbl}{A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).}
 
 \item{aa}{Logical, length in amino acids instead of bases.}
 }
@@ -18,9 +18,9 @@ A vector of integers.
 Computing the lengths of all ORFs in an \code{orf.table}.
 }
 \details{
-Computes the length of an ORF in bases, including the stop codon. However, if \code{aa = TRUE},
-then the length is in amino acids after translation. This aa-length is the base-length divided by 3 and minus 1,
-unless the ORF is truncated and lacks a stop codon.
+Computes the length of an ORF in bases, including the stop codon. However, if
+\code{aa = TRUE}, then the length is in amino acids after translation. This aa-length is the
+base-length divided by 3 and minus 1, unless the ORF is truncated and lacks a stop codon.
 }
 \examples{
 # See the example in the Help-file for findOrfs.

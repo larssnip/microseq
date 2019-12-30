@@ -48,18 +48,17 @@ Missing values are described by \code{"."} in the GFF3 format. This is also done
 numerical columns Start, End, Score and Phase. Here \code{NA} is used, but this is replaced by
 \code{"."} when writing to file.
 
-The \code{readGFF} function will also read files where sequences in FASTA format are added after the GFF-table.
-This file section must always start with the line \code{##FASTA}. This \code{\link{Fasta}} object is added to
-the GFF-table as an attribute (use \code{attr(gff.tbl, "Fasta")} to retrieve it).
+The \code{readGFF} function will also read files where sequences in FASTA format are added after
+the GFF-table. This file section must always start with the line \code{##FASTA}. This fasta object
+is added to the GFF-table as an attribute (use \code{attr(gff.tbl, "FASTA")} to retrieve it).
 }
 \examples{
 # Using a GFF file in this package
 xpth <- file.path(path.package("microseq"),"extdata")
 gff.file <- file.path(xpth,"small.gff")
 
-# Reading gff-file and print signature
+# Reading gff-file
 gff.tbl <- readGFF(gff.file)
-print(gffSignature(gff.tbl))
 
 }
 \seealso{

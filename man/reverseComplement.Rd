@@ -18,13 +18,22 @@ A character vector of reverse-complemented sequences.
 The standard reverse-complement of nucleotide sequences.
 }
 \details{
-This function uses the Biostrings::reverseComplement function.
+With \samp{reverse = FALSE} the DNA sequence is only complemented, not reversed.
+
+This function will handle the IUPAC ambiguity symbols, i.e. \samp{R} is
+reverse-complemented to \samp{Y} etc.
 }
 \examples{
-ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-fdta <- readFasta(ex.file)
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
+fdta <- readFasta(fa.file)
 reverseComplement(fdta$Sequence)
 
+#' # Or, make use of dplyr to manipulate tables
+readFasta(fa.file) \%>\% mutate(RevComp = reverseComplement(Sequence)) -> fa.tbl
+
+}
+\seealso{
+\code{\link{iupac2regex}}, \code{\link{regex2iupac}}.
 }
 \author{
 Lars Snipen and Kristian Hovde Liland.

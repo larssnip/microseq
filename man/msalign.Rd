@@ -7,19 +7,19 @@
 msalign(fdta, machine = "muscle")
 }
 \arguments{
-\item{fdta}{A \code{Fasta} object with input sequences.}
+\item{fdta}{A fasta object (\code{tibble}) with input sequences.}
 
 \item{machine}{Function that does the 'dirty work'.}
 }
 \value{
-Results are returned as a \code{Fasta} object.
+Results are returned as a fasta object, i.e. a \code{\link{tibble}} with columns \samp{Header} and \samp{Sequence}.
 }
 \description{
 Quickly computing a smallish multiple sequence alignment.
 }
 \details{
-This function computes a multiple sequence alignment given a set of sequences in a \code{Fasta} object,
-see \code{\link{readFasta}} for more on \code{Fasta} objects.
+This function computes a multiple sequence alignment given a set of sequences in a fasta object,
+see \code{\link{readFasta}} for more on fasta objects.
 
 It is merely a wrapper for the function named in \code{machine} to avoid explicit writing and reading of files.
 This function should only be used for small data sets, since no result files are stored. For heavier jobs,
@@ -32,8 +32,8 @@ Note that this function will run \code{\link{muscle}} with default settings, whi
 }
 \examples{
 \dontrun{
-ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-fdta <- readFasta(ex.file)
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
+fdta <- readFasta(fa.file)
 msa <- msalign(fdta)
 }
 

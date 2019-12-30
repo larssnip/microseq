@@ -3,15 +3,19 @@
 #' 
 #' @description Retrieving from a genome the sequences specified in a \code{gff.table}.
 #' 
-#' @param gff.table A \code{gff.table} (\code{data.frame}) with genomic features information.
-#' @param genome A \code{\link{Fasta}} object with the genome sequence(s).
+#' @usage gff2fasta(gff.table, genome)
+#' 
+#' @param gff.table A \code{gff.table} (\code{tibble}) with genomic features information.
+#' @param genome A fasta object (\code{tibble}) with the genome sequence(s).
 #' 
 #' @details Each row in \code{gff.table} (see \code{\link{readGFF}}) describes a genomic feature
-#' in the \code{genome}. The information in the columns Seqid, Start, End and Strand are used to retrieve
-#' the sequences from \code{genome$Sequence}. Every Seqid in the \code{gff.table}
-#' must match the first token in one of the \code{genome$Header} texts.
+#' in the \code{genome}, which is a \code{\link{tibble}} with columns \samp{Header} and
+#' \samp{Sequence}. The information in the columns Seqid, Start, End and Strand are used to
+#' retrieve the sequences from the \samp{Sequence} column of \code{genome}. Every Seqid in
+#' the \code{gff.table} must match the first token in one of the \samp{Header} texts, in
+#' order to retrieve from the correct \samp{Sequence}. 
 #' 
-#' @return A \code{\link{Fasta}} object with one row for each row in \code{gff.table}. 
+#' @return A fasta object with one row for each row in \code{gff.table}. 
 #' The \code{Header} for each sequence is a summary of the information in the
 #' corresponding row of \code{gff.table}.
 #' 
@@ -25,14 +29,15 @@
 #' gff.file <- file.path(xpth,"small.gff")
 #' genome.file <- file.path(xpth,"small_genome.fasta")
 #' 
-#' # Reading
-#' gff.table <- readGFF(gff.file)
+#' # Reading the genome first
 #' genome <- readFasta(genome.file)
 #' 
 #' # Retrieving sequences
-#' fasta.obj <- gff2fasta(gff.table, genome)
-#' summary(fasta.obj)
-#' plot(fasta.obj)
+#' gff.table <- readGFF(gff.file)
+#' fasta.tbl <- gff2fasta(gff.table, genome)
+#' 
+#' # Alternative, using piping
+#' readGFF(gff.file) %>% gff2fasta(genome) -> fasta.tbl
 #' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
@@ -93,9 +98,9 @@ gff2fasta <- function(gff.table, genome){
 #' numerical columns Start, End, Score and Phase. Here \code{NA} is used, but this is replaced by
 #' \code{"."} when writing to file.
 #' 
-#' The \code{readGFF} function will also read files where sequences in FASTA format are added after the GFF-table.
-#' This file section must always start with the line \code{##FASTA}. This \code{\link{Fasta}} object is added to
-#' the GFF-table as an attribute (use \code{attr(gff.tbl, "Fasta")} to retrieve it).
+#' The \code{readGFF} function will also read files where sequences in FASTA format are added after
+#' the GFF-table. This file section must always start with the line \code{##FASTA}. This fasta object
+#' is added to the GFF-table as an attribute (use \code{attr(gff.tbl, "FASTA")} to retrieve it).
 #' 
 #' @return \code{readGFF} returns a \code{gff.table} with the columns described above.
 #' 
@@ -110,9 +115,8 @@ gff2fasta <- function(gff.table, genome){
 #' xpth <- file.path(path.package("microseq"),"extdata")
 #' gff.file <- file.path(xpth,"small.gff")
 #' 
-#' # Reading gff-file and print signature
+#' # Reading gff-file
 #' gff.tbl <- readGFF(gff.file)
-#' print(gffSignature(gff.tbl))
 #' 
 #' @importFrom stringr str_split str_c
 #' @importFrom tibble tibble as_tibble
@@ -125,6 +129,7 @@ readGFF <- function(in.file){
   lines <- readLines(fil)
   close(fil)
   fasta.idx <- grep("##FASTA", lines)
+  cn <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
   if(length(lines) > 1){
     if(length(fasta.idx) > 0){
       lns1 <- lines[1:fasta.idx]
@@ -139,24 +144,24 @@ readGFF <- function(in.file){
                     Sequence = sapply(1:(length(idx)-1), function(ii){
                       str_c(lns2[(idx[ii]+1):(idx[ii+1]-1)], collapse = "")
                     }))
-      attr(gff.table, "Fasta") <- fsa
+      attr(gff.table, "FASTA") <- fsa
     } else {
       gff.table <- as_tibble(str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T))
       if(ncol(gff.table) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(gff.table))
-      colnames(gff.table) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
+      colnames(gff.table) <- cn
       gff.table %>% 
         mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
     }
   } else {
-    gff.table <- tibble("Seqid" = NULL,
-                        "Source" = NULL,
-                        "Type" = NULL,
-                        "Start" = NULL,
-                        "End" = NULL,
-                        "Score" = NULL,
-                        "Strand" = NULL,
-                        "Phase" = NULL,
-                        "Attributes" = NULL)
+    gff.table <- tibble("Seqid" = character(0),
+                        "Source" = character(0),
+                        "Type" = character(0),
+                        "Start" = numeric(0),
+                        "End" = numeric(0),
+                        "Score" = numeric(0),
+                        "Strand" = character(0),
+                        "Phase" = numeric(0),
+                        "Attributes" = character(0))
   }
   return(gff.table)
 }

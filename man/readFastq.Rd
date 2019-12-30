@@ -5,26 +5,23 @@
 \alias{writeFastq}
 \title{Read and write FASTQ files}
 \usage{
-readFastq(in.file, Sanger = FALSE)
+readFastq(in.file)
 writeFastq(fdta, out.file)
 }
 \arguments{
-\item{in.file}{url/directory/name of FASTQ file to read.}
-
-\item{Sanger}{logical indicating if old, multi-line Sanger format is used (default = FALSE).}
+\item{in.file}{url/directory/name of FASTQ file to read, possibly compressed to .gz.}
 
 \item{fdta}{FASTQ object to write.}
 
 \item{out.file}{url/directory/name of FASTQ file to write.}
 }
 \value{
-\code{\link{readFastq}} returns a \code{Fastq} object with the contents of the FASTQ file.
-This is an extension to a \code{data.frame} and contains three columns of text. The first,
-named \samp{Header}, contains the headerlines and the second, named \samp{Sequence}, contains
-the sequences and the third, named \samp{Quality}, contains the base quality scores.
+\code{\link{readFastq}} returns a \code{\link{tibble}} with the contents of the FASTQ
+file stored in three columns of text. The first, named \samp{Header}, contains
+the headerlines, the second, named \samp{Sequence}, contains the sequences and the third, named 
+\samp{Quality} contains the base quality scores.
 
-\code{\link{readFastq}} returns a \code{Fastq} object with the header, sequence and
-quality part of the FASTQ file.
+\code{\link{writeFastq}} produces an uncompressed FASTQ file.
 }
 \description{
 Reads and writes files in the FASTQ format.
@@ -33,32 +30,37 @@ Reads and writes files in the FASTQ format.
 These functions handle input/output of sequences in the commonly used FASTQ format,
 typically used for storing DNA sequences (reads) after sequencing. 
 
-The sequences are stored in a \code{Fastq} object. This is an extension of a \code{data.frame}
-containing three text-columns named \samp{Header}, \samp{Sequence} and \samp{Quality}. If
-other columns are present, these will be ignored by \code{writeFastq}.
-
-The \code{Fastq} object can be treated as a \code{data.frame}, but the generic functions
-\code{\link{plot.Fastq}} and \code{\link{summary.Fastq}} are defined. The \code{data.frame}
-property makes it straightforward to manipulate all headers or all sequences, or to extract
-or delete entries (rows), or to merge several data sets using \code{\link{rbind}}.
-
-A \code{Fastq} object can also be treated as a \code{Fasta} object. Using \code{\link{writeFasta}}
-will write the \code{Fastq} object to a file in \code{Fasta} format.
+The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
+fast and easy manipulations. The content of the file is stored as three columns, \samp{Header},
+\samp{Sequence} and \samp{Quality}. If other columns are added, these will be ignored by
+\code{\link{writeFastq}}.
+}
+\note{
+These functions will only handle files where each entry spans one single line, i.e. not the
+(uncommon) multiline FASTQ format.
 }
 \examples{
 \dontrun{
-ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fastq")
-fdta <- readFastq(ex.file)
-summary(fdta)
+# We need a FASTQ-file to read, here is one example file:
+fq.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fastq")
+
+# Read and write
+fdta <- readFastq(fq.file)
+ok <- writeFastq(fdta[1:3,], out.file = "delete_me.fq")
+
+# Make use of dplyr to copy parts of the file to another file
+readFastq(fq.file) \%>\% 
+  mutate(Length = str_length(Sequence)) \%>\% 
+  filter(Length > 200) \%>\% 
+  writeFasta(out.file = "long_reads.fa") # writing to FASTA file
 }
 
 }
 \seealso{
-code{\link{readFasta}}, \code{\link{plot.Fastq}}, \code{\link{summary.Fastq}}.
+code{\link{readFasta}}.
 }
 \author{
 Lars Snipen and Kristian Hovde Liland.
 }
 \keyword{FASTQ}
-\keyword{Fastq}
 \keyword{sequence}

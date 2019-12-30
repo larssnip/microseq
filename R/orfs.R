@@ -3,16 +3,19 @@
 #' 
 #' @description Finds all ORFs in prokaryotic genome sequences.
 #' 
-#' @param genome A \code{\link{Fasta}} object with the genome sequence(s).
+#' @usage findOrfs(genome, circular = F, trans.tab = 11)
+#' 
+#' @param genome A fasta object (\code{tibble}) with the genome sequence(s).
 #' @param circular Logical indicating if the genome sequences are completed, circular sequences.
-#' @param trans.tab Translation table
+#' @param trans.tab Translation table.
 #' 
 #' @details A prokaryotic Open Reading Frame (ORF) is defined as a subsequence starting with a  start-codon
 #' (ATG, GTG or TTG), followed by an integer number of triplets (codons), and ending with a stop-codon (TAA,
 #' TGA or TAG, unless \code{trans.tab = 4}, see below). This function will locate all such ORFs in a genome.
 #' 
-#' The argument \code{genome} will typically have several sequences (chromosomes/plasmids/scaffolds/contigs).
-#' It is vital that the \emph{first token} (characters before first space) of every \code{genome$Header} is
+#' The argument \code{genome} is a fasta object, i.e. a table with columns \samp{Header} and \samp{Sequence},
+#' and will typically have several sequences (chromosomes/plasmids/scaffolds/contigs).
+#' It is vital that the \emph{first token} (characters before first space) of every \samp{Header} is
 #' unique, since this will be used to identify these genome sequences in the output.
 #' 
 #' An alternative translation table may be specified, and as of now the only alternative implemented is table 4.
@@ -27,12 +30,12 @@
 #' By default the genome sequences are assumed to be linear, i.e. contigs or other incomplete fragments
 #' of a genome. In such cases there will usually be some truncated ORFs at each end, i.e. ORFs where either
 #' the start- or the stop-codon is lacking. In the \code{orf.table} returned by this function this is marked in the
-#' Attributes column. The texts "Truncated=10" or "Truncated=01" indicates truncated at 
+#' \samp{Attributes} column. The texts "Truncated=10" or "Truncated=01" indicates truncated at 
 #' the beginning or end of the genomic sequence, respectively. If the supplied \code{genome} is a completed genome, with 
 #' circular chromosome/plasmids, set the flag \code{circular = TRUE} and no truncated ORFs will be listed.
-#' In cases where an ORF runs across the origin of a circular genome sequences, the Stop coordinate will be
+#' In cases where an ORF runs across the origin of a circular genome sequences, the stop coordinate will be
 #' larger than the length of the genome sequence. This is in line with the specifications of the GFF3 format, where 
-#' a Start cannot be larger than the corresponding End.
+#' a \samp{Start} cannot be larger than the corresponding \samp{End}.
 #' 
 #' @return This function returns an \code{orf.table}, which is simply a \code{\link{tibble}} with columns
 #' adhering to the GFF3 format specifications (a \code{gff.table}), see \code{\link{readGFF}}. If you want to retrieve
@@ -44,9 +47,9 @@
 #' @seealso \code{\link{readGFF}}, \code{\link{gff2fasta}}, \code{\link{lorfs}}.
 #' 
 #' @examples
+#' \dontrun{
 #' # Using a genome file in this package
-#' xpth <- file.path(path.package("microseq"),"extdata")
-#' genome.file <- file.path(xpth,"small_genome.fasta")
+#' genome.file <- file.path(file.path(path.package("microseq"),"extdata"),"small_genome.fasta")
 #' 
 #' # Reading genome and finding orfs
 #' genome <- readFasta(genome.file)
@@ -56,8 +59,9 @@
 #' # and collecting their sequences from the genome
 #' findOrfs(genome) %>% 
 #'  lorfs() %>% 
-#'  filter(orfLength(., aa = T) > 100) %>% 
-#'  gff2fasta(genome) -> lorf.fasta
+#'  filter(orfLength(., aa = TRUE) > 100) %>% 
+#'  gff2fasta(genome) -> lorf.tbl
+#' }
 #' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
@@ -126,12 +130,14 @@ circularize <- function(ot, trans.tab){
 #' 
 #' @description Computing the lengths of all ORFs in an \code{orf.table}.
 #' 
-#' @param orf.table A \code{\link{gff.table}} with ORF information.
+#' @usage orfLength(orf.tbl, aa = FALSE)
+#' 
+#' @param orf.tbl A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).
 #' @param aa Logical, length in amino acids instead of bases.
 #' 
-#' @details Computes the length of an ORF in bases, including the stop codon. However, if \code{aa = TRUE},
-#' then the length is in amino acids after translation. This aa-length is the base-length divided by 3 and minus 1,
-#' unless the ORF is truncated and lacks a stop codon.
+#' @details Computes the length of an ORF in bases, including the stop codon. However, if
+#' \code{aa = TRUE}, then the length is in amino acids after translation. This aa-length is the
+#' base-length divided by 3 and minus 1, unless the ORF is truncated and lacks a stop codon.
 #' 
 #' @return A vector of integers.
 #' 
@@ -141,21 +147,22 @@ circularize <- function(ot, trans.tab){
 #' 
 #' @examples # See the example in the Help-file for findOrfs.
 #' 
-#' @importFrom dplyr mutate if_else %>% 
+#' @importFrom dplyr mutate if_else %>%
+#' @importFrom stringr str_detect
 #' 
 #' @export orfLength
 #' 
-orfLength <- function(orf.table, aa = FALSE){
-  orf.table %>% 
-    mutate(Length = abs(Start - End) + 1) -> orf.table
+orfLength <- function(orf.tbl, aa = FALSE){
+  orf.tbl %>% 
+    mutate(Length = abs(Start - End) + 1) -> orf.tbl
   if(aa){
-    orf.table %>% 
+    orf.tbl %>% 
       mutate(Length = Length / 3) %>% 
       mutate(Length = if_else((str_detect(Attributes, "Truncated=01") & Strand == "+")
                               |(str_detect(Attributes, "Truncated=10") & Strand == "-"),
-                              Length, Length - 1)) -> orf.table
+                              Length, Length - 1)) -> orf.tbl
   }
-  return(orf.table$Length)
+  return(orf.tbl$Length)
 }
 
 
@@ -164,14 +171,16 @@ orfLength <- function(orf.table, aa = FALSE){
 #' 
 #' @description Filtering an \code{orf.table} with ORF information to keep only the LORFs.
 #' 
-#' @param orf.table A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).
+#' @usage lorfs(orf.tbl)
+#' 
+#' @param orf.tbl A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).
 #' 
 #' @details For every stop-codon there are usually multiple possible start-codons in the same reading
 #' frame (nested ORFs). The LORF (Longest ORF) is defined as the longest of these nested ORFs,
 #' i.e. the ORF starting at the most upstream start-codon matching the stop-codon.
 #' 
-#' @return A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.table}. 
-#' After this filtering the Type variable in \code{orf.table} is changed to \code{"LORF"}. If you want to
+#' @return A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.tbl}. 
+#' After this filtering the Type variable in \code{orf.tbl} is changed to \code{"LORF"}. If you want to
 #' retrieve the LORF sequences, use \code{\link{gff2fasta}}.
 #' 
 #' @author Lars Snipen and Kristian Hovde Liland.
@@ -184,8 +193,8 @@ orfLength <- function(orf.table, aa = FALSE){
 #' 
 #' @export lorfs
 #' 
-lorfs <- function(orf.table){
-  orf.table %>% 
+lorfs <- function(orf.tbl){
+  orf.tbl %>% 
     mutate(Length = orfLength(.)) %>% 
     arrange(desc(Length)) %>% 
     mutate(End.end = if_else(Strand == "+", End, Start)) %>% 

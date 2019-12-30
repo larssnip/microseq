@@ -4,14 +4,14 @@
 \alias{lorfs}
 \title{Longest ORF}
 \usage{
-lorfs(orf.table)
+lorfs(orf.tbl)
 }
 \arguments{
-\item{orf.table}{A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).}
+\item{orf.tbl}{A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).}
 }
 \value{
-A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.table}. 
-After this filtering the Type variable in \code{orf.table} is changed to \code{"LORF"}. If you want to
+A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.tbl}. 
+After this filtering the Type variable in \code{orf.tbl} is changed to \code{"LORF"}. If you want to
 retrieve the LORF sequences, use \code{\link{gff2fasta}}.
 }
 \description{

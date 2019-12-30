@@ -3,7 +3,6 @@
 \name{readFasta}
 \alias{readFasta}
 \alias{writeFasta}
-\alias{Fasta}
 \title{Read and write FASTA files}
 \usage{
 readFasta(in.file)
@@ -14,13 +13,13 @@ writeFasta(fdta, out.file, width = 80)
 
 \item{fdta}{A \code{\link{tibble}} with sequence data, see \sQuote{Details} below.}
 
-\item{out.file}{Name of FASTA-file to create.}
+\item{out.file}{Name of FASTA file to create.}
 
-\item{width}{Number of sequence characters per line.}
+\item{width}{Number of characters per line, or 0 for no linebreaks.}
 }
 \value{
-\code{\link{readFasta}} returns a \code{\link{tible}} with the contents of the FASTA file stored in
-two columns of text. The first, named \samp{Header}, contains
+\code{\link{readFasta}} returns a \code{\link{tibble}} with the contents of the FASTA
+file stored in two columns of text. The first, named \samp{Header}, contains
 the headerlines and the second, named \samp{Sequence}, contains the sequences.
 
 \code{\link{writeFasta}} produces a FASTA file.
@@ -33,17 +32,25 @@ These functions handle input/output of sequences in the commonly used FASTA form
 For every sequence it is presumed there is one Header-line starting with a \sQuote{>}.
 
 The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
-fast and easy manipulations. The Header-lines and the sequences are stored in the two columns
-named \samp{Header} and \samp{Sequence}, respectively. If other columns are
-present, these will be ignored by \code{\link{writeFasta}}.
+fast and easy manipulations. The content of the file is stored as two columns, \samp{Header}
+and \samp{Sequence}. If other columns are added, these will be ignored by \code{\link{writeFasta}}.
+
+Setting \code{width = 0} in \code{\link{writeFasta}} results in no linebreaks in the sequences
+(one sequence per line).
 }
 \examples{
 \dontrun{
 # We need a FASTA-file to read, here is one example file:
-ex.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-# Reading a file with name in ex.file
-fdta <- readFasta(ex.file)
-summary(fdta)
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
+
+# Read and write
+fdta <- readFasta(fa.file)
+ok <- writeFasta(fa.file[4:5,], out.file = "delete_me.fasta")
+
+# Make use of dplyr to copy parts of the file to another file
+readFasta(fa.file) \%>\% 
+  filter(str_detect(Sequence, "^ATG")) \%>\% 
+  writeFasta(out.file = "ATGstarts.fasta", width = 0) -> ok
 }
 
 }
@@ -54,5 +61,4 @@ summary(fdta)
 Lars Snipen and Kristian Hovde Liland.
 }
 \keyword{FASTA}
-\keyword{Fasta}
 \keyword{sequence}
