@@ -3,8 +3,6 @@
 #' 
 #' @description Quickly computing a smallish multiple sequence alignment.
 #' 
-#' @usage msalign(fdta, machine = "muscle")
-#' 
 #' @param fdta A fasta object (\code{tibble}) with input sequences.
 #' @param machine Function that does the 'dirty work'.
 #' 
@@ -120,8 +118,6 @@ msaTrim <- function(msa, gap.end = 0.5, gap.mid = 0.9){
 #' @title Convert alignment to matrix
 #' 
 #' @description Converts a FASTA formatted multiple alignment to a matrix.
-#' 
-#' @usage msa2mat(msa)
 #' 
 #' @param msa A fasta object with a multiple alignment, see \code{\link{msalign}}`.
 #' 

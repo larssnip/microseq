@@ -182,14 +182,6 @@ findGenes <- function(genome.file, faa.file = "", ffn.file = "", proc = "single"
 }
 
 
-
-
-
-
-
-
-
-
 ## Non-exported function to gracefully fail when external dependencies are missing.
 available.external <- function(what){
   if(what == "muscle"){

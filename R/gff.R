@@ -3,8 +3,6 @@
 #' 
 #' @description Retrieving from a genome the sequences specified in a \code{gff.table}.
 #' 
-#' @usage gff2fasta(gff.table, genome)
-#' 
 #' @param gff.table A \code{gff.table} (\code{tibble}) with genomic features information.
 #' @param genome A fasta object (\code{tibble}) with the genome sequence(s).
 #' 

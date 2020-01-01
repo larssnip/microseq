@@ -3,8 +3,6 @@
 #' 
 #' @description Finds all ORFs in prokaryotic genome sequences.
 #' 
-#' @usage findOrfs(genome, circular = F, trans.tab = 11)
-#' 
 #' @param genome A fasta object (\code{tibble}) with the genome sequence(s).
 #' @param circular Logical indicating if the genome sequences are completed, circular sequences.
 #' @param trans.tab Translation table.
@@ -130,8 +128,6 @@ circularize <- function(ot, trans.tab){
 #' 
 #' @description Computing the lengths of all ORFs in an \code{orf.table}.
 #' 
-#' @usage orfLength(orf.tbl, aa = FALSE)
-#' 
 #' @param orf.tbl A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).
 #' @param aa Logical, length in amino acids instead of bases.
 #' 
@@ -170,8 +166,6 @@ orfLength <- function(orf.tbl, aa = FALSE){
 #' @title Longest ORF
 #' 
 #' @description Filtering an \code{orf.table} with ORF information to keep only the LORFs.
-#' 
-#' @usage lorfs(orf.tbl)
 #' 
 #' @param orf.tbl A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).
 #' 
