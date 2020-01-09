@@ -23,38 +23,37 @@
 #' 
 #' @examples
 #' # Using two files in this package
-#' xpth <- file.path(path.package("microseq"),"extdata")
-#' gff.file <- file.path(xpth,"small.gff")
-#' genome.file <- file.path(xpth,"small_genome.fasta")
+#' gff.file <- file.path(path.package("microseq"),"extdata","small.gff")
+#' genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 #' 
 #' # Reading the genome first
 #' genome <- readFasta(genome.file)
 #' 
 #' # Retrieving sequences
 #' gff.table <- readGFF(gff.file)
-#' fasta.tbl <- gff2fasta(gff.table, genome)
+#' fa.tbl <- gff2fasta(gff.table, genome)
 #' 
 #' # Alternative, using piping
-#' readGFF(gff.file) %>% gff2fasta(genome) -> fasta.tbl
+#' readGFF(gff.file) %>% gff2fasta(genome) -> fa.tbl
 #' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
 #' @importFrom dplyr mutate rename right_join select if_else %>% 
 #' @importFrom stringr word str_sub str_c
+#' @importFrom rlang .data
 #' 
 #' @export gff2fasta
 #' 
 gff2fasta <- function(gff.table, genome){
   genome %>% 
-    mutate(Header = word(Header, 1, 1)) %>% 
-    rename(Seqid = Header, Gseq = Sequence) %>% 
+    mutate(Header = word(.data$Header, 1, 1)) %>% 
+    rename(Seqid = .data$Header, Gseq = .data$Sequence) %>% 
     right_join(gff.table, by = "Seqid") %>% 
-    mutate(Sequence = str_sub(Gseq, Start, End)) %>% 
-    mutate(Sequence = if_else(Strand == "+", Sequence, reverseComplement(Sequence))) %>% 
-    mutate(Header = str_c("Seqid=", Seqid, ";Start=", Start, ";End=", End, ";Strand=", Strand)) %>% 
-    select(Header, Sequence) -> fsa
-  class(fsa) <- c("Fasta", "data.frame")
-  return(fsa)
+    mutate(Sequence = str_sub(.data$Gseq, .data$Start, .data$End)) %>% 
+    mutate(Sequence = if_else(.data$Strand == "+", .data$Sequence, reverseComplement(.data$Sequence))) %>% 
+    mutate(Header = str_c("Seqid=", .data$Seqid, ";Start=", .data$Start, ";End=", .data$End, ";Strand=", .data$Strand)) %>% 
+    select(.data$Header, .data$Sequence) %>% 
+    return()
 }
 
 
@@ -110,8 +109,7 @@ gff2fasta <- function(gff.table, genome){
 #' 
 #' @examples
 #' # Using a GFF file in this package
-#' xpth <- file.path(path.package("microseq"),"extdata")
-#' gff.file <- file.path(xpth,"small.gff")
+#' gff.file <- file.path(path.package("microseq"),"extdata","small.gff")
 #' 
 #' # Reading gff-file
 #' gff.tbl <- readGFF(gff.file)
@@ -168,6 +166,7 @@ writeGFF <- function(gff.table, out.file){
   sapply(1:nrow(gff.table), function(i){str_c(gff.table[i,], collapse = "\t")}) %>% 
     str_replace_all("\tNA\t", "\t.\t") %>% 
     str_replace_all("\tNA$", "\t.") -> lines
+  out.file <- normalizePath(out.file)
   writeLines(c(line1, lines), con = out.file)
   return(NULL)
 }

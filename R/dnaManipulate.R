@@ -18,12 +18,13 @@
 #' @author Lars Snipen and Kristian Hovde Liland.
 #' 
 #' @examples
-#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-#' fdta <- readFasta(fa.file)
-#' translate(fdta$Sequence)
+#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.ffn")
+#' fa <- readFasta(fa.file)
+#' translate(fa$Sequence)
 #' 
 #' # Or, make use of dplyr to manipulate tables
-#' readFasta(fa.file) %>% mutate(Protein = translate(Sequence)) -> fa.tbl
+#' readFasta(fa.file) %>%
+#'   mutate(Protein = translate(Sequence)) -> fa.tbl
 #' 
 #' @importFrom stringr str_replace_all
 #' 
@@ -58,12 +59,13 @@ translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab =
 #' @seealso \code{\link{iupac2regex}}, \code{\link{regex2iupac}}.
 #' 
 #' @examples 
-#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-#' fdta <- readFasta(fa.file)
-#' reverseComplement(fdta$Sequence)
+#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.ffn")
+#' fa <- readFasta(fa.file)
+#' reverseComplement(fa$Sequence)
 #' 
 #' #' # Or, make use of dplyr to manipulate tables
-#' readFasta(fa.file) %>% mutate(RevComp = reverseComplement(Sequence)) -> fa.tbl
+#' readFasta(fa.file) %>%
+#'   mutate(RevComp = reverseComplement(Sequence)) -> fa.tbl
 #' 
 #' @export reverseComplement
 #' 

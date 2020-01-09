@@ -29,19 +29,18 @@ order to retrieve from the correct \samp{Sequence}.
 }
 \examples{
 # Using two files in this package
-xpth <- file.path(path.package("microseq"),"extdata")
-gff.file <- file.path(xpth,"small.gff")
-genome.file <- file.path(xpth,"small_genome.fasta")
+gff.file <- file.path(path.package("microseq"),"extdata","small.gff")
+genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 
 # Reading the genome first
 genome <- readFasta(genome.file)
 
 # Retrieving sequences
 gff.table <- readGFF(gff.file)
-fasta.tbl <- gff2fasta(gff.table, genome)
+fa.tbl <- gff2fasta(gff.table, genome)
 
 # Alternative, using piping
-readGFF(gff.file) \%>\% gff2fasta(genome) -> fasta.tbl
+readGFF(gff.file) \%>\% gff2fasta(genome) -> fa.tbl
 
 }
 \seealso{

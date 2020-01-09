@@ -41,16 +41,16 @@ Setting \code{width = 0} in \code{\link{writeFasta}} results in no linebreaks in
 \examples{
 \dontrun{
 # We need a FASTA-file to read, here is one example file:
-fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.ffn")
 
 # Read and write
 fdta <- readFasta(fa.file)
-ok <- writeFasta(fa.file[4:5,], out.file = "delete_me.fasta")
+ok <- writeFasta(fdta[4:5,], out.file = "delete_me.fasta")
 
 # Make use of dplyr to copy parts of the file to another file
 readFasta(fa.file) \%>\% 
-  filter(str_detect(Sequence, "^ATG")) \%>\% 
-  writeFasta(out.file = "ATGstarts.fasta", width = 0) -> ok
+  filter(str_detect(Sequence, "TGA$")) \%>\% 
+  writeFasta(out.file = "TGAstop.fasta", width = 0) -> ok
 }
 
 }

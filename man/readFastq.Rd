@@ -42,7 +42,7 @@ These functions will only handle files where each entry spans one single line, i
 \examples{
 \dontrun{
 # We need a FASTQ-file to read, here is one example file:
-fq.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fastq")
+fq.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fastq.gz")
 
 # Read and write
 fdta <- readFastq(fq.file)

@@ -54,8 +54,7 @@ is added to the GFF-table as an attribute (use \code{attr(gff.tbl, "FASTA")} to 
 }
 \examples{
 # Using a GFF file in this package
-xpth <- file.path(path.package("microseq"),"extdata")
-gff.file <- file.path(xpth,"small.gff")
+gff.file <- file.path(path.package("microseq"),"extdata","small.gff")
 
 # Reading gff-file
 gff.tbl <- readGFF(gff.file)

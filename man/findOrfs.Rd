@@ -51,9 +51,8 @@ larger than the length of the genome sequence. This is in line with the specific
 a \samp{Start} cannot be larger than the corresponding \samp{End}.
 }
 \examples{
-\dontrun{
 # Using a genome file in this package
-genome.file <- file.path(file.path(path.package("microseq"),"extdata"),"small_genome.fasta")
+genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 
 # Reading genome and finding orfs
 genome <- readFasta(genome.file)
@@ -65,7 +64,6 @@ findOrfs(genome) \%>\%
  lorfs() \%>\% 
  filter(orfLength(., aa = TRUE) > 100) \%>\% 
  gff2fasta(genome) -> lorf.tbl
-}
 
 }
 \seealso{

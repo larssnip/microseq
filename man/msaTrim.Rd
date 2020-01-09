@@ -30,14 +30,12 @@ surpasses \code{gap.end}. Typically \code{gap.end} can be much smaller than \cod
 set too low you risk that all columns are discarded!
 }
 \examples{
-\dontrun{
-msa.file <- file.path(file.path(path.package("microseq"),"extdata"), "msa.fasta")
+msa.file <- file.path(path.package("microseq"),"extdata", "small.msa")
 msa <- readFasta(msa.file)
 print(str_length(msa$Sequence))
 msa.trimmed <- msaTrim(msa)
 print(str_length(msa.trimmed$Sequence))
-msa.mat <- msa2mat(msa)  # for use with as.DNAbin(msa.mat)
-}
+msa.mat <- msa2mat(msa)  # for use with ape::as.DNAbin(msa.mat)
 
 }
 \seealso{

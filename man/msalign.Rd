@@ -4,37 +4,39 @@
 \alias{msalign}
 \title{Multiple alignment}
 \usage{
-msalign(fdta, machine = "muscle")
+msalign(fsa.tbl, machine = "microseq::muscle")
 }
 \arguments{
-\item{fdta}{A fasta object (\code{tibble}) with input sequences.}
+\item{fsa.tbl}{A fasta object (\code{tibble}) with input sequences.}
 
 \item{machine}{Function that does the 'dirty work'.}
 }
 \value{
-Results are returned as a fasta object, i.e. a \code{\link{tibble}} with columns \samp{Header} and \samp{Sequence}.
+Results are returned as a fasta object, i.e. a \code{\link{tibble}} with columns
+\samp{Header} and \samp{Sequence}.
 }
 \description{
 Quickly computing a smallish multiple sequence alignment.
 }
 \details{
-This function computes a multiple sequence alignment given a set of sequences in a fasta object,
-see \code{\link{readFasta}} for more on fasta objects.
+This function computes a multiple sequence alignment given a set of sequences in
+a fasta object, see \code{\link{readFasta}} for more on fasta objects.
 
-It is merely a wrapper for the function named in \code{machine} to avoid explicit writing and reading of files.
-This function should only be used for small data sets, since no result files are stored. For heavier jobs,
-use the \code{machine} function directly.
+It is merely a wrapper for the function named in \code{machine} to avoid explicit writing
+and reading of files. This function should only be used for small data sets, since no result
+files are stored. For heavier jobs, use the \code{machine} function directly.
 
-At present, the only \code{machine} function implemented is \code{\link{muscle}}, but other third-party \code{machine}s 
-may be included later.
+At present, the only \code{machine} function implemented is \code{\link{muscle}}, but other
+third-party \code{machine}s may be included later.
 
-Note that this function will run \code{\link{muscle}} with default settings, which is fine for small data sets.
+Note that this function will run \code{\link{muscle}} with default settings, which is fine
+for small data sets.
 }
 \examples{
 \dontrun{
-fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-fdta <- readFasta(fa.file)
-msa <- msalign(fdta)
+prot.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.faa")
+faa <- readFasta(prot.file)
+msa <- msalign(faa)
 }
 
 }

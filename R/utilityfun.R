@@ -37,8 +37,6 @@
 #' sequences <- c("ACATGTCATGTCC", "CTTGTATGCTG")
 #' gregexpr("ATG", sequences, extract = TRUE)
 #' 
-#' @keywords gregexpr
-#' 
 #' @export gregexpr
 #' 
 gregexpr <- function(pattern, text, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE, extract = FALSE){

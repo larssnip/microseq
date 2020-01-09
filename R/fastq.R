@@ -36,7 +36,7 @@
 #' @examples 
 #' \dontrun{
 #' # We need a FASTQ-file to read, here is one example file:
-#' fq.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fastq")
+#' fq.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fastq.gz")
 #' 
 #' # Read and write
 #' fdta <- readFastq(fq.file)

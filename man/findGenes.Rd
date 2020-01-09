@@ -59,11 +59,10 @@ The prodigal software must be installed on the system for this function to work,
 \dontrun{
 # This example requires the external prodigal software
 # Using a genome file in this package.
-xpth <- file.path(path.package("microseq"),"extdata")
-genome.file <- file.path(xpth,"small_genome.fasta")
+genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 
-# Searching for coding sequences, and inspecting
-gff.tbl <- findGenes(genome.file)
+# Searching for coding sequences, this is Mycoplasma (trans.tab = 4)
+gff.tbl <- findGenes(genome.file, trans.tab = 4)
 
 # Retrieving the sequences
 genome <- readFasta(genome.file)

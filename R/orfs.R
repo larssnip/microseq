@@ -45,9 +45,8 @@
 #' @seealso \code{\link{readGFF}}, \code{\link{gff2fasta}}, \code{\link{lorfs}}.
 #' 
 #' @examples
-#' \dontrun{
 #' # Using a genome file in this package
-#' genome.file <- file.path(file.path(path.package("microseq"),"extdata"),"small_genome.fasta")
+#' genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 #' 
 #' # Reading genome and finding orfs
 #' genome <- readFasta(genome.file)
@@ -59,61 +58,63 @@
 #'  lorfs() %>% 
 #'  filter(orfLength(., aa = TRUE) > 100) %>% 
 #'  gff2fasta(genome) -> lorf.tbl
-#' }
 #' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr mutate right_join filter bind_rows select if_else
 #' @importFrom stringr word str_length
+#' @importFrom rlang .data
 #' 
 #' @export findOrfs
 #' 
 findOrfs <- function(genome, circular = F, trans.tab = 11){
   genome %>% 
-    mutate(Header = word(Header, 1, 1)) %>% 
-    mutate(Length = str_length(Sequence)) -> genome
+    mutate(Header = word(.data$Header, 1, 1)) %>% 
+    mutate(Length = str_length(.data$Sequence)) -> genome
   if(length(unique(genome$Header)) != length(genome$Header)) stop("First token in the Headers must be unique!")
   ORF_index(genome$Header, genome$Sequence, trans.tab) %>% 
     as_tibble() %>% 
-    mutate(Seqid = as.character(Seqid)) -> orf.table
+    mutate(Seqid = as.character(.data$Seqid)) -> orf.table
   if(circular){
     orf.table %>% 
       right_join(genome, by = c("Seqid" = "Header")) -> ott
     otn <- circularize(ott, trans.tab)
     orf.table %>% 
-      filter(Truncated == 0) %>% 
+      filter(.data$Truncated == 0) %>% 
       bind_rows(otn) -> orf.table
   }
   orf.table %>% 
-    mutate(Strand = if_else(Strand > 0, "+", "-")) %>% 
+    mutate(Strand = if_else(.data$Strand > 0, "+", "-")) %>% 
     mutate(Attributes = "Truncated=00") %>% 
-    mutate(Attributes = if_else(Truncated > 0, "Truncated=10", Attributes)) %>% 
-    mutate(Attributes = if_else(Truncated < 0, "Truncated=01", Attributes)) %>% 
+    mutate(Attributes = if_else(.data$Truncated > 0, "Truncated=10", .data$Attributes)) %>% 
+    mutate(Attributes = if_else(.data$Truncated < 0, "Truncated=01", .data$Attributes)) %>% 
     mutate(Source = "micropan::findOrfs") %>% 
     mutate(Type = "ORF", Score = NA, Phase = 0) %>% 
-    select(Seqid, Source, Type, Start, End, Score, Strand, Phase, Attributes) -> orf.table
+    select(.data$Seqid, .data$Source, .data$Type, .data$Start, .data$End,
+           .data$Score, .data$Strand, .data$Phase, .data$Attributes) -> orf.table
   return(orf.table)
 }
 
 # Local function
+#' @importFrom rlang .data
 circularize <- function(ot, trans.tab){
   ugs <- unique(ot$Seqid)
   otn <- NULL
   for(i in 1:length(ugs)){
     ot %>% 
-      filter(Seqid == ugs[i]) -> otg
+      filter(.data$Seqid == ugs[i]) -> otg
     if(max(otg$Truncated) != min(otg$Truncated)){
       gseq.pre  <- str_sub(otg$Sequence[1], 1, 10000)
       gseq.post <- str_sub(otg$Sequence[1], -10000, -1)
       dd <- otg$Length[1] - str_length(gseq.post)
       ORF_index(otg$Seqid[1], str_c(gseq.post, gseq.pre), trans.tab) %>% 
         as_tibble() %>% 
-        mutate(Seqid = as.character(Seqid)) %>% 
-        filter(Truncated == 0) %>% 
-        mutate(Start = Start + dd) %>% 
-        mutate(End = End + dd) %>% 
-        filter(Start < otg$Length[1] & End > otg$Length[1]) %>% 
+        mutate(Seqid = as.character(.data$Seqid)) %>% 
+        filter(.data$Truncated == 0) %>% 
+        mutate(Start = .data$Start + dd) %>% 
+        mutate(End = .data$End + dd) %>% 
+        filter(.data$Start < otg$Length[1] & .data$End > otg$Length[1]) %>% 
         bind_rows(otn) -> otn
     }
   }
@@ -145,18 +146,19 @@ circularize <- function(ot, trans.tab){
 #' 
 #' @importFrom dplyr mutate if_else %>%
 #' @importFrom stringr str_detect
+#' @importFrom rlang .data
 #' 
 #' @export orfLength
 #' 
 orfLength <- function(orf.tbl, aa = FALSE){
   orf.tbl %>% 
-    mutate(Length = abs(Start - End) + 1) -> orf.tbl
+    mutate(Length = abs(.data$Start - .data$End) + 1) -> orf.tbl
   if(aa){
     orf.tbl %>% 
-      mutate(Length = Length / 3) %>% 
-      mutate(Length = if_else((str_detect(Attributes, "Truncated=01") & Strand == "+")
-                              |(str_detect(Attributes, "Truncated=10") & Strand == "-"),
-                              Length, Length - 1)) -> orf.tbl
+      mutate(Length = .data$Length / 3) %>% 
+      mutate(Length = if_else((str_detect(.data$Attributes, "Truncated=01") & .data$Strand == "+")
+                              |(str_detect(.data$Attributes, "Truncated=10") & .data$Strand == "-"),
+                              .data$Length, .data$Length - 1)) -> orf.tbl
   }
   return(orf.tbl$Length)
 }
@@ -183,18 +185,19 @@ orfLength <- function(orf.tbl, aa = FALSE){
 #' 
 #' @examples # See the example in the Help-file for findOrfs.
 #' 
-#' @importFrom dplyr mutate arrange distinct select %>% 
+#' @importFrom dplyr mutate arrange distinct select desc %>% 
+#' @importFrom rlang .data
 #' 
 #' @export lorfs
 #' 
 lorfs <- function(orf.tbl){
+  Length <- orfLength(orf.tbl)
   orf.tbl %>% 
-    mutate(Length = orfLength(.)) %>% 
-    arrange(desc(Length)) %>% 
-    mutate(End.end = if_else(Strand == "+", End, Start)) %>% 
-    mutate(Signature = str_c(Seqid, End.end, Strand)) %>% 
-    distinct(Signature, .keep_all = T) %>% 
+    mutate(Length = Length) %>% 
+    arrange(desc(.data$Length)) %>% 
+    mutate(End.end = if_else(.data$Strand == "+", .data$End, .data$Start)) %>% 
+    mutate(Signature = str_c(.data$Seqid, .data$End.end, .data$Strand)) %>% 
+    distinct(.data$Signature, .keep_all = T) %>% 
     mutate(Type = "LORF") %>% 
-    select(-End.end, -Signature, -Length) -> lorf.tbl
-  return(lorf.tbl)
+    return()
 }

@@ -33,8 +33,8 @@
 #' 
 #' @examples
 #' \dontrun{
-#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-#' muscle(in.file = fa.file,out.file = "delete_me.fa")
+#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.faa")
+#' muscle(in.file = fa.file, out.file = "delete_me.msa")
 #' }
 #' 
 #' @export muscle
@@ -62,7 +62,7 @@ muscle <- function(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 1
 #' @details The external software barrnap is used to scan through a prokaryotic genome to detect the
 #' rRNA genes (5S, 16S, 23S). This free software can be installed from https://github.com/tseemann/barrnap.
 #' 
-#' @return A \code{gff.table} (see \code{\link{readGFF}} for details) with one row for each detected
+#' @return A GFF-table (see \code{\link{readGFF}} for details) with one row for each detected
 #' rRNA sequence.
 #' 
 #' @note The barrnap software must be installed on the system for this function to work, i.e. the command
@@ -76,8 +76,7 @@ muscle <- function(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 1
 #' \dontrun{
 #' # This example requires the external barrnap software
 #' # Using a genome file in this package.
-#' xpth <- file.path(path.package("microseq"),"extdata")
-#' genome.file <- file.path(xpth,"small_genome.fasta")
+#' genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 #' 
 #' # Searching for rRNA sequences, and inspecting
 #' gff.tbl <- findrRNA(genome.file)
@@ -96,7 +95,7 @@ findrRNA <- function(genome.file, bacteria = TRUE, cpu = 1){
     tmp.file <- tempfile(pattern = "barrnap", fileext = ".gff")
     system(paste("barrnap --quiet --kingdom", kingdom, genome.file, ">", tmp.file))
     gff.table <- readGFF(tmp.file)
-    file.remove(tmp.file)
+    ok <- file.remove(tmp.file)
     return(gff.table)
   }
 }
@@ -144,11 +143,10 @@ findrRNA <- function(genome.file, bacteria = TRUE, cpu = 1){
 #' \dontrun{
 #' # This example requires the external prodigal software
 #' # Using a genome file in this package.
-#' xpth <- file.path(path.package("microseq"),"extdata")
-#' genome.file <- file.path(xpth,"small_genome.fasta")
+#' genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 #' 
-#' # Searching for coding sequences, and inspecting
-#' gff.tbl <- findGenes(genome.file)
+#' # Searching for coding sequences, this is Mycoplasma (trans.tab = 4)
+#' gff.tbl <- findGenes(genome.file, trans.tab = 4)
 #' 
 #' # Retrieving the sequences
 #' genome <- readFasta(genome.file)

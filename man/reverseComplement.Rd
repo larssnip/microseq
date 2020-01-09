@@ -24,12 +24,13 @@ This function will handle the IUPAC ambiguity symbols, i.e. \samp{R} is
 reverse-complemented to \samp{Y} etc.
 }
 \examples{
-fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-fdta <- readFasta(fa.file)
-reverseComplement(fdta$Sequence)
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.ffn")
+fa <- readFasta(fa.file)
+reverseComplement(fa$Sequence)
 
 #' # Or, make use of dplyr to manipulate tables
-readFasta(fa.file) \%>\% mutate(RevComp = reverseComplement(Sequence)) -> fa.tbl
+readFasta(fa.file) \%>\%
+  mutate(RevComp = reverseComplement(Sequence)) -> fa.tbl
 
 }
 \seealso{

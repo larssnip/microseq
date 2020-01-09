@@ -16,19 +16,17 @@ A \code{matrix} where each row is a vector of aligned bases/amino acids.
 Converts a FASTA formatted multiple alignment to a matrix.
 }
 \details{
-This function converts the fasta object \code{msa}, containing a multiple alignment, to a matrix. This means
-each position in the alignment is a column in the matrix, and the content of the \samp{Header} column of \code{msa}
-is used as rownames of theh matrix.
+This function converts the fasta object \code{msa}, containing a multiple alignment,
+to a matrix. This means each position in the alignment is a column in the matrix, and the
+content of the \samp{Header} column of \code{msa} is used as rownames of theh matrix.
 
 Such a matrix is useful for conversion to a \code{DNAbin} object that is used by the \code{ape}
 package for re-constructing phylogenetic trees.
 }
 \examples{
-\dontrun{
-msa.file <- file.path(file.path(path.package("microseq"),"extdata"), "msa.fasta")
+msa.file <- file.path(path.package("microseq"),"extdata", "small.msa")
 msa <- readFasta(msa.file)
-msa.mat <- msa2mat(msa)
-}
+msa.mat <- msa2mat(msa)  # to use with ape::as.DNAbin(msa.mat)
 
 }
 \seealso{
@@ -37,5 +35,3 @@ msa.mat <- msa2mat(msa)
 \author{
 Lars Snipen.
 }
-\keyword{FASTA}
-\keyword{sequence}

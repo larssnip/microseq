@@ -63,4 +63,3 @@ gregexpr("ATG", sequences, extract = TRUE)
 \author{
 Lars Snipen and Kristian Liland.
 }
-\keyword{gregexpr}

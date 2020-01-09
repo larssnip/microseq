@@ -39,8 +39,8 @@ T-Coffee and speeds much faster than CLUSTALW. This is done by the option \code{
 }
 \examples{
 \dontrun{
-fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-muscle(in.file = fa.file,out.file = "delete_me.fa")
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.faa")
+muscle(in.file = fa.file, out.file = "delete_me.msa")
 }
 
 }

@@ -28,12 +28,13 @@ translation table 4, which is used by some bacteria (e.g. Mycoplasma, Mesoplasma
 the stop codon TGA istranslated to W (Tryptophan).
 }
 \examples{
-fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.fasta")
-fdta <- readFasta(fa.file)
-translate(fdta$Sequence)
+fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.ffn")
+fa <- readFasta(fa.file)
+translate(fa$Sequence)
 
 # Or, make use of dplyr to manipulate tables
-readFasta(fa.file) \%>\% mutate(Protein = translate(Sequence)) -> fa.tbl
+readFasta(fa.file) \%>\%
+  mutate(Protein = translate(Sequence)) -> fa.tbl
 
 }
 \author{
