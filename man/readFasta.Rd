@@ -6,36 +6,38 @@
 \title{Read and write FASTA files}
 \usage{
 readFasta(in.file)
-writeFasta(fdta, out.file, width = 80)
+writeFasta(fdta, out.file, width = 0)
 }
 \arguments{
-\item{in.file}{url/directory/name of FASTA file to read.}
+\item{in.file}{url/directory/name of (gzipped) FASTA file to read.}
 
 \item{fdta}{A \code{\link{tibble}} with sequence data, see \sQuote{Details} below.}
 
-\item{out.file}{Name of FASTA file to create.}
+\item{out.file}{Name of (gzipped) FASTA file to create.}
 
 \item{width}{Number of characters per line, or 0 for no linebreaks.}
 }
 \value{
-\code{\link{readFasta}} returns a \code{\link{tibble}} with the contents of the FASTA
+\code{\link{readFasta}} returns a \code{\link{tibble}} with the contents of the (gzipped) FASTA
 file stored in two columns of text. The first, named \samp{Header}, contains
 the headerlines and the second, named \samp{Sequence}, contains the sequences.
 
-\code{\link{writeFasta}} produces a FASTA file.
+\code{\link{writeFasta}} produces a (gzipped) FASTA file.
 }
 \description{
 Reads and writes biological sequences (DNA, RNA, protein) in the FASTA format.
 }
 \details{
 These functions handle input/output of sequences in the commonly used FASTA format.
-For every sequence it is presumed there is one Header-line starting with a \sQuote{>}.
+For every sequence it is presumed there is one Header-line starting with a \sQuote{>}. If
+filenames (\code{in.file} or \code{out.file}) have the extension \code{.gz} they will automatically be
+compressed/uncompressed.
 
 The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
 fast and easy manipulations. The content of the file is stored as two columns, \samp{Header}
 and \samp{Sequence}. If other columns are added, these will be ignored by \code{\link{writeFasta}}.
 
-Setting \code{width = 0} in \code{\link{writeFasta}} results in no linebreaks in the sequences
+The default \code{width = 0} in \code{\link{writeFasta}} results in no linebreaks in the sequences
 (one sequence per line).
 }
 \examples{
@@ -50,7 +52,7 @@ ok <- writeFasta(fdta[4:5,], out.file = "delete_me.fasta")
 # Make use of dplyr to copy parts of the file to another file
 readFasta(fa.file) \%>\% 
   filter(str_detect(Sequence, "TGA$")) \%>\% 
-  writeFasta(out.file = "TGAstop.fasta", width = 0) -> ok
+  writeFasta(out.file = "TGAstop.fasta", width = 80) -> ok
 }
 
 }

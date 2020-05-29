@@ -7,12 +7,14 @@
 #' @usage readFastq(in.file)
 #' writeFastq(fdta, out.file)
 #' 
-#' @param in.file url/directory/name of FASTQ file to read, possibly compressed to .gz.
+#' @param in.file url/directory/name of (gzipped) FASTQ file to read.
 #' @param fdta FASTQ object to write.
-#' @param out.file url/directory/name of FASTQ file to write.
+#' @param out.file url/directory/name of (gzipped) FASTQ file to write.
 #' 
 #' @details These functions handle input/output of sequences in the commonly used FASTQ format,
-#' typically used for storing DNA sequences (reads) after sequencing. 
+#' typically used for storing DNA sequences (reads) after sequencing. If
+#' filenames (\code{in.file} or \code{out.file}) have the extension \code{.gz} they will automatically be
+#' compressed/uncompressed. 
 #' 
 #' The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
 #' fast and easy manipulations. The content of the file is stored as three columns, \samp{Header},
@@ -22,12 +24,12 @@
 #' @note These functions will only handle files where each entry spans one single line, i.e. not the
 #' (uncommon) multiline FASTQ format.
 #' 
-#' @return \code{\link{readFastq}} returns a \code{\link{tibble}} with the contents of the FASTQ
+#' @return \code{\link{readFastq}} returns a \code{\link{tibble}} with the contents of the (gzipped) FASTQ
 #' file stored in three columns of text. The first, named \samp{Header}, contains
 #' the headerlines, the second, named \samp{Sequence}, contains the sequences and the third, named 
 #' \samp{Quality} contains the base quality scores.
 #' 
-#' \code{\link{writeFastq}} produces an uncompressed FASTQ file.
+#' \code{\link{writeFastq}} produces a (gzipped) FASTQ file.
 #' 
 #' @author Lars Snipen and Kristian Hovde Liland.
 #' 
@@ -56,6 +58,8 @@
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr %>%
 #' @importFrom stringr str_detect
+#' @importFrom data.table fread fwrite
+#' @importFrom rlang .data
 #' 
 #' @export readFastq
 #' @export writeFastq
@@ -64,17 +68,11 @@ readFastq <- function(in.file){
   if(!is.character(in.file) | length(in.file)>1) stop("The argument in.file must be a single text (a filename)")
   if(file.exists(in.file)){
     in.file <- normalizePath(in.file)
-    if(str_detect(in.file, "gz$")){
-      con <- gzfile(in.file, open = "rt")
-      lines <- readLines(con)
-      close(con)
-      fq <- tibble(Header = lines[seq(1, length(lines), 4)],
-                   Sequence = lines[seq(2, length(lines), 4)],
-                   Quality = lines[seq(4, length(lines), 4)])
-    } else {
-      fq <- read_fastq(in.file)
-    }
-    return(as_tibble(fq))
+    tbl <- fread(in.file, header = F, sep = "\t", data.table = F)
+    tibble(Header   = str_remove(tbl[seq(1, nrow(tbl), 4),1], "^@"),
+           Sequence = tbl[seq(2, nrow(tbl), 4),1],
+           Quality  = tbl[seq(4, nrow(tbl), 4),1]) -> fdta
+    return(fdta)
   } else {
     stop("Cannot find ", in.file, ", please correct path and/or file name")
   }
@@ -91,6 +89,13 @@ writeFastq <- function(fdta, out.file){
   }
   out.file <- file.path(normalizePath(dirname(out.file)),
                         basename(out.file))
-  status <- write_fastq(fdta$Header, fdta$Sequence, fdta$Quality, out.file)
-  invisible(status)
+  fdta %>% 
+    mutate(Plus = "+") %>% 
+    mutate(Header = str_c("@", .data$Header)) %>% 
+    select(.data$Header, .data$Sequence, .data$Plus, .data$Quality) %>% 
+    as.matrix() %>% 
+    t() %>% 
+    as.character() %>% 
+    as_tibble() -> tbl
+  fwrite(tbl, file = out.file, compress = "auto", col.names = F)
 }

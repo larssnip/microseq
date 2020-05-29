@@ -32,67 +32,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// read_fastq
-Rcpp::List read_fastq(std::string path);
-RcppExport SEXP _microseq_read_fastq(SEXP pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_fastq(path));
-    return rcpp_result_gen;
-END_RCPP
-}
-// read_fastq_Sanger
-Rcpp::List read_fastq_Sanger(std::string path);
-RcppExport SEXP _microseq_read_fastq_Sanger(SEXP pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_fastq_Sanger(path));
-    return rcpp_result_gen;
-END_RCPP
-}
-// write_fastq
-bool write_fastq(std::vector<std::string> header, std::vector<std::string> sequence, std::vector<std::string> quality, std::string path);
-RcppExport SEXP _microseq_write_fastq(SEXP headerSEXP, SEXP sequenceSEXP, SEXP qualitySEXP, SEXP pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type header(headerSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type sequence(sequenceSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type quality(qualitySEXP);
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(write_fastq(header, sequence, quality, path));
-    return rcpp_result_gen;
-END_RCPP
-}
-// read_fasta
-Rcpp::List read_fasta(std::string path);
-RcppExport SEXP _microseq_read_fasta(SEXP pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(read_fasta(path));
-    return rcpp_result_gen;
-END_RCPP
-}
-// write_fasta
-bool write_fasta(std::vector<std::string> header, std::vector<std::string> sequence, std::string path, int width);
-RcppExport SEXP _microseq_write_fasta(SEXP headerSEXP, SEXP sequenceSEXP, SEXP pathSEXP, SEXP widthSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type header(headerSEXP);
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type sequence(sequenceSEXP);
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    Rcpp::traits::input_parameter< int >::type width(widthSEXP);
-    rcpp_result_gen = Rcpp::wrap(write_fasta(header, sequence, path, width));
-    return rcpp_result_gen;
-END_RCPP
-}
 // revComp
 CharacterVector revComp(CharacterVector Seq, bool rev);
 RcppExport SEXP _microseq_revComp(SEXP SeqSEXP, SEXP revSEXP) {

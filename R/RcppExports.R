@@ -9,26 +9,6 @@ extractSeq <- function(Gseq, Left, Right, Strand) {
     .Call(`_microseq_extractSeq`, Gseq, Left, Right, Strand)
 }
 
-read_fastq <- function(path) {
-    .Call(`_microseq_read_fastq`, path)
-}
-
-read_fastq_Sanger <- function(path) {
-    .Call(`_microseq_read_fastq_Sanger`, path)
-}
-
-write_fastq <- function(header, sequence, quality, path) {
-    .Call(`_microseq_write_fastq`, header, sequence, quality, path)
-}
-
-read_fasta <- function(path) {
-    .Call(`_microseq_read_fasta`, path)
-}
-
-write_fasta <- function(header, sequence, path, width) {
-    .Call(`_microseq_write_fasta`, header, sequence, path, width)
-}
-
 revComp <- function(Seq, rev) {
     .Call(`_microseq_revComp`, Seq, rev)
 }
