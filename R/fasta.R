@@ -66,7 +66,7 @@ readFasta <- function(in.file){
     tbl <- fread(in.file, header = F, sep = "\t", data.table = F)
     hh <- grep("^>", tbl[,1])
     hhh <- c(hh, nrow(tbl) + 1)
-    tibble(Header = tbl[hh,1],
+    tibble(Header = str_remove(tbl[hh,1], "^>"),
            Sequence = sapply(1:length(hh), function(i){str_c(tbl[(hhh[i]+1):(hhh[i+1]-1),1], collapse = "")})) -> fdta
     return(fdta)
   } else {
