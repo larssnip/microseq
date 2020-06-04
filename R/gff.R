@@ -121,7 +121,7 @@ gff2fasta <- function(gff.table, genome){
 #' @export readGFF writeGFF
 #' 
 readGFF <- function(in.file){
-  fil <- file(in.file, open = "rt")
+  fil <- file(normalizePath(in.file), open = "rt")
   lines <- readLines(fil)
   close(fil)
   fasta.idx <- grep("##FASTA", lines)
@@ -129,10 +129,10 @@ readGFF <- function(in.file){
   if(length(lines) > 1){
     if(length(fasta.idx) > 0){
       lns1 <- lines[1:fasta.idx]
-      gff.table <- as_tibble(str_split(lns1[!grepl("^#", lns1)], pattern = "\t", simplify = T))
-      if(ncol(gff.table) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(gff.table))
-      colnames(gff.table) <- c("Seqid", "Source", "Type", "Start", "End", "Score", "Strand", "Phase", "Attributes")
-      gff.table %>% 
+      M <- str_split(lns1[!grepl("^#", lns1)], pattern = "\t", simplify = T)
+      if(ncol(M) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(M))
+      colnames(M) <- cn
+      as_tibble(M) %>% 
         mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
       lns2 <- lines[(fasta.idx+1):length(lines)]
       idx <- c(grep("^>", lns2), length(lns2) + 1)
@@ -142,10 +142,10 @@ readGFF <- function(in.file){
                     }))
       attr(gff.table, "FASTA") <- fsa
     } else {
-      gff.table <- as_tibble(str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T))
-      if(ncol(gff.table) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(gff.table))
-      colnames(gff.table) <- cn
-      gff.table %>% 
+      M <- str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T)
+      if(ncol(M) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(M))
+      colnames(M) <- cn
+      as_tibble(M) %>% 
         mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
     }
   } else {
@@ -166,7 +166,8 @@ writeGFF <- function(gff.table, out.file){
   sapply(1:nrow(gff.table), function(i){str_c(gff.table[i,], collapse = "\t")}) %>% 
     str_replace_all("\tNA\t", "\t.\t") %>% 
     str_replace_all("\tNA$", "\t.") -> lines
-  out.file <- normalizePath(out.file)
+  out.file <- file.path(normalizePath(dirname(out.file)),
+                        basename(out.file))
   writeLines(c(line1, lines), con = out.file)
   return(NULL)
 }
