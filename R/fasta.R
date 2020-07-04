@@ -89,7 +89,7 @@ writeFasta <- function(fdta, out.file, width = 0){
   } else {
     lst[seq(2, 2 * nrow(fdta), 2)] <- as.list(fdta$Sequence)
   }
-  fwrite(tibble(unlist(lst)), file = out.file, compress = "auto", col.names = F)
+  fwrite(tibble(unlist(lst)), file = out.file, compress = "auto", quote = F, col.names = F)
 }
 
 chop <- function(sequence, width){
