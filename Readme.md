@@ -1,0 +1,103 @@
+The microseq package
+================
+Lars Snipen and Kristian Liland
+
+# Installation
+
+Install the package from CRAN (<https://cran.r-project.org/>) in the
+standard way, either by
+
+``` r
+install.packages("microseq")
+```
+
+or by using the Tools - Install Packages… menu in RStudio.
+
+Or, install from GitHub by
+
+``` r
+devtools::install_github("larssnip/microseq")
+```
+
+Obviously, you need the `devtools` package from CRAN first.
+
+# Why `microseq`?
+
+There are plenty of R packages with functions for handling sequence
+data. However, many of them insists on storing sequences in special data
+types, usually variants of a `list`. This is an idea inherited from
+object oriented programming, but R is made to work with *tables*, and
+the object oriented approach is more useful in other languages,
+e.g. Python.
+
+An idea behind this package is to keep sequence data in the generic data
+structures in R instead of creating new and complex data types. This
+makes it possible to use the power of standard data wrangling tools that
+R-users are familiar with.
+
+Both FASTA and FASTQ files are read into tables, and sequences are
+stored as texts. This makes it straightforward to use all the tools
+available in packages like `dplyr` and `stringr`, for data wrangling and
+string manipulations. Both input and output FASTA or FASTQ files may be
+gzipped, no need for uncompressions.
+
+Functions for findings ORFs or genes `findOrfs()`, `findrRNA()`,
+`findGenes()` return results as GFF-formatted tables, i.e. a standard
+`tibble` with either texts or numbers in the columns.
+
+Many bioinformatic softwares produces results as tables, if you let
+them. Reading, wrangling and plotting data in tables is what R does
+best\!
+
+This toolbox is very much geared towards what we have found useful in
+microbial genomics.
+
+# External software
+
+Some functions in this package calls upons external software that must
+be available on the system. Some of these are ‘installed’ by simply
+downloading a binary executable that you put somewhere proper on your
+computer. To make such programs visible to R, you typically need to
+update your PATH environment variable, to specify where these
+executables are located. Try it out, and use google for help\!
+
+## Software <font face="Courier New">muscle</font>
+
+The functions `msalign()` and `muscle()` uses the free software
+<font face="Courier New">muscle</font>
+(<https://www.drive5.com/muscle/>). From the website you download (and
+unzip) an executable. NB\! Change its name to
+<font face="Courier New">muscle</font>, no more and no less (i.e. no
+version numbers etc). In the R console the command
+
+``` r
+system("muscle -h")
+```
+
+should produce some sensible output.
+
+## Software <font face="Courier New">barrnap</font>
+
+The function `findrRNA()` uses the free software
+<font face="Courier New">barrnap</font>
+(<https://github.com/tseemann/barrnap>). The GitHub site explains how to
+install. In the R console the command
+
+``` r
+system("barrnap -h")
+```
+
+should produce some sensible output.
+
+## Software <font face="Courier New">prodigal</font>
+
+The function `findGenes()` uses the free software
+<font face="Courier New">prodigal</font>
+(<https://github.com/hyattpd/Prodigal>). The GitHub site explains how to
+install. In the R console the command
+
+``` r
+system("prodigal -h")
+```
+
+should produce some sensible output.
