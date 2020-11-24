@@ -158,6 +158,7 @@ findrRNA <- function(genome.file, bacteria = TRUE, cpu = 1){
 findGenes <- function(genome.file, faa.file = "", ffn.file = "", proc = "single",
                       trans.tab = 11, mask.N = FALSE, bypass.SD = FALSE){
   if(available.external("prodigal")){
+    if(length(grep("gz$", genome.file)) > 0) warning("Prodigal cannot read compressed files, please uncompress genome.file")
     if(nchar(faa.file) > 0) faa.file <- paste("-a", faa.file)
     if(nchar(ffn.file) > 0) ffn.file <- paste("-d", ffn.file)
     mask.N <- ifelse(mask.N, "-m", "")
