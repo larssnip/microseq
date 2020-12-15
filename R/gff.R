@@ -146,6 +146,8 @@ readGFF <- function(in.file){
       if(ncol(M) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(M))
       colnames(M) <- cn
       as_tibble(M) %>% 
+        mutate(Score = if_else(Score == ".", NA_character_, Score)) %>% 
+        mutate(Phase = if_else(Phase == ".", NA_character_, Phase)) %>% 
         mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
     }
   } else {
