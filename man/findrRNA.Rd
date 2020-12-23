@@ -4,10 +4,10 @@
 \alias{findrRNA}
 \title{Finding rRNA genes}
 \usage{
-findrRNA(genome.file, bacteria = TRUE, cpu = 1)
+findrRNA(genome, bacteria = TRUE, cpu = 1)
 }
 \arguments{
-\item{genome.file}{A FASTA file with the genome sequence(s).}
+\item{genome}{A table with columns Header and Sequence, containing the genome sequence(s)..}
 
 \item{bacteria}{Logical, the genome is either a bacteria (default) or an archea.}
 
@@ -35,11 +35,11 @@ The barrnap software must be installed on the system for this function to work, 
 genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 
 # Searching for rRNA sequences, and inspecting
-gff.tbl <- findrRNA(genome.file)
+genome <- readFasta(genome.file)
+gff.tbl <- findrRNA(genome)
 print(gff.table)
 
 # Retrieving the sequences
-genome <- readFasta(genome.file)
 rRNA <- gff2fasta(gff.tbl, genome)
 }
 

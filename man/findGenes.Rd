@@ -68,7 +68,13 @@ gff.tbl <- findGenes(genome, trans.tab = 4)
 # Retrieving the sequences
 cds.tbl <- gff2fasta(gff.tbl, genome)
 
-# Note how you could use the pipe operator here
+# You may use the pipe operator
+library(ggplot2)
+readFasta(genome.file) \%>\% 
+  findGenes(trans.tab = 4) \%>\% 
+  filter(Score >= 50) \%>\% 
+  ggplot() +
+  geom_histogram(aes(x = Score), bins = 25)
 }
 
 }
