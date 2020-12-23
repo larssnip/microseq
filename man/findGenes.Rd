@@ -5,7 +5,7 @@
 \title{Finding coding genes}
 \usage{
 findGenes(
-  genome.file,
+  genome,
   faa.file = "",
   ffn.file = "",
   proc = "single",
@@ -15,7 +15,7 @@ findGenes(
 )
 }
 \arguments{
-\item{genome.file}{A FASTA file with the genome sequence(s).}
+\item{genome}{A table with columns Header and Sequence, containing the genome sequence(s).}
 
 \item{faa.file}{If provided, prodigal will output all proteins to this fasta-file (text).}
 
@@ -44,7 +44,7 @@ In addition to the standard output from this function, FASTA files with protein 
 be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.
 
 The input \code{proc} allows you to specify if the input data should be treated as a single genome
-(default) or as a metagenome.
+(default) or as a metagenome. In the latter case the \code{genome} are (un-binned) contigs.
 
 The translation table is by default 11 (the standard code), but table 4 should be used for Mycoplasma etc.
 
@@ -62,11 +62,13 @@ The prodigal software must be installed on the system for this function to work,
 genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
 
 # Searching for coding sequences, this is Mycoplasma (trans.tab = 4)
-gff.tbl <- findGenes(genome.file, trans.tab = 4)
+genome <- readFasta(genome.file)
+gff.tbl <- findGenes(genome, trans.tab = 4)
 
 # Retrieving the sequences
-genome <- readFasta(genome.file)
 cds.tbl <- gff2fasta(gff.tbl, genome)
+
+# Note how you could use the pipe operator here
 }
 
 }
