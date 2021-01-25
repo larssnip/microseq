@@ -53,7 +53,7 @@
 #' 
 #' @importFrom tibble as_tibble
 #' @importFrom stringr str_c
-#' @importFrom dplyr %>% 
+#' @importFrom dplyr filter %>% 
 #' @importFrom data.table fread fwrite
 #' 
 #' @export readFasta
@@ -63,7 +63,8 @@ readFasta <- function(in.file){
   if(!is.character(in.file) | length(in.file) > 1) stop("The argument in.file must be a single text (a filename)")
   if(file.exists(in.file)){
     in.file <- normalizePath(in.file)
-    tbl <- fread(in.file, header = F, sep = "\t", data.table = F, na.strings = "")
+    fread(in.file, header = F, sep = "\t", data.table = F, na.strings = "") %>% 
+      filter(!is.na(V1)) -> tbl
     hh <- grep("^>", tbl[,1])
     hhh <- c(hh, nrow(tbl) + 1)
     tibble(Header = str_remove(tbl[hh,1], "^>"),
