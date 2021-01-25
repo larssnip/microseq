@@ -64,7 +64,7 @@ readFasta <- function(in.file){
   if(file.exists(in.file)){
     in.file <- normalizePath(in.file)
     fread(in.file, header = F, sep = "\t", data.table = F, na.strings = "") %>% 
-      filter(!is.na(V1)) -> tbl
+      filter(!is.na(.data$V1)) -> tbl
     hh <- grep("^>", tbl[,1])
     hhh <- c(hh, nrow(tbl) + 1)
     tibble(Header = str_remove(tbl[hh,1], "^>"),

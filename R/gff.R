@@ -117,6 +117,7 @@ gff2fasta <- function(gff.table, genome){
 #' @importFrom stringr str_split str_c
 #' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr mutate_at %>% 
+#' @importFrom rlang .data
 #' 
 #' @export readGFF writeGFF
 #' 
@@ -146,8 +147,8 @@ readGFF <- function(in.file){
       if(ncol(M) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(M))
       colnames(M) <- cn
       as_tibble(M) %>% 
-        mutate(Score = if_else(Score == ".", NA_character_, Score)) %>% 
-        mutate(Phase = if_else(Phase == ".", NA_character_, Phase)) %>% 
+        mutate(Score = if_else(.data$Score == ".", NA_character_, .data$Score)) %>% 
+        mutate(Phase = if_else(.data$Phase == ".", NA_character_, .data$Phase)) %>% 
         mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
     }
   } else {
