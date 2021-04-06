@@ -12,7 +12,7 @@
 #' @details The software MUSCLE (Edgar, 2004) must be installed and available on the system. Test this
 #' by typing \code{system("muscle")} in the Console, and some sensible output should be produced.
 #' NOTE: The executable must be named \code{muscle} on your system, no version numbers etc. For more
-#' details on MUSCLE, see \url{http://www.drive5.com/muscle}.
+#' details on MUSCLE, see \url{http://www.drive5.com/muscle/}.
 #' 
 #' By default \code{diags = FALSE} but can be set to \code{TRUE} to increase speed. This should be done
 #' only if sequences are highly similar.

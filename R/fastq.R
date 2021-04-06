@@ -97,5 +97,5 @@ writeFastq <- function(fdta, out.file){
     t() %>% 
     as.character() %>% 
     as_tibble() -> tbl
-  fwrite(tbl, file = out.file, compress = "auto", col.names = F)
+  fwrite(tbl, file = out.file, compress = "auto", col.names = F, quote = F)
 }
