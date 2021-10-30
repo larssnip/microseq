@@ -15,7 +15,7 @@
 \section{Using \texttt{dplyr} and \texttt{stringr}}
 An idea behind this package is to keep sequence data in the generic data structures in R instead of creating new and complex data types. This makes it possible to use the power of standard data manipulation tools that R-users are familiar with.
 
-Both FASTA and FASTQ files are read into tables, and sequences are stored as texts. This makes it straightforward to use all the tools available in packages like \texttt{dplyr} and \texttt{stringr}, for data wrangling and string manipulations. Both input and output FASTA or FASTQ files may be gzipped, no need for uncompressions.
+Both FASTA and FASTQ files are read into tables, and sequences are stored as texts. This makes it straightforward to use all the tools available in packages like \texttt{dplyr} and \texttt{stringr}, for data wrangling and string manipulations. Both input and output FASTA or FASTQ files may be gzipped, no need for decompressions.
 
 Functions for findings ORFs or genes (\texttt{findOrfs, findrRNA, findGenes}) return results as GFF-formatted tables, i.e. a standard \texttt{tibble} with either texts or numbers in the columns.
 
