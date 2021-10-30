@@ -1,14 +1,15 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.8.25)  25 AUG 2021 15:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.10.30)  30 OCT 2021 10:19
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**vignette.tex
-(./vignette.tex
+**"C:/Users/larssn/OneDrive - Norwegian University of Life Sciences/git/microse
+q/vignettes/vignette.tex"
+
+(C:/Users/larssn/OneDrive - Norwegian University of Life Sciences/git/microseq/
+vignettes/vignette.tex
 LaTeX2e <2021-06-01> patch level 1
-L3 programming layer <2021-07-12>
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
+L3 programming layer <2021-07-12> (C:\Program Files\MiKTeX\tex/latex/base\artic
+le.cls
 Document Class: article 2021/02/12 v1.4n Standard LaTeX document class
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
+(C:\Program Files\MiKTeX\tex/latex/base\size10.clo
 File: size10.clo 2021/02/12 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count182
@@ -22,47 +23,32 @@ File: size10.clo 2021/02/12 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-) (c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
+) (C:\Program Files\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-)
-(c:/Program Files/R/R-4.1.1/share/texmf/tex/latex/Sweave.sty
+) (C:/PROGRA~1/R/R-41~1.1/share/texmf/tex/latex\Sweave.sty
 Package: Sweave 
-
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+(C:\Program Files\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
-)
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx
-.sty
+) (C:\Program Files\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2020/12/05 v1.2c Enhanced LaTeX Graphics (DPC,SPQR)
-
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.s
-ty
+(C:\Program Files\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
-)
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics
-.sty
+) (C:\Program Files\MiKTeX\tex/latex/graphics\graphics.sty
 Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
-
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+(C:\Program Files\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-)
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/grap
-hics.cfg
+) (C:\Program Files\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
-
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdft
-ex.def
+(C:\Program Files\MiKTeX\tex/latex/graphics-def\pdftex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen139
 \Gin@req@width=\dimen140
-)
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb
-.sty
+) (C:\Program Files\MiKTeX\tex/latex/fancyvrb\fancyvrb.sty
 Package: fancyvrb 2021/08/12 v3.8 verbatim text (tvz,hv)
 \FV@CodeLineNo=\count190
 \FV@InFile=\read2
@@ -70,34 +56,147 @@ Package: fancyvrb 2021/08/12 v3.8 verbatim text (tvz,hv)
 \c@FancyVerbLine=\count191
 \FV@StepNumber=\count192
 \FV@OutFile=\write3
-)
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+) (C:\Program Files\MiKTeX\tex/latex/base\textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)
-(c:/Users/larssn/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+) (C:\Program Files\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (C:\Program Files\MiKTeX\tex/latex/ae\ae.sty
+Package: ae 2001/02/12 1.3 Almost European Computer Modern
+(C:\Program Files\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)))
+LaTeX Font Info:    Trying to load font information for T1+aer on input line 9.
+
+(C:\Program Files\MiKTeX\tex/latex/ae\t1aer.fd
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+) (C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count193
+\l__pdf_internal_box=\box51
+) (vignette.aux)
+\openout1 = `vignette.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+(C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count194
+\scratchdimen=\dimen141
+\scratchbox=\box52
+\nofMPsegments=\count195
+\nofMParguments=\count196
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count197
+\MPscratchDim=\dimen142
+\MPnumerator=\count198
+\makeMPintoPDFobject=\count199
+\everyMPtoPDFconversion=\toks18
+) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+(C:\Program Files\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (C:\Program Files\MiKTeX\tex/latex/grfext\grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+(C:\Program Files\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)) (C:\Program Files\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+(C:\Program Files\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+) (C:\Program Files\MiKTeX\tex/generic/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)) (C:\Program Files\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
+(C:\Program Files\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+(C:\Program Files\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+LaTeX Font Info:    Trying to load font information for T1+aett on input line 1
+2.
+(C:\Program Files\MiKTeX\tex/latex/ae\t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 12.
 
-! LaTeX Error: File `ae.sty' not found.
+LaTeX Font Warning: Font shape `T1/aett/b/n' undefined
+(Font)              using `T1/aett/m/n' instead on input line 15.
 
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: sty)
 
-Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.30 \ifthenelse
-                {\boolean{Sweave@inconsolata}}{%^^M
-*** (cannot \read from terminal in nonstop modes)
+Overfull \hbox (101.38492pt too wide) in paragraph at lines 32--34
+\T1/aer/m/n/10 The func-tions \T1/aer/m/it/10 msalign() \T1/aer/m/n/10 and \T1/
+aer/m/it/10 mus-cle() \T1/aer/m/n/10 uses the free soft-ware \T1/aett/m/n/10 mu
+s-cle \T1/aer/m/n/10 (https://www.drive5.com/muscle/).
+ []
 
- 
+
+Overfull \hbox (81.08511pt too wide) in paragraph at lines 42--44
+\T1/aer/m/n/10 The func-tions \T1/aer/m/it/10 find-r-RNA() \T1/aer/m/n/10 uses 
+the free soft-ware \T1/aett/m/n/10 bar-rnap \T1/aer/m/n/10 (https://github.com/
+tseemann/barrnap).
+ []
+
+[1
+
+{C:/Users/larssn/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
+Overfull \hbox (82.45506pt too wide) in paragraph at lines 52--54
+\T1/aer/m/n/10 The func-tions \T1/aer/m/it/10 find-Genes() \T1/aer/m/n/10 uses 
+the free soft-ware \T1/aett/m/n/10 prodi-gal \T1/aer/m/n/10 (https://github.com
+/hyattpd/Prodigal).
+ []
+
+[2] (vignette.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
 Here is how much of TeX's memory you used:
- 1407 strings out of 480502
- 18890 string characters out of 5897829
- 307758 words of memory out of 5000000
- 19141 multiletter control sequences out of 15000+600000
- 404193 words of font info for 28 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 72i,0n,80p,197b,38s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 2629 strings out of 478830
+ 39311 string characters out of 2857293
+ 336642 words of memory out of 3000000
+ 20500 multiletter control sequences out of 15000+600000
+ 428039 words of font info for 78 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 72i,6n,80p,542b,228s stack positions out of 5000i,500n,10000p,200000b,80000s
+<C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmb10.pfb><C:/Program
+ Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmsltt10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti
+10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/P
+rogram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on vignette.pdf (2 pages, 107447 bytes).
+PDF statistics:
+ 49 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
