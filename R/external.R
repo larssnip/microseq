@@ -231,7 +231,7 @@ available.external <- function(what){
     try(chr <- system2("prodigal", args = "-v", stdout = TRUE, stderr= TRUE), silent = TRUE)
     if(is.null(chr)){
       stop(paste('prodigal was not found by R.',
-                 'Please install barrnap from: https://github.com/hyattpd/Prodigal',
+                 'Please install prodigal from: https://github.com/hyattpd/Prodigal',
                  'After installation, make sure prodigal can be run from a shell/terminal, ',
                  'using the command \'prodigal -h\', then restart the R session.', sep = '\n'))
       return(FALSE)
