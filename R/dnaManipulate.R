@@ -7,6 +7,7 @@
 #' @param M.start A logical indicating if the amino acid sequence should start with M regardless of start codon.
 #' @param no.stop A logical indicating if terminal stops (*) should be eliminated from the translated sequence
 #' @param trans.tab Translation table, either 11 or 4
+#' @param codon A logical indicating if translation should be to codons (TRUE) instead of amino acids (default=FALSE).
 #' 
 #' @details Codons are by default translated according to translation table 11, i.e. the possible start codons
 #' are ATG, GTG or TTG and stop codons are TAA, TGA and TAG.  The only alternative implemented here is
@@ -30,10 +31,14 @@
 #' 
 #' @export translate
 #' 
-translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab = 11){
+translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab = 11, codon = FALSE){
   nuc.sequences <- str_replace_all(toupper(nuc.sequences), "U", "T")
   if(M.start) nuc.sequences <- str_replace_all(nuc.sequences, "^GTG|^TTG", "ATG")
-  prot.sequences <- transl(nuc.sequences, trans.tab)
+  if(codon){
+    prot.sequences <- translCodon(nuc.sequences)
+  } else {
+    prot.sequences <- transl(nuc.sequences, trans.tab)
+  }
   if(no.stop) prot.sequences <- gsub("\\*$", "", prot.sequences)
   return(prot.sequences)
 }

@@ -17,3 +17,7 @@ transl <- function(Seq, trans_tab) {
     .Call(`_microseq_transl`, Seq, trans_tab)
 }
 
+translCodon <- function(Seq) {
+    .Call(`_microseq_translCodon`, Seq)
+}
+

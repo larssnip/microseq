@@ -61,3 +61,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// translCodon
+CharacterVector translCodon(CharacterVector Seq);
+RcppExport SEXP _microseq_translCodon(SEXP SeqSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type Seq(SeqSEXP);
+    rcpp_result_gen = Rcpp::wrap(translCodon(Seq));
+    return rcpp_result_gen;
+END_RCPP
+}
