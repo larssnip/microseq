@@ -32,7 +32,7 @@
 #' 
 translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab = 11){
   nuc.sequences <- str_replace_all(toupper(nuc.sequences), "U", "T")
-  if(M.start) nuc.sequences <- str_replace_all(nuc.sequences, "^GTG|^TTG", "ATG")
+  if(M.start) nuc.sequences <- str_replace_all(nuc.sequences, "^.{3}", "ATG")
   prot.sequences <- transl(nuc.sequences, trans.tab)
   if(no.stop) prot.sequences <- gsub("\\*$", "", prot.sequences)
   return(prot.sequences)
