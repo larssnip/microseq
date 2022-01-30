@@ -158,9 +158,8 @@ circularize <- function(ot, trans.tab){
 #' 
 #' @examples # See the example in the Help-file for findOrfs.
 #' 
-#' @importFrom dplyr mutate if_else %>%
+#' @importFrom dplyr if_else
 #' @importFrom stringr str_detect
-#' @importFrom rlang .data
 #' 
 #' @export orfLength
 #' 
