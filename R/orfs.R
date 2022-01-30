@@ -164,6 +164,7 @@ orfLength <- function(orf.tbl, aa = FALSE){
 }
 
 
+
 #' @name lorfs
 #' @title Longest ORF
 #' 
@@ -193,11 +194,76 @@ orfLength <- function(orf.tbl, aa = FALSE){
 lorfs <- function(orf.tbl){
   Length <- orfLength(orf.tbl)
   orf.tbl %>% 
-    mutate(Length = Length) %>% 
-    arrange(desc(.data$Length)) %>% 
-    mutate(End.end = if_else(.data$Strand == "+", .data$End, .data$Start)) %>% 
-    mutate(Signature = str_c(.data$Seqid, .data$End.end, .data$Strand)) %>% 
-    distinct(.data$Signature, .keep_all = T) %>% 
+    mutate(Signature = orfSignature(., full = F)) %>% 
+    mutate(Length = orfLength(.)) %>% 
+    group_by(Signature) %>% 
+    slice_max(Length) %>% 
+    ungroup() %>% 
     mutate(Type = "LORF") %>% 
+    select(-.data$Length, -.data$Signature) %>% 
     return()
+}
+
+
+
+
+#' @name orfSignature
+#' @title Signature for each ORF
+#' 
+#' @description Adds a Signature column to an \code{orf.table}.
+#' 
+#' @param orf.table A \code{tibble} with ORF information.
+#' @param full Logical indicating type of signature.
+#' 
+#' @details The \code{orf.table} is a GFF-formatted table with ORF information,
+#' see \code{\link{findOrfs}}.
+#' 
+#' The \code{Signature} column added by this function contains texts identifying
+#' each ORF in the table.
+#' 
+#' The full signature (\code{full = TRUE}) contains the \code{Seqid}, \cod{Start},
+#' \code{End} and \code{Strand} information for each ORF, and is always unique 
+#' to each ORF. If \code{full = FALSE} the \code{Signature} will not contain 
+#' the \code{Start} information for each ORF. This means all nested ORFs ending 
+#' at the same stop-codon will get identical \code{Signature}s.
+#' 
+#' @return A text vector with the \code{Signature} for each ORF
+#' 
+#' @author Lars Snipen.
+#' 
+#' @seealso \code{\link{findOrfs}}.
+#' 
+#' @examples
+#' # Using a genome file in this package
+#' genome.file <- file.path(path.package("microseq"),"extdata","small.fna")
+#' 
+#' # Reading genome and finding orfs
+#' genome <- readFasta(genome.file)
+#' orf.tbl <- findOrfs(genome)
+#' 
+#' # Compute signatures
+#' signature.full <- orfSignature(orf.tbl)
+#' signature.reduced <- orfSignature(orf.tbl, full = F)
+#' 
+#' @importFrom dplyr if_else
+#' @importFrom stringr str_c
+#' 
+#' @export orfSignature
+#' 
+orfSignature <- function(orf.table, full = TRUE){
+  if(full){
+    signature <- str_c("Seqid=", orf.table$Seqid,
+                       ";Start=", orf.table$Start,
+                       ";End=", orf.table$End,
+                       ";Strand=", orf.table$Strand)
+  } else {
+    signature <- if_else(orf.table$Strand == "+",
+                         str_c("Seqid=", orf.table$Seqid,
+                               ";Stop=", orf.table$End,
+                               ";Strand=", orf.table$Strand),
+                         str_c("Seqid=", orf.table$Seqid,
+                               ";Stop=", orf.table$Start,
+                               ";Strand=", orf.table$Strand))
+  }
+  return(signature)
 }
