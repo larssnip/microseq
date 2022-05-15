@@ -220,16 +220,14 @@ lorfs <- function(orf.tbl){
 #' @name orfSignature
 #' @title Signature for each ORF
 #' 
-#' @description Adds a Signature column to an \code{orf.table}.
+#' @description Creates a signature text for orfs in an \code{orf.table}.
 #' 
 #' @param orf.table A \code{tibble} with ORF information.
 #' @param full Logical indicating type of signature.
 #' 
-#' @details The input \code{orf.table} is a GFF-formatted table with ORF information,
-#' see \code{\link{findOrfs}}.
-#' 
-#' The \code{Signature} column added by this function contains texts that uniquely
-#' identifies each ORF in the table.
+#' @details A signature is a text that uniquely identifies each ORF in an
+#' \code{orf.table}, which is a GFF-table with columns \code{Seqid}, \code{Start},
+#' \code{End} and \code{Strand}.
 #' 
 #' The full signature (\code{full = TRUE}) contains the \code{Seqid}, \code{Start},
 #' \code{End} and \code{Strand} information for each ORF, separated by 
@@ -243,7 +241,7 @@ lorfs <- function(orf.tbl){
 #' then \code{End} if on the positive \code{Strand}, \code{Start} otherwise, and then
 #' the \code{Strand}.
 #' 
-#' @return A text vector with the \code{Signature} for each ORF
+#' @return A text vector with the \code{Signature} for each ORF.
 #' 
 #' @author Lars Snipen.
 #' 
