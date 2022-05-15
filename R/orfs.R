@@ -102,7 +102,7 @@ findOrfs <- function(genome, circular = F, trans.tab = 11){
     mutate(Attributes = "Truncated=00") %>% 
     mutate(Attributes = if_else(.data$Truncated > 0, "Truncated=10", .data$Attributes)) %>% 
     mutate(Attributes = if_else(.data$Truncated < 0, "Truncated=01", .data$Attributes)) %>% 
-    mutate(Source = "micropan::findOrfs") %>% 
+    mutate(Source = "microseq::findOrfs") %>% 
     mutate(Type = "ORF", Score = NA, Phase = 0) %>% 
     select(.data$Seqid, .data$Source, .data$Type, .data$Start, .data$End,
            .data$Score, .data$Strand, .data$Phase, .data$Attributes) -> orf.table
@@ -225,17 +225,23 @@ lorfs <- function(orf.tbl){
 #' @param orf.table A \code{tibble} with ORF information.
 #' @param full Logical indicating type of signature.
 #' 
-#' @details The \code{orf.table} is a GFF-formatted table with ORF information,
+#' @details The input \code{orf.table} is a GFF-formatted table with ORF information,
 #' see \code{\link{findOrfs}}.
 #' 
-#' The \code{Signature} column added by this function contains texts identifying
-#' each ORF in the table.
+#' The \code{Signature} column added by this function contains texts that uniquely
+#' identifies each ORF in the table.
 #' 
-#' The full signature (\code{full = TRUE}) contains the \code{Seqid}, \cod{Start},
-#' \code{End} and \code{Strand} information for each ORF, and is always unique 
+#' The full signature (\code{full = TRUE}) contains the \code{Seqid}, \code{Start},
+#' \code{End} and \code{Strand} information for each ORF, separated by 
+#' underscores \code{"_"}. This text is always unique 
 #' to each ORF. If \code{full = FALSE} the \code{Signature} will not contain 
-#' the \code{Start} information for each ORF. This means all nested ORFs ending 
-#' at the same stop-codon will get identical \code{Signature}s.
+#' the starting position information for each ORF. This means all nested ORFs ending 
+#' at the same stop-codon will then get identical \code{Signature}s. This is 
+#' useful for identifying which ORFs are nested within the same LORF.
+#' 
+#' Note that the signature you get with \code{full = FALSE} contains \code{Seqid}, 
+#' then \code{End} if on the positive \code{Strand}, \code{Start} otherwise, and then
+#' the \code{Strand}.
 #' 
 #' @return A text vector with the \code{Signature} for each ORF
 #' 
@@ -262,18 +268,21 @@ lorfs <- function(orf.tbl){
 #' 
 orfSignature <- function(orf.table, full = TRUE){
   if(full){
-    signature <- str_c("Seqid=", orf.table$Seqid,
-                       ";Start=", orf.table$Start,
-                       ";End=", orf.table$End,
-                       ";Strand=", orf.table$Strand)
+    signature <- str_c(orf.table$Seqid,
+                       orf.table$Start,
+                       orf.table$End,
+                       orf.table$Strand,
+                       sep = "_")
   } else {
     signature <- if_else(orf.table$Strand == "+",
-                         str_c("Seqid=", orf.table$Seqid,
-                               ";Stop=", orf.table$End,
-                               ";Strand=", orf.table$Strand),
-                         str_c("Seqid=", orf.table$Seqid,
-                               ";Stop=", orf.table$Start,
-                               ";Strand=", orf.table$Strand))
+                         str_c(orf.table$Seqid,
+                               orf.table$End,
+                               orf.table$Strand,
+                               sep = "_"),
+                         str_c(orf.table$Seqid,
+                               orf.table$Start,
+                               orf.table$Strand,
+                               sep = "_"))
   }
   return(signature)
 }

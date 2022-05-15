@@ -18,17 +18,23 @@ A text vector with the \code{Signature} for each ORF
 Adds a Signature column to an \code{orf.table}.
 }
 \details{
-The \code{orf.table} is a GFF-formatted table with ORF information,
+The input \code{orf.table} is a GFF-formatted table with ORF information,
 see \code{\link{findOrfs}}.
 
-The \code{Signature} column added by this function contains texts identifying
-each ORF in the table.
+The \code{Signature} column added by this function contains texts that uniquely
+identifies each ORF in the table.
 
-The full signature (\code{full = TRUE}) contains the \code{Seqid}, \cod{Start},
-\code{End} and \code{Strand} information for each ORF, and is always unique 
+The full signature (\code{full = TRUE}) contains the \code{Seqid}, \code{Start},
+\code{End} and \code{Strand} information for each ORF, separated by 
+underscores \code{"_"}. This text is always unique 
 to each ORF. If \code{full = FALSE} the \code{Signature} will not contain 
-the \code{Start} information for each ORF. This means all nested ORFs ending 
-at the same stop-codon will get identical \code{Signature}s.
+the starting position information for each ORF. This means all nested ORFs ending 
+at the same stop-codon will then get identical \code{Signature}s. This is 
+useful for identifying which ORFs are nested within the same LORF.
+
+Note that the signature you get with \code{full = FALSE} contains \code{Seqid}, 
+then \code{End} if on the positive \code{Strand}, \code{Start} otherwise, and then
+the \code{Strand}.
 }
 \examples{
 # Using a genome file in this package
