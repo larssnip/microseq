@@ -231,7 +231,7 @@ lorfs <- function(orf.tbl){
 #' 
 #' The full signature (\code{full = TRUE}) contains the \code{Seqid}, \code{Start},
 #' \code{End} and \code{Strand} information for each ORF, separated by 
-#' underscores \code{"_"}. This text is always unique 
+#' semicolon \code{";"}. This text is always unique 
 #' to each ORF. If \code{full = FALSE} the \code{Signature} will not contain 
 #' the starting position information for each ORF. This means all nested ORFs ending 
 #' at the same stop-codon will then get identical \code{Signature}s. This is 
@@ -270,7 +270,7 @@ orfSignature <- function(orf.table, full = TRUE){
                        orf.table$Start,
                        orf.table$End,
                        orf.table$Strand,
-                       sep = "_")
+                       sep = ";")
   } else {
     signature <- if_else(orf.table$Strand == "+",
                          str_c(orf.table$Seqid,
@@ -280,7 +280,7 @@ orfSignature <- function(orf.table, full = TRUE){
                          str_c(orf.table$Seqid,
                                orf.table$Start,
                                orf.table$Strand,
-                               sep = "_"))
+                               sep = ";"))
   }
   return(signature)
 }

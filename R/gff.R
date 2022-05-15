@@ -51,7 +51,7 @@ gff2fasta <- function(gff.table, genome){
     right_join(gff.table, by = "Seqid") %>% 
     mutate(Sequence = str_sub(.data$Gseq, .data$Start, .data$End)) %>% 
     mutate(Sequence = if_else(.data$Strand == "+", .data$Sequence, reverseComplement(.data$Sequence))) %>% 
-    mutate(Header = str_c(.data$Seqid, .data$Start, .data$End, .data$Strand, sep = "_")) %>% 
+    mutate(Header = orfSignature(.)) %>% 
     select(.data$Header, .data$Sequence) %>% 
     return()
 }

@@ -24,7 +24,7 @@ A signature is a text that uniquely identifies each ORF in an
 
 The full signature (\code{full = TRUE}) contains the \code{Seqid}, \code{Start},
 \code{End} and \code{Strand} information for each ORF, separated by 
-underscores \code{"_"}. This text is always unique 
+semicolon \code{";"}. This text is always unique 
 to each ORF. If \code{full = FALSE} the \code{Signature} will not contain 
 the starting position information for each ORF. This means all nested ORFs ending 
 at the same stop-codon will then get identical \code{Signature}s. This is 
