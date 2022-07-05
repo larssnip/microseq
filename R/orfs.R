@@ -196,7 +196,7 @@ orfLength <- function(orf.table, aa = FALSE){
 #' 
 #' @examples # See the example in the Help-file for findOrfs.
 #' 
-#' @importFrom dplyr mutate arrange distinct select desc %>% 
+#' @importFrom dplyr mutate group_by slice_max ungroup select %>% 
 #' @importFrom rlang .data
 #' 
 #' @export lorfs
@@ -205,8 +205,8 @@ lorfs <- function(orf.tbl){
   Length <- orfLength(orf.tbl)
   orf.tbl %>% 
     mutate(Signature = orfSignature(., full = F)) %>% 
-    mutate(Length = orfLength(.)) %>% 
-    group_by(Signature) %>% 
+    mutate(Length = orfLength(.data)) %>% 
+    group_by(.data$Signature) %>% 
     slice_max(Length) %>% 
     ungroup() %>% 
     mutate(Type = "LORF") %>% 
@@ -257,7 +257,7 @@ lorfs <- function(orf.tbl){
 #' 
 #' # Compute signatures
 #' signature.full <- orfSignature(orf.tbl)
-#' signature.reduced <- orfSignature(orf.tbl, full = F)
+#' signature.reduced <- orfSignature(orf.tbl, full = FALSE)
 #' 
 #' @importFrom dplyr if_else
 #' @importFrom stringr str_c

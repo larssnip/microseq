@@ -44,7 +44,7 @@ orf.tbl <- findOrfs(genome)
 
 # Compute signatures
 signature.full <- orfSignature(orf.tbl)
-signature.reduced <- orfSignature(orf.tbl, full = F)
+signature.reduced <- orfSignature(orf.tbl, full = FALSE)
 
 }
 \seealso{
