@@ -4,10 +4,12 @@
 \alias{findrRNA}
 \title{Finding rRNA genes}
 \usage{
-findrRNA(genome, bacteria = TRUE, cpu = 1)
+findrRNA(genome, barrnap.exe = "barrnap", bacteria = TRUE, cpu = 1)
 }
 \arguments{
-\item{genome}{A table with columns Header and Sequence, containing the genome sequence(s)..}
+\item{genome}{A table with columns Header and Sequence, containing the genome sequence(s).}
+
+\item{barrnap.exe}{Command to run the external software barrnap on the system (text).}
 
 \item{bacteria}{Logical, the genome is either a bacteria (default) or an archea.}
 
@@ -22,11 +24,8 @@ Finding rRNA genes in genomic DNA using the barrnap software.
 }
 \details{
 The external software barrnap is used to scan through a prokaryotic genome to detect the
-rRNA genes (5S, 16S, 23S). This free software can be installed from https://github.com/tseemann/barrnap.
-}
-\note{
-The barrnap software must be installed on the system for this function to work, i.e. the command
-\samp{system("barrnap --help")} must be recognized as a valid command if you run it in the Console window.
+rRNA genes (5S, 16S, 23S).
+The text in \code{barrnap.exe} must contain the exact command to invoke barrnap on the system.
 }
 \examples{
 \dontrun{

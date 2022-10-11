@@ -5,14 +5,13 @@
 #' 
 #' @param in.file Name of FASTA file with input sequences.
 #' @param out.file Name of file to store the result.
+#' @param muscle.exe Command to run the external software muscle on the system (text).
 #' @param quiet Logical, \code{quiet = FALSE} produces screen output during computations.
 #' @param diags Logical, \code{diags = TRUE} gives faster but less reliable alignment.
 #' @param maxiters Maximum number of iterations.
 #' 
-#' @details The software MUSCLE (Edgar, 2004) must be installed and available on the system. Test this
-#' by typing \code{system("muscle")} in the Console, and some sensible output should be produced.
-#' NOTE: The executable must be named \code{muscle} on your system, no version numbers etc. For more
-#' details on MUSCLE, see \url{http://www.drive5.com/muscle/}.
+#' @details The software MUSCLE (Edgar, 2004) must be installed and available on the system. The text in
+#' \code{muscle.exe} must contain the exact command to invoke muscle on the system.
 #' 
 #' By default \code{diags = FALSE} but can be set to \code{TRUE} to increase speed. This should be done
 #' only if sequences are highly similar.
@@ -39,12 +38,12 @@
 #' 
 #' @export muscle
 #' 
-muscle <- function(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 16){
-  if(available.external("muscle")){
+muscle <- function(in.file, out.file, muscle.exe = "muscle", quiet = FALSE, diags = FALSE, maxiters = 16){
+  if(available.external(muscle.exe)){
     dtxt <- ifelse(diags, "-diags", "")
     itxt <- paste("-maxiters", maxiters)
     qt <- ifelse(quiet, "-quiet", "")
-    cmd <- paste("muscle", dtxt, itxt, qt, "-in", in.file, "-out", out.file)
+    cmd <- paste(mucle.exe, dtxt, itxt, qt, "-in", in.file, "-out", out.file)
     system(cmd)
   }
 }
@@ -55,18 +54,17 @@ muscle <- function(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 1
 #' 
 #' @description Finding rRNA genes in genomic DNA using the barrnap software.
 #' 
-#' @param genome A table with columns Header and Sequence, containing the genome sequence(s)..
+#' @param genome A table with columns Header and Sequence, containing the genome sequence(s).
+#' @param barrnap.exe Command to run the external software barrnap on the system (text).
 #' @param bacteria Logical, the genome is either a bacteria (default) or an archea.
 #' @param cpu Number of CPUs to use, default is 1.
 #' 
 #' @details The external software barrnap is used to scan through a prokaryotic genome to detect the
-#' rRNA genes (5S, 16S, 23S). This free software can be installed from https://github.com/tseemann/barrnap.
+#' rRNA genes (5S, 16S, 23S).
+#' The text in \code{barrnap.exe} must contain the exact command to invoke barrnap on the system.
 #' 
 #' @return A GFF-table (see \code{\link{readGFF}} for details) with one row for each detected
 #' rRNA sequence.
-#' 
-#' @note The barrnap software must be installed on the system for this function to work, i.e. the command
-#' \samp{system("barrnap --help")} must be recognized as a valid command if you run it in the Console window.
 #' 
 #' @author Lars Snipen and Kristian Hovde Liland.
 #' 
@@ -89,8 +87,8 @@ muscle <- function(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 1
 #' 
 #' @export findrRNA
 #' 
-findrRNA <- function(genome, bacteria = TRUE, cpu = 1){
-  if(available.external("barrnap")){
+findrRNA <- function(genome, barrnap.exe = "barrnap", bacteria = TRUE, cpu = 1){
+  if(available.external(barrnap.exe)){
     if(sum(c("Header", "Sequence") %in% colnames(genome)) != 2) stop("First argument must be table with columns Header and Sequence")
     if(nrow(genome) == 0) stop("Genome is empty (no sequences)")
     kingdom <- ifelse(bacteria, "bac", "arc")
@@ -114,13 +112,14 @@ findrRNA <- function(genome, bacteria = TRUE, cpu = 1){
 #' @param genome A table with columns Header and Sequence, containing the genome sequence(s).
 #' @param faa.file If provided, prodigal will output all proteins to this fasta-file (text).
 #' @param ffn.file If provided, prodigal will output all DNA sequences to this fasta-file (text).
+#' @param prodigal.exe Command to run the external software prodigal on the system (text).
 #' @param proc Either \code{"single"} or \code{"meta"}, see below.
 #' @param trans.tab Either 11 or 4 (see below).
 #' @param mask.N Turn on masking of N's (logical)
 #' @param bypass.SD Bypass Shine-Dalgarno filter (logical)
 #' 
 #' @details The external software Prodigal is used to scan through a prokaryotic genome to detect the protein
-#' coding genes. This free software can be installed from https://github.com/hyattpd/Prodigal.
+#' coding genes. The text in \code{prodigal.exe} must contain the exact command to invoke barrnap on the system.
 #' 
 #' In addition to the standard output from this function, FASTA files with protein and/or DNA sequences may
 #' be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.
@@ -167,9 +166,9 @@ findrRNA <- function(genome, bacteria = TRUE, cpu = 1){
 #' 
 #' @export findGenes
 #' 
-findGenes <- function(genome, faa.file = "", ffn.file = "", proc = "single",
+findGenes <- function(genome, prodigal.exe = "prodigal", faa.file = "", ffn.file = "", proc = "single",
                       trans.tab = 11, mask.N = FALSE, bypass.SD = FALSE){
-  if(available.external("prodigal")){
+  if(available.external(prodigal.exe)){
     if(sum(c("Header", "Sequence") %in% colnames(genome)) != 2) stop("First argument must be table with columns Header and Sequence")
     if(nrow(genome) == 0) stop("Genome is empty (no sequences)")
     if(nchar(faa.file) > 0) faa.file <- paste("-a", faa.file)
@@ -197,46 +196,13 @@ findGenes <- function(genome, faa.file = "", ffn.file = "", proc = "single",
 
 
 ## Non-exported function to gracefully fail when external dependencies are missing.
-available.external <- function(what){
-  if(what == "muscle"){
-    chr <- NULL
-    try(chr <- system2("muscle", args = "-version", stdout = TRUE), silent = TRUE)
-    if(is.null(chr)){
-      stop(paste('muscle was not found by R.',
-                 'Please install muscle from: http://www.drive5.com/muscle/downloads.htm.',
-                 'After installation, make sure muscle can be run from a shell/terminal, ',
-                 'using the command \'muscle -h\', then restart the R session.', sep = '\n'))
-      return(FALSE)
-    } else {
-      return(TRUE)
-    }
-  }
-  
-  if(what == "barrnap"){
-    chr <- NULL
-    try(chr <- system2("barrnap", args = "--version", stdout = TRUE, stderr= TRUE), silent = TRUE)
-    if(is.null(chr)){
-      stop(paste('barrnap was not found by R.',
-                 'Please install barrnap from: https://github.com/tseemann/barrnap',
-                 'After installation, make sure barrnap can be run from a shell/terminal, ',
-                 'using the command \'barrnap --help\', then restart the R session.', sep = '\n'))
-      return(FALSE)
-    } else {
-      return(TRUE)
-    }
-  }
-  
-  if(what == "prodigal"){
-    chr <- NULL
-    try(chr <- system2("prodigal", args = "-v", stdout = TRUE, stderr= TRUE), silent = TRUE)
-    if(is.null(chr)){
-      stop(paste('prodigal was not found by R.',
-                 'Please install prodigal from: https://github.com/hyattpd/Prodigal',
-                 'After installation, make sure prodigal can be run from a shell/terminal, ',
-                 'using the command \'prodigal -h\', then restart the R session.', sep = '\n'))
-      return(FALSE)
-    } else {
-      return(TRUE)
-    }
+available.external <- function(exe){
+  chr <- NULL
+  ok <- try(chr <- system2(exe, stdout = TRUE), silent = TRUE)
+  if(length(grep("Error", ok[1])) > 0){
+    stop("Cannot run ", exe, " from R")
+    return(FALSE)
+  } else {
+    return(TRUE)
   }
 }

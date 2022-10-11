@@ -18,4 +18,4 @@ Imports: Rcpp (>= 0.12.0)
 LazyData: FALSE
 ZipData: TRUE
 LinkingTo: Rcpp (>= 0.12.0)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1

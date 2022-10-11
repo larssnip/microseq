@@ -6,6 +6,7 @@
 \usage{
 findGenes(
   genome,
+  prodigal.exe = "prodigal",
   faa.file = "",
   ffn.file = "",
   proc = "single",
@@ -16,6 +17,8 @@ findGenes(
 }
 \arguments{
 \item{genome}{A table with columns Header and Sequence, containing the genome sequence(s).}
+
+\item{prodigal.exe}{Command to run the external software prodigal on the system (text).}
 
 \item{faa.file}{If provided, prodigal will output all proteins to this fasta-file (text).}
 
@@ -38,7 +41,7 @@ Finding coding genes in genomic DNA using the Prodigal software.
 }
 \details{
 The external software Prodigal is used to scan through a prokaryotic genome to detect the protein
-coding genes. This free software can be installed from https://github.com/hyattpd/Prodigal.
+coding genes. The text in \code{prodigal.exe} must contain the exact command to invoke barrnap on the system.
 
 In addition to the standard output from this function, FASTA files with protein and/or DNA sequences may
 be produced directly by providing filenames in \code{faa.file} and \code{ffn.file}.

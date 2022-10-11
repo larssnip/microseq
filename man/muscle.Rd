@@ -4,12 +4,21 @@
 \alias{muscle}
 \title{Multiple alignment using MUSCLE}
 \usage{
-muscle(in.file, out.file, quiet = FALSE, diags = FALSE, maxiters = 16)
+muscle(
+  in.file,
+  out.file,
+  muscle.exe = "muscle",
+  quiet = FALSE,
+  diags = FALSE,
+  maxiters = 16
+)
 }
 \arguments{
 \item{in.file}{Name of FASTA file with input sequences.}
 
 \item{out.file}{Name of file to store the result.}
+
+\item{muscle.exe}{Command to run the external software muscle on the system (text).}
 
 \item{quiet}{Logical, \code{quiet = FALSE} produces screen output during computations.}
 
@@ -24,10 +33,8 @@ The result is written to the file specified in \code{out.file}.
 Computing a multiple sequence alignment using the MUSCLE software.
 }
 \details{
-The software MUSCLE (Edgar, 2004) must be installed and available on the system. Test this
-by typing \code{system("muscle")} in the Console, and some sensible output should be produced.
-NOTE: The executable must be named \code{muscle} on your system, no version numbers etc. For more
-details on MUSCLE, see \url{http://www.drive5.com/muscle/}.
+The software MUSCLE (Edgar, 2004) must be installed and available on the system. The text in
+\code{muscle.exe} must contain the exact command to invoke muscle on the system.
 
 By default \code{diags = FALSE} but can be set to \code{TRUE} to increase speed. This should be done
 only if sequences are highly similar.
