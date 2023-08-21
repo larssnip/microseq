@@ -43,7 +43,7 @@ muscle <- function(in.file, out.file, muscle.exe = "muscle", quiet = FALSE, diag
     dtxt <- ifelse(diags, "-diags", "")
     itxt <- paste("-maxiters", maxiters)
     qt <- ifelse(quiet, "-quiet", "")
-    cmd <- paste(mucle.exe, dtxt, itxt, qt, "-in", in.file, "-out", out.file)
+    cmd <- paste(muscle.exe, dtxt, itxt, qt, "-in", in.file, "-out", out.file)
     system(cmd)
   }
 }
@@ -95,7 +95,7 @@ findrRNA <- function(genome, barrnap.exe = "barrnap", bacteria = TRUE, cpu = 1){
     tmp.fna <- tempfile(pattern = "genome", fileext = ".fna")
     writeFasta(genome, out.file = tmp.fna)
     tmp.gff <- tempfile(pattern = "barrnap", fileext = ".gff")
-    system(paste("barrnap --quiet --kingdom", kingdom, tmp.fna, ">", tmp.gff))
+    system(paste(barrnap.exe, "--quiet --kingdom", kingdom, tmp.fna, ">", tmp.gff))
     gff.table <- readGFF(tmp.gff)
     ok <- file.remove(tmp.fna, tmp.gff)
     return(gff.table)
@@ -178,7 +178,7 @@ findGenes <- function(genome, prodigal.exe = "prodigal", faa.file = "", ffn.file
     tmp.fna <- tempfile(pattern = "genome", fileext = "fna")
     writeFasta(genome, out.file = tmp.fna)
     tmp.gff <- tempfile(pattern = "prodigal", fileext = "gff")
-    command <- paste("prodigal -q -f gff",
+    command <- paste(prodigal.exe, "-q -f gff",
                      faa.file,
                      ffn.file,
                      "-p", proc,

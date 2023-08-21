@@ -204,7 +204,7 @@ orfLength <- function(orf.table, aa = FALSE){
 lorfs <- function(orf.tbl){
   Length <- orfLength(orf.tbl)
   orf.tbl %>% 
-    mutate(Signature = orfSignature(., full = F)) %>% 
+    mutate(Signature = orfSignature(.data, full = F)) %>% 
     mutate(Length = orfLength(.data)) %>% 
     group_by(.data$Signature) %>% 
     slice_max(Length) %>% 

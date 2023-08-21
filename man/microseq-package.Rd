@@ -15,8 +15,8 @@ A collection of functions for basic analysis of microbial sequence data.
 \tabular{ll}{
 Package: \tab microseq\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2016-06-15\cr
+Version: \tab 2.1.6\cr
+Date: \tab 2023-08-21\cr
 License: \tab GPL-2\cr
 }
 }
