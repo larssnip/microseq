@@ -276,7 +276,7 @@ orfSignature <- function(orf.table, full = TRUE){
                          str_c(orf.table$Seqid,
                                orf.table$End,
                                orf.table$Strand,
-                               sep = "_"),
+                               sep = ";"),
                          str_c(orf.table$Seqid,
                                orf.table$Start,
                                orf.table$Strand,
