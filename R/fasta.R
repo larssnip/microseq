@@ -8,23 +8,23 @@
 #' writeFasta(fdta, out.file, width = 0)
 #' 
 #' @param in.file url/directory/name of (gzipped) FASTA file to read.
-#' @param fdta A \code{\link{tibble}} with sequence data, see \sQuote{Details} below.
+#' @param fdta A data.frame or tibble with sequence data, see \sQuote{Details} below.
 #' @param out.file Name of (gzipped) FASTA file to create.
-#' @param width Number of characters per line, or 0 for no linebreaks.
+#' @param width Number of characters per line, or 0 for no line breaks.
 #' 
 #' @details These functions handle input/output of sequences in the commonly used FASTA format.
 #' For every sequence it is presumed there is one Header-line starting with a \sQuote{>}. If
 #' filenames (\code{in.file} or \code{out.file}) have the extension \code{.gz} they will automatically be
-#' compressed/uncompressed.
+#' compressed/uncompressed. NOTE: This requires the R.utils R package.
 #' 
-#' The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
+#' The sequences are stored in a tibble, opening up all the possibilities in R for
 #' fast and easy manipulations. The content of the file is stored as two columns, \samp{Header}
 #' and \samp{Sequence}. If other columns are added, these will be ignored by \code{\link{writeFasta}}.
 #' 
-#' The default \code{width = 0} in \code{\link{writeFasta}} results in no linebreaks in the sequences
+#' The default \code{width = 0} in \code{\link{writeFasta}} results in no line breaks in the sequences
 #' (one sequence per line).
 #' 
-#' @return \code{\link{readFasta}} returns a \code{\link{tibble}} with the contents of the (gzipped) FASTA
+#' @return \code{\link{readFasta}} returns a tibble with the contents of the (gzipped) FASTA
 #' file stored in two columns of text. The first, named \samp{Header}, contains
 #' the headerlines and the second, named \samp{Sequence}, contains the sequences.
 #' 
@@ -67,8 +67,8 @@ readFasta <- function(in.file){
       filter(!is.na(.data$V1)) -> tbl
     hh <- grep("^>", tbl[,1])
     hhh <- c(hh, nrow(tbl) + 1)
-    tibble(Header = str_remove(tbl[hh,1], "^>"),
-           Sequence = sapply(1:length(hh), function(i){str_c(tbl[(hhh[i]+1):(hhh[i+1]-1),1], collapse = "")})) -> fdta
+    fdta <- tibble(Header = str_remove(tbl[hh,1], "^>"),
+           Sequence = sapply(1:length(hh), function(i){str_c(tbl[(hhh[i]+1):(hhh[i+1]-1),1], collapse = "")}))
     return(fdta)
   } else {
     stop("Cannot find ", in.file, ", please correct path and/or file name")

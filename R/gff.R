@@ -3,11 +3,11 @@
 #' 
 #' @description Retrieving from a genome the sequences specified in a \code{gff.table}.
 #' 
-#' @param gff.table A \code{gff.table} (\code{tibble}) with genomic features information.
+#' @param gff.table A \code{gff.table} (data.frame or tibble) with genomic features information.
 #' @param genome A fasta object (\code{tibble}) with the genome sequence(s).
 #' 
 #' @details Each row in \code{gff.table} (see \code{\link{readGFF}}) describes a genomic feature
-#' in the \code{genome}, which is a \code{\link{tibble}} with columns \samp{Header} and
+#' in the \code{genome}, which is a tibble with columns \samp{Header} and
 #' \samp{Sequence}. The information in the columns Seqid, Start, End and Strand are used to
 #' retrieve the sequences from the \samp{Sequence} column of \code{genome}. Every Seqid in
 #' the \code{gff.table} must match the first token in one of the \samp{Header} texts, in
@@ -68,10 +68,10 @@ gff2fasta <- function(gff.table, genome){
 #' writeGFF(gff.table, out.file)
 #' 
 #' @param in.file Name of file with a GFF-table.
-#' @param gff.table A table (\code{tibble}) with genomic features information.
+#' @param gff.table A table (data.frame or tibble) with genomic features information.
 #' @param out.file Name of file.
 #' 
-#' @details A GFF-table is simply a \code{\link{tibble}} with columns
+#' @details A GFF-table is simply a tibble with columns
 #' adhering to the format specified by the GFF3 format, see
 #' https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md for details. There is
 #' one row for each feature.
@@ -133,8 +133,8 @@ readGFF <- function(in.file){
       M <- str_split(lns1[!grepl("^#", lns1)], pattern = "\t", simplify = T)
       if(ncol(M) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(M))
       colnames(M) <- cn
-      as_tibble(M) %>% 
-        mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
+      gff.table <- as_tibble(M) %>% 
+        mutate_at(c("Start", "End", "Score", "Phase"), as.numeric)
       lns2 <- lines[(fasta.idx+1):length(lines)]
       idx <- c(grep("^>", lns2), length(lns2) + 1)
       fsa <- tibble(Header = gsub("^>", "", lns2[idx[1:(length(idx)-1)]]),
@@ -146,10 +146,10 @@ readGFF <- function(in.file){
       M <- str_split(lines[!grepl("^#", lines)], pattern = "\t", simplify = T)
       if(ncol(M) != 9 ) stop("Table must have 9 tab-separated columns, this one has", ncol(M))
       colnames(M) <- cn
-      as_tibble(M) %>% 
+      gff.table <- as_tibble(M) %>% 
         mutate(Score = if_else(.data$Score == ".", NA_character_, .data$Score)) %>% 
         mutate(Phase = if_else(.data$Phase == ".", NA_character_, .data$Phase)) %>% 
-        mutate_at(c("Start", "End", "Score", "Phase"), as.numeric) -> gff.table
+        mutate_at(c("Start", "End", "Score", "Phase"), as.numeric)
     }
   } else {
     gff.table <- tibble("Seqid" = character(0),
@@ -166,9 +166,9 @@ readGFF <- function(in.file){
 }
 writeGFF <- function(gff.table, out.file){
   line1 <- c("##gff-version 3")
-  sapply(1:nrow(gff.table), function(i){str_c(gff.table[i,], collapse = "\t")}) %>% 
+  lines <- sapply(1:nrow(gff.table), function(i){str_c(gff.table[i,], collapse = "\t")}) %>% 
     str_replace_all("\tNA\t", "\t.\t") %>% 
-    str_replace_all("\tNA$", "\t.") -> lines
+    str_replace_all("\tNA$", "\t.")
   out.file <- file.path(normalizePath(dirname(out.file)),
                         basename(out.file))
   writeLines(c(line1, lines), con = out.file)

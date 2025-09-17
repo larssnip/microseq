@@ -3,7 +3,7 @@
 #' 
 #' @description Finds all ORFs in prokaryotic genome sequences.
 #' 
-#' @param genome A fasta object (\code{tibble}) with the genome sequence(s).
+#' @param genome A fasta object (see \code{\link{readFasta}}) with the genome sequence(s).
 #' @param circular Logical indicating if the genome sequences are completed, 
 #' circular sequences.
 #' @param trans.tab Translation table.
@@ -48,7 +48,7 @@
 #' 
 #' 
 #' @return This function returns an \code{orf.table}, which is simply a 
-#' \code{\link{tibble}} with columns adhering to the GFF3 format specifications
+#' tibble with columns adhering to the GFF3 format specifications
 #' (a \code{gff.table}), see \code{\link{readGFF}}. If you want to retrieve
 #' the actual ORF sequences, use \code{\link{gff2fasta}}.
 #' 
@@ -74,7 +74,7 @@
 #' 
 #' @useDynLib microseq
 #' @importFrom Rcpp evalCpp
-#' @importFrom tibble tibble as_tibble
+#' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate right_join filter bind_rows select if_else
 #' @importFrom stringr word str_length
 #' @importFrom rlang .data
@@ -90,14 +90,14 @@ findOrfs <- function(genome, circular = F, trans.tab = 11){
     as_tibble() %>% 
     mutate(Seqid = as.character(.data$Seqid)) -> orf.table
   if(circular){
-    orf.table %>% 
-      right_join(genome, by = c("Seqid" = "Header")) -> ott
+    ott <- orf.table %>% 
+      right_join(genome, by = c("Seqid" = "Header"))
     otn <- circularize(ott, trans.tab)
-    orf.table %>% 
+    orf.table <- orf.table %>% 
       filter(.data$Truncated == 0) %>% 
-      bind_rows(otn) -> orf.table
+      bind_rows(otn)
   }
-  orf.table %>% 
+  orf.table <- orf.table %>% 
     mutate(Strand = if_else(.data$Strand > 0, "+", "-")) %>% 
     mutate(Attributes = "Truncated=00") %>% 
     mutate(Attributes = if_else(.data$Truncated > 0, "Truncated=10", .data$Attributes)) %>% 
@@ -105,7 +105,7 @@ findOrfs <- function(genome, circular = F, trans.tab = 11){
     mutate(Source = "microseq::findOrfs") %>% 
     mutate(Type = "ORF", Score = NA, Phase = 0) %>% 
     select(.data$Seqid, .data$Source, .data$Type, .data$Start, .data$End,
-           .data$Score, .data$Strand, .data$Phase, .data$Attributes) -> orf.table
+           .data$Score, .data$Strand, .data$Phase, .data$Attributes)
   return(orf.table)
 }
 
@@ -186,7 +186,7 @@ orfLength <- function(orf.table, aa = FALSE){
 #' frame (nested ORFs). The LORF (Longest ORF) is defined as the longest of these nested ORFs,
 #' i.e. the ORF starting at the most upstream start-codon matching the stop-codon.
 #' 
-#' @return A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.tbl}. 
+#' @return A tibble with a subset of the rows of the argument \code{orf.tbl}. 
 #' After this filtering the Type variable in \code{orf.tbl} is changed to \code{"LORF"}. If you want to
 #' retrieve the LORF sequences, use \code{\link{gff2fasta}}.
 #' 

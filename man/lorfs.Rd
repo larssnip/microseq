@@ -10,7 +10,7 @@ lorfs(orf.tbl)
 \item{orf.tbl}{A \code{tibble} with the nine columns of the GFF-format (see \code{\link{findOrfs}}).}
 }
 \value{
-A \code{\link{tibble}} with a subset of the rows of the argument \code{orf.tbl}. 
+A tibble with a subset of the rows of the argument \code{orf.tbl}. 
 After this filtering the Type variable in \code{orf.tbl} is changed to \code{"LORF"}. If you want to
 retrieve the LORF sequences, use \code{\link{gff2fasta}}.
 }

@@ -3,7 +3,7 @@
 #' 
 #' @description Quickly computing a smallish multiple sequence alignment.
 #' 
-#' @param fsa.tbl A fasta object (\code{tibble}) with input sequences.
+#' @param fsa.tbl A fasta object (data.frame or tibble) with input sequences.
 #' @param machine Function that does the 'dirty work'.
 #' 
 #' @details This function computes a multiple sequence alignment given a set of sequences in
@@ -19,7 +19,7 @@
 #' Note that this function will run \code{\link{muscle}} with default settings, which is fine
 #' for small data sets.
 #' 
-#' @return Results are returned as a fasta object, i.e. a \code{\link{tibble}} with columns
+#' @return Results are returned as a fasta object, i.e. a tibble with columns
 #' \samp{Header} and \samp{Sequence}.
 #' 
 #' @author Lars Snipen.

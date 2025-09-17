@@ -1,6 +1,4 @@
-#' @name microseq-package
-#' @aliases microseq-package
-#' @aliases microseq
+#' @name microseq
 #' @docType package
 #' @title Basic Biological Sequence Analysis
 #' 
@@ -10,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab microseq\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.1.6\cr
-#' Date: \tab 2023-08-21\cr
+#' Version: \tab 2.1.7\cr
+#' Date: \tab 2025-09-17\cr
 #' License: \tab GPL-2\cr
 #' }
 #' 

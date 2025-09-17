@@ -14,9 +14,9 @@
 #' @details These functions handle input/output of sequences in the commonly used FASTQ format,
 #' typically used for storing DNA sequences (reads) after sequencing. If
 #' filenames (\code{in.file} or \code{out.file}) have the extension \code{.gz} they will automatically be
-#' compressed/uncompressed. 
+#' compressed/uncompressed. NOTE: This requires the R.utils package.
 #' 
-#' The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
+#' The sequences are stored in a tibble, opening up all the possibilities in R for
 #' fast and easy manipulations. The content of the file is stored as three columns, \samp{Header},
 #' \samp{Sequence} and \samp{Quality}. If other columns are added, these will be ignored by
 #' \code{\link{writeFastq}}.
@@ -24,7 +24,7 @@
 #' @note These functions will only handle files where each entry spans one single line, i.e. not the
 #' (uncommon) multiline FASTQ format.
 #' 
-#' @return \code{\link{readFastq}} returns a \code{\link{tibble}} with the contents of the (gzipped) FASTQ
+#' @return \code{\link{readFastq}} returns a tibble with the contents of the (gzipped) FASTQ
 #' file stored in three columns of text. The first, named \samp{Header}, contains
 #' the headerlines, the second, named \samp{Sequence}, contains the sequences and the third, named 
 #' \samp{Quality} contains the base quality scores.
@@ -33,7 +33,7 @@
 #' 
 #' @author Lars Snipen and Kristian Hovde Liland.
 #' 
-#' @seealso code{\link{readFasta}}.
+#' @seealso \code{\link{readFasta}}.
 #' 
 #' @examples 
 #' \dontrun{
@@ -69,9 +69,9 @@ readFastq <- function(in.file){
   if(file.exists(in.file)){
     in.file <- normalizePath(in.file)
     tbl <- fread(in.file, header = F, sep = "\t", data.table = F, quote = "")
-    tibble(Header   = str_remove(tbl[seq(1, nrow(tbl), 4),1], "^@"),
-           Sequence = tbl[seq(2, nrow(tbl), 4),1],
-           Quality  = tbl[seq(4, nrow(tbl), 4),1]) -> fdta
+    fdta <- tibble(Header   = str_remove(tbl[seq(1, nrow(tbl), 4),1], "^@"),
+                   Sequence = tbl[seq(2, nrow(tbl), 4),1],
+                   Quality  = tbl[seq(4, nrow(tbl), 4),1])
     return(fdta)
   } else {
     stop("Cannot find ", in.file, ", please correct path and/or file name")
@@ -89,13 +89,13 @@ writeFastq <- function(fdta, out.file){
   }
   out.file <- file.path(normalizePath(dirname(out.file)),
                         basename(out.file))
-  fdta %>% 
+  tbl <- fdta %>% 
     mutate(Plus = "+") %>% 
     mutate(Header = str_c("@", .data$Header)) %>% 
     select(.data$Header, .data$Sequence, .data$Plus, .data$Quality) %>% 
     as.matrix() %>% 
     t() %>% 
     as.character() %>% 
-    as_tibble() -> tbl
+    as_tibble()
   fwrite(tbl, file = out.file, compress = "auto", col.names = F, quote = F)
 }

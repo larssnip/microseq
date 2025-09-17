@@ -7,7 +7,7 @@
 findOrfs(genome, circular = F, trans.tab = 11)
 }
 \arguments{
-\item{genome}{A fasta object (\code{tibble}) with the genome sequence(s).}
+\item{genome}{A fasta object (see \code{\link{readFasta}}) with the genome sequence(s).}
 
 \item{circular}{Logical indicating if the genome sequences are completed, 
 circular sequences.}
@@ -16,7 +16,7 @@ circular sequences.}
 }
 \value{
 This function returns an \code{orf.table}, which is simply a 
-\code{\link{tibble}} with columns adhering to the GFF3 format specifications
+tibble with columns adhering to the GFF3 format specifications
 (a \code{gff.table}), see \code{\link{readGFF}}. If you want to retrieve
 the actual ORF sequences, use \code{\link{gff2fasta}}.
 }

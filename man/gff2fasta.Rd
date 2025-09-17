@@ -7,7 +7,7 @@
 gff2fasta(gff.table, genome)
 }
 \arguments{
-\item{gff.table}{A \code{gff.table} (\code{tibble}) with genomic features information.}
+\item{gff.table}{A \code{gff.table} (data.frame or tibble) with genomic features information.}
 
 \item{genome}{A fasta object (\code{tibble}) with the genome sequence(s).}
 }
@@ -21,7 +21,7 @@ Retrieving from a genome the sequences specified in a \code{gff.table}.
 }
 \details{
 Each row in \code{gff.table} (see \code{\link{readGFF}}) describes a genomic feature
-in the \code{genome}, which is a \code{\link{tibble}} with columns \samp{Header} and
+in the \code{genome}, which is a tibble with columns \samp{Header} and
 \samp{Sequence}. The information in the columns Seqid, Start, End and Strand are used to
 retrieve the sequences from the \samp{Sequence} column of \code{genome}. Every Seqid in
 the \code{gff.table} must match the first token in one of the \samp{Header} texts, in

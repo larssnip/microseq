@@ -11,14 +11,14 @@ writeFasta(fdta, out.file, width = 0)
 \arguments{
 \item{in.file}{url/directory/name of (gzipped) FASTA file to read.}
 
-\item{fdta}{A \code{\link{tibble}} with sequence data, see \sQuote{Details} below.}
+\item{fdta}{A data.frame or tibble with sequence data, see \sQuote{Details} below.}
 
 \item{out.file}{Name of (gzipped) FASTA file to create.}
 
-\item{width}{Number of characters per line, or 0 for no linebreaks.}
+\item{width}{Number of characters per line, or 0 for no line breaks.}
 }
 \value{
-\code{\link{readFasta}} returns a \code{\link{tibble}} with the contents of the (gzipped) FASTA
+\code{\link{readFasta}} returns a tibble with the contents of the (gzipped) FASTA
 file stored in two columns of text. The first, named \samp{Header}, contains
 the headerlines and the second, named \samp{Sequence}, contains the sequences.
 
@@ -31,13 +31,13 @@ Reads and writes biological sequences (DNA, RNA, protein) in the FASTA format.
 These functions handle input/output of sequences in the commonly used FASTA format.
 For every sequence it is presumed there is one Header-line starting with a \sQuote{>}. If
 filenames (\code{in.file} or \code{out.file}) have the extension \code{.gz} they will automatically be
-compressed/uncompressed.
+compressed/uncompressed. NOTE: This requires the R.utils R package.
 
-The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
+The sequences are stored in a tibble, opening up all the possibilities in R for
 fast and easy manipulations. The content of the file is stored as two columns, \samp{Header}
 and \samp{Sequence}. If other columns are added, these will be ignored by \code{\link{writeFasta}}.
 
-The default \code{width = 0} in \code{\link{writeFasta}} results in no linebreaks in the sequences
+The default \code{width = 0} in \code{\link{writeFasta}} results in no line breaks in the sequences
 (one sequence per line).
 }
 \examples{

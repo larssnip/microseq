@@ -7,12 +7,12 @@
 msalign(fsa.tbl, machine = "microseq::muscle")
 }
 \arguments{
-\item{fsa.tbl}{A fasta object (\code{tibble}) with input sequences.}
+\item{fsa.tbl}{A fasta object (data.frame or tibble) with input sequences.}
 
 \item{machine}{Function that does the 'dirty work'.}
 }
 \value{
-Results are returned as a fasta object, i.e. a \code{\link{tibble}} with columns
+Results are returned as a fasta object, i.e. a tibble with columns
 \samp{Header} and \samp{Sequence}.
 }
 \description{

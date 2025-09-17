@@ -16,7 +16,7 @@ writeFastq(fdta, out.file)
 \item{out.file}{url/directory/name of (gzipped) FASTQ file to write.}
 }
 \value{
-\code{\link{readFastq}} returns a \code{\link{tibble}} with the contents of the (gzipped) FASTQ
+\code{\link{readFastq}} returns a tibble with the contents of the (gzipped) FASTQ
 file stored in three columns of text. The first, named \samp{Header}, contains
 the headerlines, the second, named \samp{Sequence}, contains the sequences and the third, named 
 \samp{Quality} contains the base quality scores.
@@ -30,9 +30,9 @@ Reads and writes files in the FASTQ format.
 These functions handle input/output of sequences in the commonly used FASTQ format,
 typically used for storing DNA sequences (reads) after sequencing. If
 filenames (\code{in.file} or \code{out.file}) have the extension \code{.gz} they will automatically be
-compressed/uncompressed. 
+compressed/uncompressed. NOTE: This requires the R.utils package.
 
-The sequences are stored in a \code{\link{tibble}}, opening up all the possibilities in R for
+The sequences are stored in a tibble, opening up all the possibilities in R for
 fast and easy manipulations. The content of the file is stored as three columns, \samp{Header},
 \samp{Sequence} and \samp{Quality}. If other columns are added, these will be ignored by
 \code{\link{writeFastq}}.
@@ -59,7 +59,7 @@ readFastq(fq.file) \%>\%
 
 }
 \seealso{
-code{\link{readFasta}}.
+\code{\link{readFasta}}.
 }
 \author{
 Lars Snipen and Kristian Hovde Liland.
