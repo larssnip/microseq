@@ -1,5 +1,4 @@
 #' @name microseq
-#' @docType package
 #' @title Basic Biological Sequence Analysis
 #' 
 #' @description A collection of functions for basic analysis of microbial sequence data.
