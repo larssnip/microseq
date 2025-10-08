@@ -1,8 +1,8 @@
 Package: microseq
 Type: Package
 Title: Basic Biological Sequence Handling
-Version: 2.1.7
-Date: 2025-09-17
+Version: 2.1.8
+Date: 2025-10-08
 Authors@R: c(person(given = "Lars",
                         family = "Snipen",
                         role = c("aut", "cre"),

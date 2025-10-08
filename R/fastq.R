@@ -68,7 +68,7 @@ readFastq <- function(in.file){
   if(!is.character(in.file) | length(in.file)>1) stop("The argument in.file must be a single text (a filename)")
   if(file.exists(in.file)){
     in.file <- normalizePath(in.file)
-    tbl <- fread(in.file, header = F, sep = "\t", data.table = F, quote = "")
+    tbl <- fread(in.file, header = F, sep = "", data.table = F, quote = "")
     fdta <- tibble(Header   = str_remove(tbl[seq(1, nrow(tbl), 4),1], "^@"),
                    Sequence = tbl[seq(2, nrow(tbl), 4),1],
                    Quality  = tbl[seq(4, nrow(tbl), 4),1])

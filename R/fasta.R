@@ -63,8 +63,8 @@ readFasta <- function(in.file){
   if(!is.character(in.file) | length(in.file) > 1) stop("The argument in.file must be a single text (a filename)")
   if(file.exists(in.file)){
     in.file <- normalizePath(in.file)
-    fread(in.file, header = F, sep = "\t", data.table = F, na.strings = "") %>% 
-      filter(!is.na(.data$V1)) -> tbl
+    tbl <- fread(in.file, header = F, sep = "", data.table = F, na.strings = "") %>% 
+      filter(!is.na(.data$V1))
     hh <- grep("^>", tbl[,1])
     hhh <- c(hh, nrow(tbl) + 1)
     fdta <- tibble(Header = str_remove(tbl[hh,1], "^>"),
