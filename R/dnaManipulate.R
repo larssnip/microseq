@@ -39,6 +39,48 @@ translate <- function(nuc.sequences, M.start = TRUE, no.stop = TRUE, trans.tab =
 }
 
 
+
+#' @name ctranslate
+#' @title Translating codons into a single letter alphabet
+#' 
+#' @description Codons of a coding genes is transpalted into a single letter alphabet.
+#' 
+#' @param nuc.sequences Character vector containing the nucleotide sequences.
+#' 
+#' @details Codons are translated into an alphabet of 64 single letters, the 26 lowercase
+#' english letters, the 26 uppercase english letters, digits 1-9 as well as the symbols
+#' "!", ":" and "?" for the three stop-codons. Thus, the translated sequence has the same 
+#' length as the amino acid sequence (see \code{\link{microseq::translate}}) but the
+#' alphabet is different.
+#' 
+#' Any letter in the DNA sequence that is not A, C, G or T will result in the corresponding 
+#' codon symbol "*", indicating a non-valid codon.
+#' 
+#' @return A character vector of c-translated sequences.
+#' 
+#' @author Lars Snipen and Kristian Hovde Liland.
+#' 
+#' @examples
+#' fa.file <- file.path(file.path(path.package("microseq"),"extdata"),"small.ffn")
+#' fa <- readFasta(fa.file)
+#' ctranslate(fa$Sequence)
+#' 
+#' # Or, make use of dplyr to manipulate tables
+#' fa.tbl <- readFasta(fa.file) %>%
+#'   mutate(Codon_seq = ctranslate(Sequence))
+#' 
+#' @importFrom stringr str_replace_all
+#' 
+#' @export ctranslate
+#' 
+ctranslate <- function(nuc.sequences){
+  nuc.sequences <- str_replace_all(toupper(nuc.sequences), "U", "T")
+  cds.sequences <- ctransl(nuc.sequences)
+  return(cds.sequences)
+}
+
+
+
 #' @name reverseComplement
 #' @title Reverse-complementation of DNA
 #' 

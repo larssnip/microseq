@@ -5,6 +5,10 @@ ORF_index <- function(Tags, Sequence, trans_tab) {
     .Call(`_microseq_ORF_index`, Tags, Sequence, trans_tab)
 }
 
+ctransl <- function(Seq) {
+    .Call(`_microseq_ctransl`, Seq)
+}
+
 extractSeq <- function(Gseq, Left, Right, Strand) {
     .Call(`_microseq_extractSeq`, Gseq, Left, Right, Strand)
 }

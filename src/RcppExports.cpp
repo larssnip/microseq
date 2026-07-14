@@ -23,6 +23,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ctransl
+CharacterVector ctransl(CharacterVector Seq);
+RcppExport SEXP _microseq_ctransl(SEXP SeqSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type Seq(SeqSEXP);
+    rcpp_result_gen = Rcpp::wrap(ctransl(Seq));
+    return rcpp_result_gen;
+END_RCPP
+}
 // extractSeq
 SEXP extractSeq(SEXP Gseq, SEXP Left, SEXP Right, SEXP Strand);
 RcppExport SEXP _microseq_extractSeq(SEXP GseqSEXP, SEXP LeftSEXP, SEXP RightSEXP, SEXP StrandSEXP) {
